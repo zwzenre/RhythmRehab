@@ -1,0 +1,10 @@
+const {call}=require('./unity-authoring.cjs');const fs=require('fs');
+const ev=code=>call('script','eval',{code}).result;
+function shot(name){call('capture','game_view',{width:1920,height:1080,save_path:'Temp/'+name+'.png',source:'screen'});fs.renameSync('Assets/Temp/'+name+'.png','Screenshots/'+name+'.png');if(fs.existsSync('Assets/Temp/'+name+'.png.meta'))fs.unlinkSync('Assets/Temp/'+name+'.png.meta');}
+shot('Wellbeing-Assessment');
+console.log(ev('var c=UnityEngine.Object.FindAnyObjectByType<RhythmRehab.WellbeingAssessmentController>();var pain=UnityEngine.GameObject.Find("/Canvas/PainCard/Slider").GetComponent<UnityEngine.UI.Slider>();var stress=UnityEngine.GameObject.Find("/Canvas/StressCard/Slider").GetComponent<UnityEngine.UI.Slider>();pain.value=8;stress.value=9;c.Continue();if(!c.MessageOpen||pain.interactable||stress.interactable)throw new System.Exception("Modal did not lock ratings");return "PASS Alert locks underlying ratings";'));
+shot('Wellbeing-High-Pain');
+console.log(ev('var c=UnityEngine.Object.FindAnyObjectByType<RhythmRehab.WellbeingAssessmentController>();c.Acknowledge();if(!c.MessageOpen||!UnityEngine.GameObject.Find("/Canvas/MessageOverlay/Dialog/Title").GetComponent<TMPro.TMP_Text>().text.Contains("HIGH STRESS"))throw new System.Exception("Missing stress alert");return "PASS Both messages still sequence correctly";'));
+shot('Wellbeing-High-Stress');
+console.log(ev('var c=UnityEngine.Object.FindAnyObjectByType<RhythmRehab.WellbeingAssessmentController>();c.Review();var pain=UnityEngine.GameObject.Find("/Canvas/PainCard/Slider").GetComponent<UnityEngine.UI.Slider>();var stress=UnityEngine.GameObject.Find("/Canvas/StressCard/Slider").GetComponent<UnityEngine.UI.Slider>();if(c.MessageOpen||!pain.interactable||!stress.interactable)throw new System.Exception("Review did not restore ratings");pain.value=0;stress.value=0;return "PASS Review restores controls; no responses committed";'));
+console.log(JSON.stringify(call('console','get',{level:'error',tail:4})));

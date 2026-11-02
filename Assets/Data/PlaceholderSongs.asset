@@ -1,0 +1,55 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e1c23f271f15f374f849d4625bb62c4e, type: 3}
+  m_Name: PlaceholderSongs
+  m_EditorClassIdentifier: Assembly-CSharp::RhythmRehab.SongCatalog
+  songs:
+  - id: demo-0
+    title: Neon Steps
+    artist: RhythmRehab Demo
+    bpm: 120
+    coverColor: {r: 0.3, g: 0.12, b: 0.6, a: 1}
+  - id: demo-1
+    title: Morning Motion
+    artist: RhythmRehab Demo
+    bpm: 100
+    coverColor: {r: 0.08, g: 0.42, b: 0.5, a: 1}
+  - id: demo-2
+    title: Steady Rise
+    artist: RhythmRehab Demo
+    bpm: 110
+    coverColor: {r: 0.32, g: 0.3, b: 0.08, a: 1}
+  - id: demo-3
+    title: Skyline Pulse
+    artist: RhythmRehab Demo
+    bpm: 128
+    coverColor: {r: 0.12, g: 0.25, b: 0.65, a: 1}
+  - id: demo-4
+    title: Gentle Waves
+    artist: RhythmRehab Demo
+    bpm: 90
+    coverColor: {r: 0.06, g: 0.38, b: 0.3, a: 1}
+  - id: demo-5
+    title: Rhythm Circuit
+    artist: RhythmRehab Demo
+    bpm: 140
+    coverColor: {r: 0.58, g: 0.12, b: 0.3, a: 1}
+  - id: demo-6
+    title: Moonlight Walk
+    artist: RhythmRehab Demo
+    bpm: 108
+    coverColor: {r: 0.22, g: 0.16, b: 0.48, a: 1}
+  - id: demo-7
+    title: Bright Horizon
+    artist: RhythmRehab Demo
+    bpm: 132
+    coverColor: {r: 0.5, g: 0.28, b: 0.08, a: 1}

@@ -1,0 +1,11 @@
+const {call}=require('./unity-authoring.cjs');const cp=require('child_process');
+call('editor','set_auto_tick',{enable:true,interval_ms:16,persist:false});
+call('editor.playmode','set_run_in_background',{enable:true});
+call('editor.playmode','start');
+console.log(cp.execFileSync('C:/Program Files/Unity Hub/resources/unity.exe',['status','--until-ready','--timeout','60','--format','json'],{encoding:'utf8'}));
+const ev=code=>call('script','eval',{code}).result;
+const frame=ev('return UnityEngine.Time.frameCount;');
+if(!ev(`return UnityEngine.Time.frameCount>${frame};`))throw Error('Player frames not advancing');
+console.log(JSON.stringify(call('script','run',{file:'Tools/VerifyNoteHitEffects.cs',entry:'VerifyNoteHitEffects.Main'})));
+console.log(JSON.stringify(call('capture','game_view',{width:1920,height:1080,save_path:'Temp/Note-Hit-Effects.png',source:'screen'})));
+console.log(JSON.stringify(call('console','get',{level:'error',tail:5})));

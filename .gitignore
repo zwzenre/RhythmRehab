@@ -1,0 +1,38 @@
+# Unity-generated folders
+/[Ll]ibrary/
+/[Tt]emp/
+/[Oo]bj/
+/[Ll]ogs/
+/[Uu]ser[Ss]ettings/
+/[Bb]uild/
+/[Bb]uilds/
+/[Mm]emoryCaptures/
+/[Rr]ecordings/
+/Assets/Temp/
+/Assets/Temp.meta
+
+# IDE and generated solution files
+/.vs/
+/.vscode/
+/.idea/
+*.csproj
+*.unityproj
+*.sln
+*.slnx
+*.suo
+*.user
+*.userprefs
+*.pidb
+*.booproj
+*.opendb
+*.VC.db
+
+# Local credentials and operating-system files
+.env
+.env.*
+!.env.example
+.DS_Store
+Thumbs.db
+Desktop.ini
+sysinfo.txt
+*.log
