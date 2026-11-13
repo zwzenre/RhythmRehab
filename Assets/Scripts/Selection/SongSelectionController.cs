@@ -16,6 +16,7 @@ namespace RhythmRehab
         [SerializeField] private TMP_Text browseLabel;
         [SerializeField] private GameObject emptyMessage;
         [SerializeField] private Button continueButton;
+        [SerializeField] private SongPreviewAudio songPreview;
         private int filter;
 
         private void Start()
@@ -23,7 +24,8 @@ namespace RhythmRehab
             if (catalog == null || catalog.songs == null || catalog.songs.Length != cards.Length)
             { Debug.LogError("Song catalog needs one authored card per song.", this); enabled = false; return; }
             for (int i = 0; i < cards.Length; i++) cards[i].Bind(catalog.songs[i]);
-            if (SessionSelection.Song == null) SessionSelection.SelectSong(catalog.songs[0]);
+            var current = System.Array.Find(catalog.songs, song => SessionSelection.Song != null && song.id == SessionSelection.Song.id);
+            SessionSelection.SelectSong(current ?? catalog.songs[0]);
             RefreshSelection();
             Filter(search.text);
         }
@@ -33,12 +35,13 @@ namespace RhythmRehab
             if (index < 0 || index >= catalog.songs.Length) return;
             SessionSelection.SelectSong(catalog.songs[index]);
             RefreshSelection();
+            if (songPreview) songPreview.Play(catalog.songs[index]);
         }
         private void RefreshSelection()
         {
             var song = SessionSelection.Song;
             foreach (var card in cards) card.SetSelected(card.Song != null && song != null && card.Song.id == song.id);
-            selectionLabel.text = song == null ? "Choose a song to continue." : $"SELECTED: {song.title}  ·  {song.bpm:0} BPM";
+            selectionLabel.text = song == null ? "" : song.audio ? $"Recording: {song.recordingCredit}" : "";
             continueButton.interactable = song != null;
         }
         public void Filter(string query)
@@ -75,9 +78,18 @@ namespace RhythmRehab
         }
         public void Continue()
         {
-            if (SessionSelection.Song != null) IrisSceneTransition.Load("ModeSelection");
+            if (SessionSelection.Song != null && !IrisSceneTransition.IsBusy)
+            {
+                if (songPreview) songPreview.StopPreview();
+                IrisSceneTransition.Load("ModeSelection");
+            }
         }
-        public void Home() => IrisSceneTransition.Load("MainMenu");
+        public void Home()
+        {
+            if (IrisSceneTransition.IsBusy) return;
+            if (songPreview) songPreview.StopPreview();
+            IrisSceneTransition.Load("MainMenu");
+        }
     }
 }
 

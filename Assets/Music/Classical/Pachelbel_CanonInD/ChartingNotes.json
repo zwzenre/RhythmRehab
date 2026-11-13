@@ -1,0 +1,34 @@
+{
+  "folder": "Pachelbel_CanonInD",
+  "mp3": "CanonInD.mp3",
+  "title": "Canon in D",
+  "artist": "Johann Pachelbel",
+  "bpm": 92,
+  "leadIn": 4,
+  "audioDuration": 120.0327,
+  "shortened": true,
+  "fadeOutSeconds": 3.09,
+  "alignment": {
+    "offsetSeconds": 2.080261,
+    "scale": 1.0006,
+    "meanAttackDistanceMs": 6.681416
+  },
+  "charts": {
+    "Therapy": {
+      "notes": 43,
+      "holds": 6
+    },
+    "Easy": {
+      "notes": 43,
+      "holds": 6
+    },
+    "Medium": {
+      "notes": 56,
+      "holds": 7
+    },
+    "Hard": {
+      "notes": 82,
+      "holds": 10
+    }
+  }
+}

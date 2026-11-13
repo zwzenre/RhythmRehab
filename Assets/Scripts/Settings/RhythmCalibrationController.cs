@@ -31,6 +31,7 @@ namespace RhythmRehab
         private AudioClip click;
         private double startDsp;
         private bool playing;
+        private LocalSettings hitControls;
         private int hits, misses, attempts;
         private double totalErrorMs;
         private float feedbackUntil;
@@ -47,15 +48,16 @@ namespace RhythmRehab
             targets = new double[notes.Length];resolved = new bool[notes.Length];
             click = MakeClick();metronome.clip = click;metronome.loop = true;
             var settings = LocalSettingsStore.Default.Load(out var loadError);
+            hitControls = settings;
             metronome.volume = settings.beatVolume;
             hitSoundTiming.SetValueWithoutNotify(settings.hitSoundOffsetMs);
             originalPreviewClip = soundPreview.clip;
-            soundPreview.volume = settings.sfxVolume;
+            soundPreview.volume = settings.beatVolume;
             RebuildHitSound();
-            UpdateLabels();feedback.text = "PRESS START TO TRY THE RHYTHM";
+            UpdateLabels();feedback.text = "PRESS START TO PRACTISE";
             if(judgementMotion)judgementMotion.SetIdle(feedback.text,Color.white);
-            statistics.text = "No practice hits yet.\nThis preview is not saved to session history.";
-            saveStatus.text = loadError == null ? "Saved values loaded. Adjust, test, then SAVE." : "Could not load settings: " + loadError;
+            statistics.text = "No practice hits yet.";
+            saveStatus.text = loadError == null ? "" : "Could not load settings: " + loadError;
         }
         private static AudioClip MakeClick()
         {
@@ -64,7 +66,7 @@ namespace RhythmRehab
             var result=AudioClip.Create("120 BPM calibration beat",samples.Length,1,rate,false);result.SetData(samples,0);return result;
         }
         public void Adjust(float value)
-        { UpdateLabels();saveStatus.text="UNSAVED CHANGES · Preview updates immediately. SAVE applies to gameplay."; }
+        { UpdateLabels();saveStatus.text="UNSAVED CHANGES"; }
         private void UpdateLabels()
         { offsetValue.text=$"{OffsetMs:+0;-0;0} ms";speedValue.text=$"{NoteSpeed:0.00}x";hitSoundTimingValue.text=$"{hitSoundTiming.value:+0;-0;0} ms"; }
         public void AdjustHitSound(float value) { RebuildHitSound(); Adjust(value); }
@@ -80,7 +82,7 @@ namespace RhythmRehab
         public void Save()
         {
             saveStatus.text = LocalSettingsStore.Default.TrySaveCalibration(OffsetMs,NoteSpeed,hitSoundTiming.value,out var error)
-                ? "SAVED · Judgement timing, note speed and hit sound apply to gameplay."
+                ? "SAVED"
                 : "NOT SAVED · " + error;
             ClearSelection();
         }
@@ -102,7 +104,17 @@ namespace RhythmRehab
         {
             if(!playing||IrisSceneTransition.IsBusy)return;
             float height=0;
-            if(Mouse.current!=null&&RectTransformUtility.ScreenPointToLocalPointInRectangle(playfield,Mouse.current.position.ReadValue(),null,out var local))height=Mathf.InverseLerp(-laneSpacing,laneSpacing,local.y);
+            var sensor=UsbSensorConnection.Instance;
+            if(sensor&&sensor.InputEnabled)
+            {
+                if(!sensor.TryGetHeight(out height))
+                {
+                    StopPreview();feedback.text="SENSOR DATA LOST — CHECK THE CONNECTION BEFORE RESTARTING PREVIEW";
+                    if(judgementMotion)judgementMotion.SetIdle(feedback.text,Color.white);
+                    return;
+                }
+            }
+            else if(Mouse.current!=null&&RectTransformUtility.ScreenPointToLocalPointInRectangle(playfield,Mouse.current.position.ReadValue(),null,out var local))height=Mathf.InverseLerp(-laneSpacing,laneSpacing,local.y);
             marker.anchoredPosition=new Vector2(judgementX,Mathf.Lerp(-laneSpacing,laneSpacing,height));marker.GetComponent<Image>().color=Color.white;
             double time=Elapsed;float travel=RhythmPreferences.TravelSeconds(3,NoteSpeed),offset=OffsetMs/1000;
             for(int i=0;i<notes.Length;i++)
@@ -114,11 +126,12 @@ namespace RhythmRehab
                 notes[i].gameObject.SetActive(visible);
                 if(visible)notes[i].anchoredPosition=new Vector2(Mathf.LerpUnclamped(judgementX,spawnX,(float)remaining/travel),Mathf.Lerp(-laneSpacing,laneSpacing,heights[i%heights.Length]));
             }
-            if(Keyboard.current!=null&&Keyboard.current.spaceKey.wasPressedThisFrame)TryHit(time,height);
+            if(HitControls.Pressed(hitControls))TryHit(time,height);
             if(Time.unscaledTime>feedbackUntil)
             {
-                if(judgementMotion&&!judgementMotion.IsAnimating)judgementMotion.SetIdle("MOUSE UP / DOWN · SPACE TO HIT",Color.white);
-                else if(!judgementMotion)feedback.text="MOUSE UP / DOWN · SPACE TO HIT";
+                string controls=(sensor&&sensor.InputEnabled?"SHIN SENSOR HEIGHT · ":"MOUSE UP / DOWN · ")+HitControls.Label(hitControls)+" TO HIT";
+                if(judgementMotion&&!judgementMotion.IsAnimating)judgementMotion.SetIdle(controls,Color.white);
+                else if(!judgementMotion)feedback.text=controls;
             }
         }
         public bool TryHit(double time,float height)
@@ -146,7 +159,7 @@ namespace RhythmRehab
             feedbackUntil=Time.unscaledTime+1;UpdateStats();return true;
         }
         private void UpdateStats()
-        {statistics.text=$"HITS {hits}  ·  TO PRACTISE {misses}\n"+(attempts>0?$"Average raw timing: {totalErrorMs/attempts:+0;-0;0} ms":"Match height and press Space on the beat.");}
+        {statistics.text=$"HITS {hits}  ·  TO PRACTISE {misses}"+(attempts>0?$"\nAverage timing: {totalErrorMs/attempts:+0;-0;0} ms":"");}
         private static Color HeightColor(float h)=>h<=.5f?Color.Lerp(new Color(.3f,1,.45f),new Color(1,.75f,.15f),h*2):Color.Lerp(new Color(1,.75f,.15f),new Color(.65f,.74f,.88f),(h-.5f)*2);
         public void StopPreview()
         {playing=false;metronome.Stop();soundPreview.Stop();if(hitEffects)hitEffects.Clear();if(screenAudio)screenAudio.SetPracticeActive(false);foreach(var n in notes)n.gameObject.SetActive(false);startLabel.text="START PREVIEW";feedback.text="PREVIEW STOPPED";feedback.color=Color.white;if(judgementMotion)judgementMotion.SetIdle(feedback.text,Color.white);}

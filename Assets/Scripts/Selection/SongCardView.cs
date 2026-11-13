@@ -21,8 +21,11 @@ namespace RhythmRehab
             Song = song;
             title.text = song.title;
             artist.text = song.artist;
-            tempo.text = $"{song.bpm:0} BPM  ·  TEMPO DEMO";
-            cover.color = song.coverColor;
+            tempo.text = song.audio ? $"{System.TimeSpan.FromSeconds(song.audio.length):m\\:ss}  ·  CLASSICAL" : $"{song.bpm:0} BPM  ·  TEMPO DEMO";
+            cover.sprite = song.cover;
+            cover.preserveAspect = song.cover != null;
+            cover.color = song.cover ? Color.white : song.coverColor;
+            foreach (var label in cover.GetComponentsInChildren<TMP_Text>(true)) label.gameObject.SetActive(!song.cover);
         }
         public void SetSelected(bool selected)
         {

@@ -6,6 +6,7 @@ namespace RhythmRehab
 
     public static class RhythmRules
     {
+        public const int MaximumScore = 10000;
         public const double PerfectWindow = 0.08;
         public const double GreatWindow = 0.14;
         public const double GoodWindow = 0.22;
@@ -33,8 +34,8 @@ namespace RhythmRehab
             switch (judgement)
             {
                 case HitJudgement.Perfect: return 1000;
-                case HitJudgement.Great: return 700;
-                case HitJudgement.Good: return 400;
+                case HitJudgement.Great: return 800;
+                case HitJudgement.Good: return 500;
                 default: return 0;
             }
         }

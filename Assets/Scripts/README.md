@@ -1,5 +1,7 @@
 # Mouse rhythm prototype
 
+The classical collection is in `Assets/Music/Classical`, with its sources, licences and chart guide in [the collection README](../Music/Classical/README.md). Its song catalogue is `Assets/Data/ClassicalSongs.asset`. Full-song charts reuse the saved note slots.
+
 ## Script folders
 
 | Folder | Contains |
@@ -25,8 +27,8 @@ Open `Assets/Scenes/MainMenu.unity`, enter Play mode and choose START.
 - Escape or PAUSE opens the pause panel. Focus loss pauses the session; resume explicitly.
 - START opens Song Selection, then Game Mode Selection. Therapy goes to Exercise Selection;
   Free goes to Difficulty Selection. Both then enter Gameplay.
-- Eight placeholder songs provide different generated metronome tempos. They have no recorded
-  song audio yet. Edit their names, artists, BPM and cover colors in `Assets/Data/PlaceholderSongs.asset`.
+- Five classical songs have recorded MP3 audio, covers and separate charts for each mode/difficulty.
+  Edit `Assets/Data/ClassicalSongs.asset`; see `Assets/Music/Classical/README.md`.
 - Therapy uses 32 notes at the chosen LOW/MEDIUM/HIGH level and a 1.25× timing window.
 - Free notes can appear anywhere between the LOW/MID/HIGH guide lines. Easy uses 16 notes in
   the lower half with gentler changes and a 1.3× timing window. Medium uses 24 notes across the
@@ -49,7 +51,7 @@ Rendering, colors and hit judgement all use the same TargetHeight. Existing auth
 their lane values. Free demo charts use repeatable fractional heights; Therapy stays fixed.
 Session selections
 replace the fallback chart at runtime; the existing 32 note slots are reused. The song browser uses
-an authored horizontal ScrollRect with eight cards, text search, a tempo filter, and browse arrows.
+an authored horizontal ScrollRect with five cards, text search, a tempo filter, and browse arrows.
 To add catalog entries, duplicate a saved song card, set its SongCardView index, and add it to the
 SongSelectionController cards array. There must be one authored card per catalog entry.
 
@@ -63,7 +65,7 @@ outside every note's timing window is ignored. Accuracy weights are Perfect 1, G
 Miss 0. Scores are 1000, 700, 400, 0. Completion is judged notes divided by chart notes, including
 misses. Duration excludes pauses and is capped at chart end.
 
-Beat and hit audio volumes persist in PlayerPrefs. There is no Bluetooth firmware, sensor
+Music, beat/hit and UI sound volumes persist separately in local JSON. Songs, card previews and menu music use Music volume; note hits and metronomes use Beat / Hit; button clicks use UI sound volume. There is no Bluetooth firmware, sensor
 calibration, physical-angle/ROM measurement, recorded song audio, or medical recommendation.
 Results explicitly identify mouse mode and do not invent sensor data.
 
@@ -120,3 +122,9 @@ Persistence checks: Tools/VerifySessionHistory.cs, entry VerifySessionHistory.Ma
 Core scoring checks can be run through Unity CLI's `script run` using
 `Tools/VerifyRhythmPrototype.cs` (entry point `VerifyRhythmPrototype.Main`).
 Selection/chart checks use `Tools/VerifySelectionFlow.cs` (entry point `VerifySelectionFlow.Main`).
+# USB sensor input
+
+`Sensors/` contains the serial packet parser, background USB transport, two-position
+shin-height calibration and persistent connection component. Setup and firmware:
+[`Firmware/README.md`](../../Firmware/README.md).
+

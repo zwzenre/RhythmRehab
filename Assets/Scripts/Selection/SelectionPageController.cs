@@ -21,7 +21,8 @@ namespace RhythmRehab
         {
             if (SessionSelection.Song == null) SessionSelection.SelectSong(catalog.songs[0]);
             var song = SessionSelection.Song;
-            songContext.text = $"{song.title}  ·  {song.artist}  ·  {song.bpm:0} BPM\nTempo placeholder — song audio can be added later.";
+            if (page == SelectionPage.Difficulty && songContext)
+                songContext.text = song.audio ? $"{song.title}  ·  {song.artist}\nRecording: {song.recordingCredit}" : $"{song.title}  ·  {song.artist}  ·  {song.bpm:0} BPM";
             Refresh();
         }
         public void Therapy()
@@ -60,8 +61,8 @@ namespace RhythmRehab
                 choiceBadges[i].SetActive(i == index);
             }
             selectedLabel.text = page == SelectionPage.Mode ?
-                (SessionSelection.Mode == SessionMode.Therapy ? "SELECTED: THERAPY MODE\nChoose your target height next." : "SELECTED: FREE MODE\nChoose your difficulty next.") :
-                page == SelectionPage.Height ? $"SELECTED: {SessionSelection.Height.ToString().ToUpperInvariant()} HEIGHT  ·  All notes stay at this level." : $"SELECTED: {SessionSelection.Difficulty.ToString().ToUpperInvariant()}  ·  Varied heights between the guide lines.";
+                (SessionSelection.Mode == SessionMode.Therapy ? "THERAPY MODE  ·  Choose a target height next" : "FREE MODE  ·  Choose a difficulty next") :
+                page == SelectionPage.Height ? $"{SessionSelection.Height.ToString().ToUpperInvariant()} HEIGHT  ·  One target for all notes" : $"SELECTED: {SessionSelection.Difficulty.ToString().ToUpperInvariant()}  ·  Varied heights between the guide lines.";
         }
         public void BeginGame()
         {

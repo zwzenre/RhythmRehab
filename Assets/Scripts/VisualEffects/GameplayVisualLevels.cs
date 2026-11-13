@@ -15,11 +15,16 @@ namespace RhythmRehab
         [SerializeField] private PrototypeGameplay gameplay;
         [Tooltip("Therapy, Easy, Medium, Hard, in that order.")]
         [SerializeField] private Theme[] themes;
+        [Tooltip("High pain, high stress, both high.")]
+        [SerializeField] private GameObject[] wellbeingBackgrounds;
+        [SerializeField] private UnityEngine.UI.Graphic playfieldSurface;
         [SerializeField, Range(0,2)] private float reactionIntensity = 1f;
         private Color[][] originalColours;
         private Color reactionColour;
         private float reaction;
         private int nextAccent;
+        private int wellbeingTheme = -1;
+        private Color originalSurface;
         public float Clock { get; private set; }
         public bool Frozen => !gameplay || gameplay.IsPaused || IrisSceneTransition.IsBusy;
         public int ActiveTheme { get; private set; }
@@ -34,6 +39,7 @@ namespace RhythmRehab
                 originalColours[i]=new Color[themes[i].reactiveDetails.Length];
                 for(int j=0;j<originalColours[i].Length;j++)originalColours[i][j]=themes[i].reactiveDetails[j].color;
             }
+            if(playfieldSurface)originalSurface=playfieldSurface.color;
             if(SessionSelection.Configured)Show(SessionSelection.Mode,SessionSelection.Difficulty);
             else Show(SessionMode.Free,FreeDifficulty.Easy);
         }
@@ -41,17 +47,28 @@ namespace RhythmRehab
         {
             ActiveTheme=mode==SessionMode.Therapy?0:1+(int)difficulty;
             reaction=0;nextAccent=0;
+            wellbeingTheme=-1;
+            var wellbeing=SessionWellbeing.Snapshot;
+            if(wellbeing!=null&&!wellbeing.skipped)
+                wellbeingTheme=wellbeing.highPain&&wellbeing.highStress?2:wellbeing.highPain?0:wellbeing.highStress?1:-1;
+            bool hasWellbeingBackgrounds=wellbeingBackgrounds!=null&&wellbeingBackgrounds.Length==3;
             for(int i=0;i<themes.Length;i++)
             {
                 foreach(var accent in themes[i].hitAccents)accent.Clear();
                 for(int j=0;j<themes[i].reactiveDetails.Length;j++)themes[i].reactiveDetails[j].color=originalColours[i][j];
-                themes[i].root.SetActive(i==ActiveTheme);
+                themes[i].root.SetActive(i==ActiveTheme&&(!hasWellbeingBackgrounds||wellbeingTheme<0));
             }
+            if(hasWellbeingBackgrounds)
+                for(int i=0;i<wellbeingBackgrounds.Length;i++)wellbeingBackgrounds[i].SetActive(i==wellbeingTheme);
+            if(playfieldSurface)
+                playfieldSurface.color=wellbeingTheme<0?originalSurface:wellbeingTheme==0?new Color(.008f,.055f,.06f):
+                    wellbeingTheme==1?new Color(.012f,.025f,.08f):new Color(.025f,.023f,.055f);
         }
         private void Update()
         {
             if(Frozen)return;
-            Clock+=Time.unscaledDeltaTime;
+            Clock+=Time.unscaledDeltaTime*(wellbeingTheme<0?1:wellbeingTheme==2?.12f:.28f);
+            if(wellbeingTheme>=0)return;
             reaction=Mathf.MoveTowards(reaction,0,Time.unscaledDeltaTime/1.1f);
             var theme=themes[ActiveTheme];
             for(int i=0;i<theme.reactiveDetails.Length;i++)
@@ -64,7 +81,7 @@ namespace RhythmRehab
         }
         public void OnSuccessfulHit(Vector2 position,HitJudgement judgement,Color colour)
         {
-            if(judgement==HitJudgement.Miss||Frozen)return;
+            if(judgement==HitJudgement.Miss||Frozen||wellbeingTheme>=0)return;
             SuccessfulReactions++;reactionColour=colour;reaction=judgement==HitJudgement.Perfect?1:judgement==HitJudgement.Great?.8f:.6f;
             var accents=themes[ActiveTheme].hitAccents;
             int count=ActiveTheme<=1?1:judgement==HitJudgement.Perfect?3:judgement==HitJudgement.Great?2:1;

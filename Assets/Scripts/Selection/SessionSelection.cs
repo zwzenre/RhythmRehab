@@ -14,6 +14,7 @@ namespace RhythmRehab
         public float heightTolerance;
         public double timingScale;
         public string label;
+        public float durationSeconds;
     }
 
     // Session choices survive scene changes. Scene UI and note slots remain authored objects.
@@ -63,7 +64,7 @@ namespace RhythmRehab
                 // Leave recovery time after a hold before requesting another height.
                 beat += (float)Math.Max(interval,hold+1);
             }
-            return new SessionProfile
+            var profile = new SessionProfile
             {
                 chart = notes,
                 bpm = song.bpm,
@@ -72,6 +73,16 @@ namespace RhythmRehab
                 timingScale = mode == SessionMode.Therapy ? 1.25 : difficulty == FreeDifficulty.Easy ? 1.3 : difficulty == FreeDifficulty.Medium ? 1 : 0.8,
                 label = mode == SessionMode.Therapy ? "THERAPY · " + height.ToString().ToUpperInvariant() : "FREE · " + difficulty.ToString().ToUpperInvariant()
             };
+            var authored = mode == SessionMode.Therapy ? song.therapyChart : difficulty == FreeDifficulty.Easy ? song.easyChart : difficulty == FreeDifficulty.Medium ? song.mediumChart : song.hardChart;
+            if (song.audio && authored != null && authored.notes != null && authored.notes.Length > 0)
+            {
+                profile.chart = (ChartNote[])authored.notes.Clone();
+                profile.durationSeconds = System.Math.Max(authored.durationSeconds, song.audioLeadInSeconds + song.audio.length);
+                if (mode == SessionMode.Therapy)
+                    for (int i = 0; i < profile.chart.Length; i++)
+                    { profile.chart[i].lane = (int)height; profile.chart[i].useCustomHeight = false; }
+            }
+            return profile;
         }
     }
 }

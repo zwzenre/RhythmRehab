@@ -11,21 +11,23 @@ namespace RhythmRehab
         public int ClickCount { get; private set; }
         public AudioClip CurrentTrack => backgroundSource ? backgroundSource.clip : null;
         public bool BackgroundPlaying => backgroundSource && backgroundSource.isPlaying;
+        private bool practiceActive, songPreviewActive;
 
         private void Start()
         {
             var settings = LocalSettingsStore.Default.Load(out _);
-            ApplyVolumes(settings.beatVolume, settings.sfxVolume);
+            ApplyVolumes(settings.musicVolume, settings.sfxVolume);
             if (backgroundSource && backgroundTracks != null && backgroundTracks.Length > 0)
             {
                 backgroundSource.clip = backgroundTracks[Random.Range(0, backgroundTracks.Length)];
                 backgroundSource.Play();
+                UpdateBackgroundPause();
             }
         }
 
         public void ApplyVolumes(float music, float sfx)
         {
-            if (backgroundSource) backgroundSource.volume = Mathf.Clamp01(music);
+            if (backgroundSource) backgroundSource.volume = AudioVolume.MusicGain(music);
             if (clickSource) clickSource.volume = Mathf.Clamp01(sfx);
         }
 
@@ -38,8 +40,16 @@ namespace RhythmRehab
 
         public void SetPracticeActive(bool active)
         {
+            practiceActive = active; UpdateBackgroundPause();
+        }
+        public void SetSongPreviewActive(bool active)
+        {
+            songPreviewActive = active; UpdateBackgroundPause();
+        }
+        private void UpdateBackgroundPause()
+        {
             if (!backgroundSource) return;
-            if (active) backgroundSource.Pause();
+            if (practiceActive || songPreviewActive) backgroundSource.Pause();
             else backgroundSource.UnPause();
         }
     }

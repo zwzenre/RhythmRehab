@@ -1,0 +1,34 @@
+{
+  "folder": "Bach_PreludeInC",
+  "mp3": "PreludeInC.mp3",
+  "title": "Prelude in C",
+  "artist": "Johann Sebastian Bach",
+  "bpm": 65.9,
+  "leadIn": 4,
+  "audioDuration": 142.0539,
+  "shortened": false,
+  "fadeOutSeconds": 0,
+  "alignment": {
+    "offsetSeconds": 2.040363,
+    "scale": 1,
+    "meanAttackDistanceMs": 11.327273
+  },
+  "charts": {
+    "Therapy": {
+      "notes": 47,
+      "holds": 7
+    },
+    "Easy": {
+      "notes": 50,
+      "holds": 7
+    },
+    "Medium": {
+      "notes": 76,
+      "holds": 11
+    },
+    "Hard": {
+      "notes": 120,
+      "holds": 17
+    }
+  }
+}

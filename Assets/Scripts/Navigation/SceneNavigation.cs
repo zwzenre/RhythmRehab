@@ -5,6 +5,9 @@ namespace RhythmRehab
 {
     public sealed class SceneNavigation : MonoBehaviour
     {
+        private static string settingsReturnScene = "MainMenu";
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+        private static void ResetSettingsReturn() => settingsReturnScene = "MainMenu";
         public void Play()
         {
             if (IrisSceneTransition.IsBusy) return;
@@ -12,7 +15,14 @@ namespace RhythmRehab
             IrisSceneTransition.Load("WellbeingAssessment");
         }
         public void Replay() => IrisSceneTransition.Load(SessionSelection.Configured ? "Gameplay" : "SongSelection");
-        public void Settings() => IrisSceneTransition.Load("Settings");
+        public void Settings()
+        {
+            if (IrisSceneTransition.IsBusy) return;
+            string scene = SceneManager.GetActiveScene().name;
+            if (scene != "Settings" && scene != "RhythmCalibration" && scene != "SensorCalibration" && scene != "SensorConnection") settingsReturnScene = scene;
+            IrisSceneTransition.Load("Settings");
+        }
+        public void ReturnFromSettings() => IrisSceneTransition.Load(settingsReturnScene);
         public void RhythmCalibration() => IrisSceneTransition.Load("RhythmCalibration");
         public void SensorCalibration() => IrisSceneTransition.Load("SensorCalibration");
         public void SensorConnection() => IrisSceneTransition.Load("SensorConnection");

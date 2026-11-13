@@ -1,0 +1,18 @@
+Piano Sonata K.545, third movement: Rondo
+Composer: Wolfgang Amadeus Mozart
+
+Recording and source MIDI: A-M Classical
+https://amclassical.com/
+Licence: Creative Commons Attribution 3.0 United States
+https://creativecommons.org/licenses/by/3.0/us/
+Source licensing statement: https://amclassical.com/creativecommons.shtml
+MP3: https://amclassical.com/mp3/amclassical_piano_sonata_k_545_mvt_3.mp3
+MIDI: https://amclassical.com/midi/mozart_k545_3.mid
+Recording and MIDI downloaded unchanged on 2026-11-05.
+
+Cover: Barbara Krafft, Portrait of Wolfgang Amadeus Mozart (1819). Public-domain reproduction.
+https://commons.wikimedia.org/wiki/File:Wolfgang-amadeus-mozart_1.jpg
+Public Domain Mark: https://creativecommons.org/publicdomain/mark/1.0/
+The image is scaled to fit the song card, preserving its aspect ratio.
+
+Game charts: RhythmRehab. Created from the source MIDI tempo map aligned against the MP3 waveform, with reduced density, musical height contours and hold gestures.

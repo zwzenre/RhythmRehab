@@ -1,0 +1,18 @@
+Prelude in C (BWV 846a)
+Composer: Johann Sebastian Bach
+
+Recording and source MIDI: A-M Classical
+https://amclassical.com/
+Licence: Creative Commons Attribution 3.0 United States
+https://creativecommons.org/licenses/by/3.0/us/
+Source licensing statement: https://amclassical.com/creativecommons.shtml
+MP3: https://amclassical.com/mp3/amclassical_prelude_in_c_major_bwv_846a.mp3
+MIDI: https://amclassical.com/midi/bach_wtcI-1-prel.mid
+Recording and MIDI downloaded unchanged on 2026-11-05.
+
+Cover image: Portrait of Johann Sebastian Bach, Elias Gottlob Haussmann, 1748. Public-domain reproduction.
+https://commons.wikimedia.org/wiki/File:Johann_Sebastian_Bach.jpg
+Public Domain Mark: https://creativecommons.org/publicdomain/mark/1.0/
+Original downloaded image is retained; Unity scales the image to fit the song card while preserving its aspect ratio.
+
+Game charts: RhythmRehab, created from the source MIDI tempo map and aligned to the recording waveform. These are gameplay arrangements with reduced note density, melodic height contours and added hold gestures. They are not transcriptions for musical performance.

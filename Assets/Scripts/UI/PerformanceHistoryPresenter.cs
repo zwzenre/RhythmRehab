@@ -18,19 +18,31 @@ namespace RhythmRehab
         [SerializeField] private ScrollRect sessionScroll;
         [SerializeField] private Button previousButton, nextButton;
         [SerializeField] private TMP_Text viewAllLabel;
+        [SerializeField] private Button uploadSelectedButton;
+        [SerializeField] private Button deleteSelectedButton;
+        [SerializeField] private GameObject deleteConfirmation;
+        [SerializeField] private TMP_Text deletePrompt;
+        [SerializeField] private Outline[] selectionOutlines;
+        private readonly HashSet<string> pendingDeletion = new HashSet<string>();
         private List<SessionSummary> sessions;
+        private List<SessionSummary> reviewSessions;
+        private readonly HashSet<string> selectedSessions = new HashSet<string>();
         private int metric, page;
         private bool all;
         private const int PageSize = 10;
         private static readonly string[] Titles = { "OVERALL ACCURACY", "AVERAGE ROM", "SCORE", "MOVEMENT ACCURACY" };
 
-        private void Start()
+        private void Start() => Reload();
+        private void Reload()
         {
             sessions = SessionHistoryStore.Default.Load(out var error);
+            reviewSessions = sessions.OrderByDescending(s => s.endedEarly).ToList();
+            selectedSessions.IntersectWith(sessions.Select(s => s.sessionId));
+            page = Mathf.Min(page, Mathf.Max(0, (sessions.Count - 1) / PageSize));
             overview.text = error != null ? "History could not be read. Your saved file has been preserved." :
                 sessions.Count == 0 ? "Your journey starts with your first session." :
-                $"{sessions.Count} SESSIONS  ·  {sessions.Sum(s => s.duration) / 60f:0.0} MIN PLAYED  ·  BEST SCORE {sessions.Max(s => s.score):N0}";
-            RefreshList(); ChooseMetric(0);
+                $"{sessions.Count} SESSIONS  ·  {sessions.Sum(s => s.duration) / 60f:0.0} MIN PLAYED  ·  BEST OVERALL {sessions.Max(s => s.Accuracy):P1}";
+            RefreshList(); ChooseMetric(metric);
             if (error != null) graphMessage.text = "History unavailable. Check access to the local history file.";
         }
         public void ChooseMetric(int index)
@@ -45,7 +57,7 @@ namespace RhythmRehab
             var data = sessions.Where(s => metric != 3 || s.heightAttempts > 0).Take(points.Length).Reverse().ToArray();
             bool measured = metric != 1;
             graphMessage.gameObject.SetActive(!measured || data.Length==0);
-            graphMessage.text = metric==1 ? "ROM is not measured yet.\nConnect a calibrated sensor to record leg angles." :
+            graphMessage.text = metric==1 ? "Knee-joint ROM is not recorded.\nThe shin sensor currently controls game height." :
                 metric==3 ? "No height-match attempts recorded yet.\nMove the mouse to a note height and press Space during a session." :
                 "No sessions yet.\nPlay a session to see your progress here.";
             float max = metric==2 && data.Length>0 ? Mathf.Max(1000, Mathf.Ceil(data.Max(s=>s.score)/1000f)*1000) : 100;
@@ -74,28 +86,79 @@ namespace RhythmRehab
         public void ToggleAll() {all=!all;page=0;RefreshList();}
         public void Previous() {page=Mathf.Max(0,page-1);RefreshList();}
         public void Next() {page=Mathf.Min(Mathf.Max(0,(sessions.Count-1)/PageSize),page+1);RefreshList();}
-        private void RefreshList()
+        public void ToggleSessionSelection(int row)
         {
+            if (deleteConfirmation && deleteConfirmation.activeSelf) return;
+            int index = page * PageSize + row;
+            if (!all || row < 0 || row >= PageSize || index >= reviewSessions.Count) return;
+            string id = reviewSessions[index].sessionId;
+            if (!selectedSessions.Add(id)) selectedSessions.Remove(id);
+            RefreshList(resetScroll: false);
+        }
+        public void RequestDelete()
+        {
+            if (!all || selectedSessions.Count == 0 || !deleteConfirmation) return;
+            pendingDeletion.Clear();
+            pendingDeletion.UnionWith(selectedSessions);
+            deletePrompt.text = $"Delete {pendingDeletion.Count} selected local session record{(pendingDeletion.Count == 1 ? "" : "s")}?\n\nThis cannot be undone.";
+            deleteConfirmation.SetActive(true);
+        }
+        public void CancelDelete()
+        {
+            pendingDeletion.Clear();
+            deleteConfirmation.SetActive(false);
+        }
+        public void ConfirmDelete()
+        {
+            if (!deleteConfirmation.activeSelf || pendingDeletion.Count == 0) return;
+            if (!SessionHistoryStore.Default.TryDelete(pendingDeletion, out var error))
+            {
+                CancelDelete();
+                pageLabel.text = "Could not delete records. Please try again.\n" + error;
+                return;
+            }
+            selectedSessions.ExceptWith(pendingDeletion);
+            CancelDelete();
+            Reload();
+        }
+        private void RefreshList(bool resetScroll = true)
+        {
+            var list = all ? reviewSessions : sessions;
             int limit=all?PageSize:4, start=all?page*PageSize:0;
             for(int i=0;i<rows.Length;i++)
             {
-                int n=start+i; bool show=i<limit&&n<sessions.Count;
-                rows[i].transform.parent.gameObject.SetActive(show);
+                int n=start+i; bool show=i<limit&&n<list.Count;
+                var row = rows[i].transform.parent;
+                row.gameObject.SetActive(show);
                 if(!show)continue;
-                var s=sessions[n];
-                string accuracy=s.Judged==0?"—":s.Accuracy.ToString("P0");
+                var s=list[n];
+                bool selected = all && selectedSessions.Contains(s.sessionId);
+                if (selectionOutlines != null && i < selectionOutlines.Length && selectionOutlines[i]) selectionOutlines[i].enabled = selected;
+                if (row.TryGetComponent<Button>(out var select)) select.interactable = all;
+                string accuracy=s.Judged==0?"—":s.Accuracy.ToString("P1");
                 rows[i].text=$"<color=#AF8BF5>{DateTimeOffset.Parse(s.endedUtc).ToLocalTime():dd MMM yyyy  HH:mm}</color>\n"+
-                    $"{s.songTitle}\n<color=#76D8F3>{s.modeLabel}  ·  {s.bpm:0} BPM</color>\n"+
-                    $"{accuracy} ACCURACY  ·  {s.score:N0} PTS\n"+
+                    $"{s.songTitle}\n<color=#76D8F3>{s.modeLabel}</color>\n"+
+                    $"{accuracy} OVERALL  ·  {s.Completion:P0} COMPLETE\n"+
                     $"<color=#9DA7BF>{TimeSpan.FromSeconds(s.duration):mm\\:ss}  ·  {s.Judged}/{s.totalNotes} NOTES  ·  "+
-                    (s.endedEarly?"ENDED EARLY":"COMPLETED")+"</color>";
+                    (s.endedEarly?"ENDED EARLY":"COMPLETED")+"</color>\n"+
+                    $"<color=#C5CBE0>{SessionWellbeing.ScenarioLabel(s.wellbeing)}</color>";
             }
-            listTitle.text=sessions.Count==0?"NO RECENT SESSIONS":all?"ALL SESSIONS":"RECENT SESSIONS";
-            pageLabel.text=sessions.Count==0?"Complete a session to begin your history.":all?$"PAGE {page+1} / {Mathf.Max(1,(sessions.Count+9)/10)}  ·  SCROLL TO BROWSE":"Your 4 most recent sessions";
+            listTitle.text=all?"NEEDS REVIEW":sessions.Count==0?"NO RECENT SESSIONS":"RECENT SESSIONS";
+            if (uploadSelectedButton) uploadSelectedButton.gameObject.SetActive(all);
+            if (deleteSelectedButton)
+            {
+                deleteSelectedButton.gameObject.SetActive(all);
+                deleteSelectedButton.interactable = selectedSessions.Count > 0;
+                var reviewButton = (RectTransform)viewAllLabel.transform.parent;
+                reviewButton.anchoredPosition = new Vector2(all ? -140 : 0, reviewButton.anchoredPosition.y);
+                reviewButton.sizeDelta = new Vector2(all ? 254 : 520, reviewButton.sizeDelta.y);
+            }
+            pageLabel.text=all ? $"{selectedSessions.Count} SELECTED  ·  PAGE {page+1}/{Mathf.Max(1,(sessions.Count+9)/10)}\nAccount link required for upload" :
+                sessions.Count==0 ? "Complete a session to begin your history." : "Your 4 most recent sessions";
             previousButton.interactable=all&&page>0;
             nextButton.interactable=all&&(page+1)*PageSize<sessions.Count;
-            viewAllLabel.text=all?"SHOW RECENT":"VIEW ALL ("+sessions.Count+")";
-            Canvas.ForceUpdateCanvases(); sessionScroll.verticalNormalizedPosition=1;
+            viewAllLabel.text=all?"SHOW RECENT":"REVIEW QUEUE ("+sessions.Count+")";
+            if (resetScroll) { Canvas.ForceUpdateCanvases(); sessionScroll.verticalNormalizedPosition=1; }
         }
     }
 }

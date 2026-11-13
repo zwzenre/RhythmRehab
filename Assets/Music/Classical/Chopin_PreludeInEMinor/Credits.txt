@@ -1,0 +1,18 @@
+Prelude in E minor, Op.28 No.4
+Composer: Frédéric Chopin
+
+Recording and source MIDI: A-M Classical
+https://amclassical.com/
+Licence: Creative Commons Attribution 3.0 United States
+https://creativecommons.org/licenses/by/3.0/us/
+Source licensing statement: https://amclassical.com/creativecommons.shtml
+MP3: https://amclassical.com/mp3/amclassical_chopin_prelude_in_e_minor.mp3
+MIDI: https://amclassical.com/midi/chopin_op28n4.mid
+Recording and MIDI downloaded unchanged on 2026-11-05.
+
+Cover: Louis-Auguste Bisson, portrait of Frédéric Chopin, circa 1847–1849. Restored scan credited to Amano1 on Wikimedia Commons; marked public domain.
+https://commons.wikimedia.org/wiki/File:Frederic_Chopin_photo.jpeg
+Public Domain Mark: https://creativecommons.org/publicdomain/mark/1.0/
+The image is scaled to fit the song card, preserving its aspect ratio.
+
+Game charts: RhythmRehab. Created from the source MIDI tempo map aligned against the MP3 waveform, with reduced density, musical height contours and hold gestures.

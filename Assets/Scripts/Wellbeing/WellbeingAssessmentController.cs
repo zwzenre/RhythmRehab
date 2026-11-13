@@ -17,13 +17,15 @@ namespace RhythmRehab
         [SerializeField] private TMP_Text messageTitle, messageBody;
         [SerializeField] private Image messageIcon;
         [SerializeField] private Sprite painAlertIcon, stressAlertIcon;
-        private bool painAcknowledged, stressAcknowledged, showingPain;
+        private bool painAcknowledged, stressAcknowledged, showingPain, showingStress;
         public int Pain => Mathf.RoundToInt(painSlider.value);
         public int Stress => Mathf.RoundToInt(stressSlider.value);
         public bool MessageOpen => messageOverlay.activeSelf;
         public bool HighPain => Pain >= highPainThreshold;
         public bool HighStress => Stress >= highStressThreshold;
-        private static readonly Color Purple = new Color(.72f,.36f,1), Cyan = new Color(.15f,.8f,1);
+        private static readonly Color LowColour = new Color(.35f,.9f,.65f);
+        private static readonly Color ModerateColour = new Color(1f,.78f,.3f);
+        private static readonly Color HighColour = new Color(1f,.42f,.46f);
 
         private void Start()
         {
@@ -35,12 +37,21 @@ namespace RhythmRehab
             painAcknowledged = stressAcknowledged = false;
             painValue.text = $"{Pain} / 10";
             stressValue.text = $"{Stress} / 10";
-            painMessage.text = HighPain ? "HIGH PAIN\nPlease consider resting before continuing." : Pain >= 4 ?
-                "MODERATE PAIN\nTake your time and choose what feels comfortable." : "LOW PAIN\nYour rating will be saved with this session.";
-            stressMessage.text = HighStress ? "HIGH STRESS\nTake a moment to relax before continuing." : Stress >= 4 ?
-                "MODERATE STRESS\nTake a moment and continue when ready." : "LOW STRESS\nContinue when you feel ready.";
-            feedbackNotice.text = "CHECK IN WITH YOURSELF\nChoose the ratings that best describe how you feel right now. There are no right or wrong answers.";
+            var painColour = RatingColour(Pain, HighPain);
+            var stressColour = RatingColour(Stress, HighStress);
+            painValue.color = painColour;
+            stressValue.color = stressColour;
+            string painHeading = HighPain ? "HIGH PAIN" : Pain >= 4 ? "MODERATE PAIN" : Pain == 0 ? "NO PAIN REPORTED" : "LOW PAIN";
+            string stressHeading = HighStress ? "HIGH STRESS" : Stress >= 4 ? "MODERATE STRESS" : "LOW STRESS";
+            painMessage.text = Message(painHeading, HighPain ? "Consider resting before continuing." :
+                Pain >= 4 ? "Choose a height that feels comfortable." : "Move at a pace that feels comfortable.", painColour);
+            stressMessage.text = Message(stressHeading, HighStress ? "Take a moment to relax before continuing." :
+                Stress >= 4 ? "Take your time. Continue when you feel ready." : "Continue when you feel ready.", stressColour);
+            feedbackNotice.text = "CHECK IN WITH YOURSELF\nChoose the ratings that describe how you feel. There are no right or wrong answers.";
         }
+        private static Color RatingColour(int rating, bool high) => high ? HighColour : rating >= 4 ? ModerateColour : LowColour;
+        private static string Message(string heading, string body, Color colour)
+            => $"<color=#{ColorUtility.ToHtmlStringRGB(colour)}>{heading}</color>\n{body}";
         public void Continue()
         {
             if (IrisSceneTransition.IsBusy || MessageOpen) return;
@@ -49,29 +60,37 @@ namespace RhythmRehab
         }
         private void ContinueAfterMessages()
         {
-            if (HighPain && !painAcknowledged) { ShowMessage(true); return; }
-            if (HighStress && !stressAcknowledged) { ShowMessage(false); return; }
+            if ((HighPain && !painAcknowledged) || (HighStress && !stressAcknowledged))
+            {
+                ShowMessage(HighPain && !painAcknowledged, HighStress && !stressAcknowledged);
+                return;
+            }
             painSlider.interactable = stressSlider.interactable = true;
             SessionWellbeing.Record(Pain,Stress,highPainThreshold,highStressThreshold);
             IrisSceneTransition.Load("SongSelection");
         }
-        private void ShowMessage(bool pain)
+        private void ShowMessage(bool pain, bool stress)
         {
             showingPain = pain;
+            showingStress = stress;
             painSlider.interactable = stressSlider.interactable = false;
-            messageTitle.text = pain ? "YOU REPORTED A HIGH PAIN LEVEL" : "YOU REPORTED A HIGH STRESS LEVEL";
-            messageBody.text = pain ?
-                "Please consider resting before continuing.\n\nYou may review your ratings or return to the main menu.\nYour safety and comfort are our priority.\n\nIf you continue, performance indicators will be hidden." :
-                "Take a moment to relax before continuing.\n\nYou may proceed when you feel ready or review your ratings.\n\nYour score and progress will be hidden during the session to reduce pressure.";
+            messageTitle.text = pain && stress ? "HIGH PAIN AND STRESS REPORTED" :
+                pain ? "HIGH PAIN REPORTED" : "HIGH STRESS REPORTED";
+            messageTitle.color = HighColour;
+            messageBody.text = pain && stress ?
+                "Consider resting and take a moment to relax.\n\nYou can review your ratings or return to the menu.\n\nIf you continue, score and progress indicators will be hidden." :
+                pain ? "Consider resting before continuing.\n\nYou can review your ratings or return to the menu.\n\nScore and progress indicators will be hidden.\nMove gently and stop if you feel discomfort." :
+                "Take a moment to relax. Continue when you feel ready.\n\nYou can review your ratings or return to the menu.\n\nScore and progress indicators will be hidden.";
             messageIcon.sprite = pain ? painAlertIcon : stressAlertIcon;
-            messageIcon.color = pain ? Purple : Cyan;
+            messageIcon.color = HighColour;
             messageOverlay.SetActive(true);
             ClearSelection();
         }
         public void Acknowledge()
         {
             if (!MessageOpen || IrisSceneTransition.IsBusy) return;
-            if (showingPain) painAcknowledged = true; else stressAcknowledged = true;
+            if (showingPain) painAcknowledged = true;
+            if (showingStress) stressAcknowledged = true;
             messageOverlay.SetActive(false);
             ContinueAfterMessages();
         }

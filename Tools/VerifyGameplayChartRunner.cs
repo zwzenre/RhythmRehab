@@ -11,25 +11,25 @@ public static class VerifyGameplayChartRunner
     public static string Main()
     {
         int checks=0;Action<bool,string> check=(ok,message)=>{if(!ok)throw new Exception(message);checks++;};
-        foreach(var sample in new[]{new[]{0.0,1000.0},new[]{.1,700.0},new[]{.18,400.0}})
+        foreach(var sample in new[]{new[]{0.0,3333.0},new[]{.1,2667.0},new[]{.18,1667.0}})
         {
             var r=Runner();int events=0;r.NoteResolved+=_=>events++;
-            check(r.TryHit(1+sample[0],0),"Tap consumed");check(r.Summary.score==(int)sample[1]&&events==1,"Tap timing and event preserved");
-            check(!r.TryHit(1,0)&&events==1,"Tap cannot be scored twice");
+            check(r.TryHit(1+sample[0],ChartNote.LowTargetHeight),"Tap consumed");check(r.Summary.score==(int)sample[1]&&events==1,"Tap timing and event preserved");
+            check(!r.TryHit(1,ChartNote.LowTargetHeight)&&events==1,"Tap cannot be scored twice");
         }
         var runner=Runner();int resolved=0,started=0;runner.NoteResolved+=_=>resolved++;runner.HoldStarted+=(_,__)=>started++;
-        check(runner.TryHit(2.5,.5f)&&started==1&&runner.ActiveHoldIndex==1,"Hold head starts once");
+        check(runner.TryHit(2.5,ChartNote.MidTargetHeight)&&started==1&&runner.ActiveHoldIndex==1,"Hold head starts once");
         check(resolved==0&&runner.Summary.score==0&&runner.Combo==0,"No premature hold judgement");
-        check(!runner.TryHit(2.5,.5f),"Held note cannot restart");
-        check(runner.UpdateHold(3,.5f,true)==HoldOutcome.Holding,"Hold maintains height");
-        check(runner.UpdateHold(3.5,.5f,false)==HoldOutcome.Completed,"Tail completion accepts release");
-        check(resolved==1&&runner.Summary.score==1000&&runner.Summary.completedHolds==1&&runner.Combo==1,"Hold scores once on completion");
+        check(!runner.TryHit(2.5,ChartNote.MidTargetHeight),"Held note cannot restart");
+        check(runner.UpdateHold(3,ChartNote.MidTargetHeight,true)==HoldOutcome.Holding,"Hold maintains height");
+        check(runner.UpdateHold(3.5,ChartNote.MidTargetHeight,false)==HoldOutcome.Completed,"Tail completion accepts release");
+        check(resolved==1&&runner.Summary.score==3333&&runner.Summary.completedHolds==1&&runner.Combo==1,"Hold scores once on completion");
         runner.UpdateHold(4,.5f,true);check(resolved==1,"Repeated tail calls do nothing");
-        runner=Runner();runner.TryHit(2.5,.5f);check(runner.UpdateHold(3,.5f,false)==HoldOutcome.Broken&&runner.Summary.brokenHolds==1&&runner.Summary.score==0,"Early release gives one Miss");
+        runner=Runner();runner.TryHit(2.5,ChartNote.MidTargetHeight);check(runner.UpdateHold(3,ChartNote.MidTargetHeight,false)==HoldOutcome.Broken&&runner.Summary.brokenHolds==1&&runner.Summary.score==0,"Early release gives one Miss");
         foreach(double error in new[]{.1,.18})
         {
-            runner=Runner();runner.TryHit(2.5+error,.5f);runner.UpdateHold(3.5,.5f,true);
-            check(runner.Summary.score==(error==.1?700:400),"Hold retains Great/Good head timing");
+            runner=Runner();runner.TryHit(2.5+error,ChartNote.MidTargetHeight);runner.UpdateHold(3.5,ChartNote.MidTargetHeight,true);
+            check(runner.Summary.score==(error==.1?2667:1667),"Hold retains Great/Good head timing");
         }
         runner=Runner();runner.TryHit(2.5,.5f);runner.UpdateHold(2.6,1,true);
         check(runner.UpdateHold(2.75,1,true)==HoldOutcome.Broken,"Sustained height mismatch fails");

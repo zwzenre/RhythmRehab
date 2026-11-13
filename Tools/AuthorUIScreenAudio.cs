@@ -14,7 +14,7 @@ public static class AuthorUIScreenAudio
  public static string Main(){
   if(EditorApplication.isPlaying)throw new Exception("Stop Play mode first.");
   var active=SceneManager.GetActiveScene();if(active.isDirty)throw new Exception("Save current scene first.");string original=active.path;
-  var click=Clip("mixkit-mouse-click-close-1113.wav");
+  var click=Clip("vadim_makes_sound-soft-app-button-tap-sound-2-547872.mp3");
   var tracks=new[]{Clip("orvien-electronic-corporate-612068.mp3"),Clip("serenomusic-chill-electronic-610173.mp3"),Clip("si-xue-de-xing-edm-09-345572.mp3")};
   var report=new List<string>();
   foreach(var path in EditorBuildSettings.scenes){if(!path.enabled)continue;

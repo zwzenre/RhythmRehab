@@ -39,13 +39,21 @@ namespace RhythmRehab
             };
         }
         public static void Skip() => current = new WellbeingResponse { skipped = true, recordedUtc = DateTime.UtcNow.ToString("O") };
+        public static string ScenarioLabel(WellbeingResponse response)
+        {
+            if (response == null || response.skipped) return "Not assessed";
+            if (response.highPain && response.highStress) return "High Pain & Stress";
+            if (response.highPain) return "High Pain";
+            if (response.highStress) return "High Stress";
+            return "Normal";
+        }
         public static string GameplayMessage(WellbeingResponse response)
         {
-            if (response == null || response.skipped) return null;
-            if (response.highPain && response.highStress) return "Move gently and stop if you feel discomfort. Take your time and follow the rhythm comfortably.";
-            if (response.highPain) return "Please perform the exercise gently and stop if you experience discomfort.";
-            if (response.highStress) return "Take your time and focus on following the rhythm comfortably. Your score will not be displayed.";
-            return null;
+            if (response == null || response.skipped) return "Follow the rhythm and raise your leg to the target height.";
+            if (response.highPain && response.highStress) return "Move gently and take your time. Pause or stop whenever you need.";
+            if (response.highPain) return "Move gently within a comfortable range. Stop if you feel pain or discomfort.";
+            if (response.highStress) return "Take your time and focus on the rhythm. There is no need to worry about your score.";
+            return "Follow the rhythm and raise your leg to the target height.";
         }
     }
 }

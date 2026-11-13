@@ -1,0 +1,90 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e1c23f271f15f374f849d4625bb62c4e, type: 3}
+  m_Name: ClassicalSongs
+  m_EditorClassIdentifier: Assembly-CSharp::RhythmRehab.SongCatalog
+  songs:
+  - id: classical-beethoven_furelise
+    title: "F\xFCr Elise"
+    artist: Ludwig van Beethoven
+    bpm: 144
+    coverColor: {r: 1, g: 1, b: 1, a: 1}
+    cover: {fileID: 21300000, guid: 247031429205aca41ac201b668e07eef, type: 3}
+    audio: {fileID: 8300000, guid: 07031f62a5fb24548a4cf4d93e9e6911, type: 3}
+    audioLeadInSeconds: 4
+    therapyChart: {fileID: 11400000, guid: c84c7aba4748bad479f85f5542e55703, type: 2}
+    easyChart: {fileID: 11400000, guid: 636298ee369e89745a6db4bd3907a7c5, type: 2}
+    mediumChart: {fileID: 11400000, guid: 7872eb275dea503489ddf71d92a2fc0f, type: 2}
+    hardChart: {fileID: 11400000, guid: 8c216b4607ca110408a151a6300e9ee6, type: 2}
+    recordingCredit: amclassical.com
+    previewStartSeconds: 8
+    previewDurationSeconds: 20
+  - id: classical-pachelbel_canonind
+    title: Canon in D
+    artist: Johann Pachelbel
+    bpm: 92
+    coverColor: {r: 1, g: 1, b: 1, a: 1}
+    cover: {fileID: 21300000, guid: 47d5a92a02d3e5c448f83f4c7bf99d81, type: 3}
+    audio: {fileID: 8300000, guid: 452f68208ecb6cd4d9d95a9807429edd, type: 3}
+    audioLeadInSeconds: 4
+    therapyChart: {fileID: 11400000, guid: 9407eebeb90253f418336191aab9cfc7, type: 2}
+    easyChart: {fileID: 11400000, guid: 1fa10087d2b273a4f97d8117e78d2844, type: 2}
+    mediumChart: {fileID: 11400000, guid: 5fd1ed315bebe5348a48fd36b0c4a375, type: 2}
+    hardChart: {fileID: 11400000, guid: 9940beeb0c333f04bb89cfa179dfa86b, type: 2}
+    recordingCredit: amclassical.com
+    previewStartSeconds: 32
+    previewDurationSeconds: 20
+  - id: classical-bach_preludeinc
+    title: Prelude in C
+    artist: Johann Sebastian Bach
+    bpm: 65.9
+    coverColor: {r: 1, g: 1, b: 1, a: 1}
+    cover: {fileID: 21300000, guid: 4c6232f87589322489b6d600c73a990e, type: 3}
+    audio: {fileID: 8300000, guid: d705dc7c9b3316d4d8981cb446a220f4, type: 3}
+    audioLeadInSeconds: 4
+    therapyChart: {fileID: 11400000, guid: 2fdc4d253d4254a49b46b6ae9bb08ab5, type: 2}
+    easyChart: {fileID: 11400000, guid: 400cc58571d3b944d9ca33184dfe1ded, type: 2}
+    mediumChart: {fileID: 11400000, guid: 19ef22746a4b6bf4985013b9ddd61db0, type: 2}
+    hardChart: {fileID: 11400000, guid: e6b70942b3e759d4b95222cba1e16bbb, type: 2}
+    recordingCredit: amclassical.com
+    previewStartSeconds: 8
+    previewDurationSeconds: 20
+  - id: classical-mozart_sonatak545_rondo
+    title: Rondo K.545
+    artist: Wolfgang Amadeus Mozart
+    bpm: 87.8
+    coverColor: {r: 1, g: 1, b: 1, a: 1}
+    cover: {fileID: 21300000, guid: 10d49e00ee29305418bca278b19ceddc, type: 3}
+    audio: {fileID: 8300000, guid: 8b8a3f45aa2d15b4ca1b0b1840441104, type: 3}
+    audioLeadInSeconds: 4
+    therapyChart: {fileID: 11400000, guid: bc7eb9addf1add446807bbe644ef6952, type: 2}
+    easyChart: {fileID: 11400000, guid: eea007e74412e6b4bbe4464aa7d45d17, type: 2}
+    mediumChart: {fileID: 11400000, guid: 3681f6568353fbc4ea325212ed3491d5, type: 2}
+    hardChart: {fileID: 11400000, guid: fbb5443954132bc44987f0640c245fad, type: 2}
+    recordingCredit: amclassical.com
+    previewStartSeconds: 8
+    previewDurationSeconds: 20
+  - id: classical-chopin_preludeineminor
+    title: Prelude in E minor
+    artist: "Fr\xE9d\xE9ric Chopin"
+    bpm: 120
+    coverColor: {r: 1, g: 1, b: 1, a: 1}
+    cover: {fileID: 21300000, guid: e2617ec6a998305499999ed14bc09eb7, type: 3}
+    audio: {fileID: 8300000, guid: 172c39d22f09cb04e831781442b6eb7b, type: 3}
+    audioLeadInSeconds: 4
+    therapyChart: {fileID: 11400000, guid: ba61964e1a37c7749977f8b0e709160f, type: 2}
+    easyChart: {fileID: 11400000, guid: 340a0a8c6ec0f774398313b4ec94e2e6, type: 2}
+    mediumChart: {fileID: 11400000, guid: 7552dd38571901e4289e0787e5a6e46f, type: 2}
+    hardChart: {fileID: 11400000, guid: 90d9f8ed633ae9640aebdbf433d0012e, type: 2}
+    recordingCredit: amclassical.com
+    previewStartSeconds: 8
+    previewDurationSeconds: 20

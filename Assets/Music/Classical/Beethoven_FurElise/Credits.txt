@@ -1,0 +1,18 @@
+Fur Elise
+Composer: Ludwig van Beethoven
+
+Recording and source MIDI: A-M Classical
+https://amclassical.com/
+Licence: Creative Commons Attribution 3.0 United States
+https://creativecommons.org/licenses/by/3.0/us/
+Source licensing statement: https://amclassical.com/creativecommons.shtml
+MP3: https://amclassical.com/mp3/amclassical_beethoven_fur_elise.mp3
+MIDI: https://amclassical.com/midi/beethoven_furelise.mid
+Original recording and MIDI downloaded on 2026-11-05. The unchanged full recording is retained at Sources/Original.mp3. The playable MP3 is a shortened 192 kbps excerpt from the start to 123.292 seconds, with a 2-second fade-out, prepared by RhythmRehab on 2026-11-05.
+
+Cover image: Portrait of Beethoven, Joseph Karl Stieler, 1820. Public-domain reproduction.
+https://commons.wikimedia.org/wiki/File:Beethoven.jpg
+Public Domain Mark: https://creativecommons.org/publicdomain/mark/1.0/
+Original downloaded image is retained; Unity scales the image to fit the song card while preserving its aspect ratio.
+
+Game charts: RhythmRehab, created from the source MIDI tempo map and aligned to the recording waveform. These are gameplay arrangements with reduced note density, melodic height contours and added hold gestures. They are not transcriptions for musical performance.

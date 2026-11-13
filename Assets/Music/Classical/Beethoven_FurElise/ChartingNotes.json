@@ -1,0 +1,34 @@
+{
+  "folder": "Beethoven_FurElise",
+  "mp3": "FurElise.mp3",
+  "title": "Für Elise",
+  "artist": "Ludwig van Beethoven",
+  "bpm": 144,
+  "leadIn": 4,
+  "audioDuration": 123.3241,
+  "shortened": true,
+  "fadeOutSeconds": 2,
+  "alignment": {
+    "offsetSeconds": -1.131953,
+    "scale": 1,
+    "meanAttackDistanceMs": 5.65534
+  },
+  "charts": {
+    "Therapy": {
+      "notes": 42,
+      "holds": 5
+    },
+    "Easy": {
+      "notes": 47,
+      "holds": 6
+    },
+    "Medium": {
+      "notes": 71,
+      "holds": 9
+    },
+    "Hard": {
+      "notes": 96,
+      "holds": 12
+    }
+  }
+}

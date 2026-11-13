@@ -33,7 +33,7 @@ namespace RhythmRehab
         public event Action<int, HitJudgement> HoldStarted;
 
         public GameplayChartRunner(ChartNote[] chart, float bpm, float approach, float tolerance, double timingScale,
-            float offset, float holdGrace, SessionSummary summary)
+            float offset, float holdGrace, SessionSummary summary, float minimumDuration = 0)
         {
             if (chart == null || chart.Length == 0) throw new ArgumentException("A chart needs at least one note.");
             Chart = chart; Summary = summary; SecondsPerBeat = 60f / Math.Max(1, bpm);
@@ -42,7 +42,7 @@ namespace RhythmRehab
             summary.totalNotes = chart.Length; summary.holdNotes = 0;
             float end = 0;
             foreach (var note in chart) { end = Math.Max(end, note.EndBeat * SecondsPerBeat); if (note.IsHold) summary.holdNotes++; }
-            EndTime = end + .75f;
+            EndTime = Math.Max(end + .75f, minimumDuration);
         }
         public bool IsResolved(int index) => resolved[index];
         public void Advance(double time, float height, bool held)
@@ -52,14 +52,16 @@ namespace RhythmRehab
                 if (!resolved[i] && i != ActiveHoldIndex && time - Chart[i].beat * SecondsPerBeat - JudgementOffset > HitWindow)
                     Resolve(i, HitJudgement.Miss, "Keep going");
         }
-        public bool TryHit(double time, float height)
+        public bool TryHit(double time, float height, bool automatic = false)
         {
             if (ActiveHoldIndex >= 0) return false;
             int candidate = -1; double closest = HitWindow + .000001;
             for (int i = 0; i < Chart.Length; i++)
             {
                 if (resolved[i]) continue;
-                double error = Math.Abs(RhythmPreferences.TimingError(time, Chart[i].beat * SecondsPerBeat, JudgementOffset));
+                double timing = RhythmPreferences.TimingError(time, Chart[i].beat * SecondsPerBeat, JudgementOffset);
+                if (automatic && (timing < 0 || Math.Abs(height - Chart[i].TargetHeight) > HeightTolerance)) continue;
+                double error = Math.Abs(timing);
                 if (error <= closest) { closest = error; candidate = i; }
             }
             if (candidate < 0) return false;

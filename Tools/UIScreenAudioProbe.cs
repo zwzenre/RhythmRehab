@@ -27,15 +27,19 @@ public static class UIScreenAudioProbe
    var clicks=(AudioSource)typeof(UIScreenAudio).GetField("clickSource",flags).GetValue(audio);
    var tracks=(AudioClip[])typeof(UIScreenAudio).GetField("backgroundTracks",flags).GetValue(audio);
    var settings=LocalSettingsStore.Default.Load(out var error);Check(error==null,"Settings readable");
-   Check(clicks&&clicks.clip.name=="mixkit-mouse-click-close-1113"&&!clicks.loop&&!clicks.playOnAwake&&clicks.spatialBlend==0,"Correct UI click source");
+   Check(clicks&&clicks.clip.name=="vadim_makes_sound-soft-app-button-tap-sound-2-547872"&&!clicks.loop&&!clicks.playOnAwake&&clicks.spatialBlend==0,"Correct UI click source");
    Check(Mathf.Abs(clicks.volume-settings.sfxVolume)<.001f,"Clicks follow saved SFX volume");
    var selectables=SceneManager.GetActiveScene().GetRootGameObjects().SelectMany(r=>r.GetComponentsInChildren<Selectable>(true)).ToArray();
    foreach(var control in selectables){var sound=control.GetComponent<UIClickSound>();Check(sound&&typeof(UIClickSound).GetField("screenAudio",flags).GetValue(sound)==audio,"Control has local saved click reference");}
-   var button=selectables.First(s=>s is Button&&s.gameObject.activeInHierarchy&&s.IsInteractable());var listener=button.GetComponent<UIClickSound>();
-   int before=audio.ClickCount;listener.OnPointerClick(new PointerEventData(EventSystem.current){button=PointerEventData.InputButton.Left});Check(audio.ClickCount==before+1,"Left click plays sound");
-   listener.OnPointerClick(new PointerEventData(EventSystem.current){button=PointerEventData.InputButton.Right});Check(audio.ClickCount==before+1,"Right click ignored");
-   listener.OnSubmit(new BaseEventData(EventSystem.current));Check(audio.ClickCount==before+2,"Keyboard submit plays click");
-   bool enabled=button.interactable;button.interactable=false;listener.OnPointerClick(new PointerEventData(EventSystem.current));Check(audio.ClickCount==before+2,"Disabled controls stay silent");button.interactable=enabled;
+   var probe = new GameObject("Click probe", typeof(RectTransform), typeof(Button), typeof(UIClickSound));
+   var button = probe.GetComponent<Button>();
+   typeof(UIClickSound).GetField("screenAudio",flags).SetValue(probe.GetComponent<UIClickSound>(),audio);
+   int before=audio.ClickCount;
+   ExecuteEvents.Execute(probe,new PointerEventData(EventSystem.current){button=PointerEventData.InputButton.Left},ExecuteEvents.pointerClickHandler);Check(audio.ClickCount==before+1,"Left click plays sound");
+   ExecuteEvents.Execute(probe,new PointerEventData(EventSystem.current){button=PointerEventData.InputButton.Right},ExecuteEvents.pointerClickHandler);Check(audio.ClickCount==before+1,"Right click ignored");
+   ExecuteEvents.Execute(probe,new BaseEventData(EventSystem.current),ExecuteEvents.submitHandler);Check(audio.ClickCount==before+2,"Keyboard submit plays click");
+   button.interactable=false;ExecuteEvents.Execute(probe,new PointerEventData(EventSystem.current),ExecuteEvents.pointerClickHandler);Check(audio.ClickCount==before+2,"Disabled controls stay silent");
+   UnityEngine.Object.Destroy(probe);
    if(scenes[index]=="Gameplay"){
     Check(!music&&tracks.Length==0&&!audio.CurrentTrack&&!audio.BackgroundPlaying,"Gameplay has no menu music");
     var game=UnityEngine.Object.FindAnyObjectByType<PrototypeGameplay>();game.enabled=false;
@@ -43,7 +47,7 @@ public static class UIScreenAudioProbe
    }else{
     Check(music&&tracks.Length==3&&tracks.Contains(audio.CurrentTrack),"Random track chosen from three saved music clips");
     Check(music.loop&&music.spatialBlend==0&&audio.BackgroundPlaying,"Selected background track loops and plays");
-    Check(Mathf.Abs(music.volume-settings.beatVolume)<.001f,"Background follows saved music volume");
+    Check(Mathf.Abs(music.volume-settings.musicVolume)<.001f,"Background follows saved music volume");
     if(scenes[index]=="RhythmCalibration"){
      var calibration=UnityEngine.Object.FindAnyObjectByType<RhythmCalibrationController>();calibration.TogglePreview();Check(calibration.IsPlaying&&!audio.BackgroundPlaying,"Practice pauses background music");calibration.StopPreview();Check(audio.BackgroundPlaying,"Stopping practice resumes background music");
     }

@@ -17,7 +17,7 @@ public static class VerifyLocalSettings
             var store = new LocalSettingsStore(path, false);
             var initial = store.Load(out var error);
             check(error == null && File.Exists(path), "First launch creates settings JSON");
-            check(initial.beatVolume == .65f && initial.sfxVolume == .7f && initial.noteSpeed == 1 && initial.judgementOffsetMs == 0, "Defaults");
+            check(initial.musicVolume == .85f && initial.beatVolume == .25f && initial.sfxVolume == .7f && initial.noteSpeed == 1 && initial.judgementOffsetMs == 0, "Defaults");
             check(store.TrySaveVolumes(.23f, .81f, out error), "Save audio");
             check(store.TrySaveRhythm(-95, 1.65f, out error), "Save rhythm");
             var restored = new LocalSettingsStore(path, false).Load(out error);
@@ -36,7 +36,7 @@ public static class VerifyLocalSettings
             check(!store.TrySaveRhythm(0, 1, out error), "Unknown schema protected");
             File.Delete(path);
             var migrated = new LocalSettingsStore(path).Load(out error);
-            check(error == null && migrated.beatVolume == Mathf.Clamp01(PlayerPrefs.GetFloat("RhythmRehab.BeatVolume", .65f)) &&
+            check(error == null && migrated.beatVolume == .25f && migrated.musicVolume == Mathf.Clamp01(PlayerPrefs.GetFloat("RhythmRehab.BeatVolume", .85f)) &&
                 migrated.noteSpeed == Mathf.Clamp(PlayerPrefs.GetFloat(RhythmPreferences.SpeedKey, 1), .5f, 2), "Existing PlayerPrefs migrate");
             return checks + " settings persistence checks passed; user files and preferences unchanged.";
         }

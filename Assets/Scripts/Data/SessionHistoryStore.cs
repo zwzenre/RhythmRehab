@@ -47,6 +47,22 @@ namespace RhythmRehab
             if (error != null) return false; // Never overwrite unreadable history.
             if (sessions.Exists(s => s.sessionId == summary.sessionId)) return true;
             sessions.Add(JsonUtility.FromJson<SessionSummary>(JsonUtility.ToJson(summary)));
+            return TryWrite(sessions, out error);
+        }
+
+        public bool TryDelete(IEnumerable<string> sessionIds, out string error)
+        {
+            if (sessionIds == null) { error = "Choose session records to delete."; return false; }
+            var ids = new HashSet<string>(sessionIds);
+            var sessions = Load(out error);
+            if (error != null) return false;
+            if (sessions.RemoveAll(s => ids.Contains(s.sessionId)) == 0) return true;
+            return TryWrite(sessions, out error);
+        }
+
+        private bool TryWrite(List<SessionSummary> sessions, out string error)
+        {
+            error = null;
             var temp = FilePath + ".tmp";
             try
             {

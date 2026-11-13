@@ -1,0 +1,34 @@
+{
+  "folder": "Chopin_PreludeInEMinor",
+  "mp3": "PreludeInEMinor.mp3",
+  "title": "Prelude in E minor",
+  "artist": "Frédéric Chopin",
+  "bpm": 120,
+  "leadIn": 4,
+  "audioDuration": 130.0114,
+  "shortened": false,
+  "fadeOutSeconds": 0,
+  "alignment": {
+    "offsetSeconds": 2.045306,
+    "scale": 1,
+    "meanAttackDistanceMs": 10.822785
+  },
+  "charts": {
+    "Therapy": {
+      "notes": 40,
+      "holds": 5
+    },
+    "Easy": {
+      "notes": 44,
+      "holds": 8
+    },
+    "Medium": {
+      "notes": 61,
+      "holds": 9
+    },
+    "Hard": {
+      "notes": 86,
+      "holds": 14
+    }
+  }
+}

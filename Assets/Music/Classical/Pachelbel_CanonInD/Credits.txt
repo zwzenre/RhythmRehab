@@ -1,0 +1,18 @@
+Canon in D
+Composer: Johann Pachelbel
+
+Recording and source MIDI: A-M Classical
+https://amclassical.com/
+Licence: Creative Commons Attribution 3.0 United States
+https://creativecommons.org/licenses/by/3.0/us/
+Source licensing statement: https://amclassical.com/creativecommons.shtml
+MP3: https://amclassical.com/mp3/amclassical_pachelbel_canon_in_d.mp3
+MIDI: https://amclassical.com/midi/pachelbel_canon.mid
+Original recording and MIDI downloaded on 2026-11-05. The unchanged full recording is retained at Sources/Original.mp3. The playable MP3 is a shortened 192 kbps excerpt from the start to 120 seconds, with a 3.09-second fade-out, prepared by RhythmRehab on 2026-11-05.
+
+Cover image: Canon manuscript Mus.MS 16481-8, page 1. Music by Johann Pachelbel; anonymous copy; scan from Staatsbibliothek zu Berlin via IMSLP and Wikimedia Commons. Public domain.
+https://commons.wikimedia.org/wiki/File:Pachelbel%27s_Canon_-_Mus.MS_16481-8_Page_1.jpg
+Public Domain Mark: https://creativecommons.org/publicdomain/mark/1.0/
+Original downloaded image is retained; Unity scales the image to fit the song card while preserving its aspect ratio.
+
+Game charts: RhythmRehab, created from the source MIDI tempo map and aligned to the recording waveform. These are gameplay arrangements with reduced note density, melodic height contours and added hold gestures. They are not transcriptions for musical performance.

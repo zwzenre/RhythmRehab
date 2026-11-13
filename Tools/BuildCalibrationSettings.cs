@@ -161,7 +161,7 @@ public static class BuildCalibrationSettings
   var connect=Button(left.transform,"ConnectButton",0,-175,660,70,"CONNECT SENSOR");connect.interactable=false;
   Text(left.transform,"Unavailable",0,-245,720,50,"Controls will be enabled when real hardware is integrated.",22,Muted,true);
   var right=Panel(c,"AvailableDevices",450,-25,860,590);Text(right.transform,"Title",-110,235,550,60,"AVAILABLE DEVICES",29,Cyan);
-  Button(right.transform,"ScanButton",290,235,210,65,"SCAN",controller.Scan,true);
+  Button(right.transform,"ScanButton",290,235,210,65,"SCAN",controller.Connect,true);
   var empty=Panel(right.transform,"EmptyDevices",0,55,760,205,new Color(.05f,.065f,.13f));Icon(empty.transform,"Device","bluetooth",-260,0,74,Muted);
   Text(empty.transform,"Text",75,0,540,150,"NO LIVE DEVICE DATA\nFirmware is not connected.",29,Muted,true);
   Bind(controller,"status",Text(right.transform,"FrameworkStatus",0,-165,750,160,"The device list, scan action and connection controls are ready for future hardware integration.\nNo device connection is simulated.",25,Muted));

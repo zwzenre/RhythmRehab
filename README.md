@@ -1,6 +1,6 @@
 # RhythmRehab
 
-A Unity rehabilitation rhythm-game prototype with a space theme. Players match incoming notes by controlling a height marker and pressing Space. The current version uses mouse input while sensor integration is under development.
+A Unity rehabilitation rhythm-game prototype with a space theme. Players match incoming notes using mouse and keyboard or a calibrated Bluetooth shin sensor.
 
 ## Open the project
 
@@ -12,11 +12,14 @@ A Unity rehabilitation rhythm-game prototype with a space theme. Players match i
 ## Prototype controls
 
 - Move the mouse up/down to control the height marker.
-- Press Space when a note reaches the judgement line at the matching height.
-- For hold notes, keep Space held and maintain the height until the tail ends.
+- Press Space, or a configured hit key, when a note reaches the judgement line at the matching height. Settings supports up to two hit keys.
+- For hold notes, keep a hit key held and maintain the height until the tail ends.
 - Use Escape or the Pause button to pause gameplay.
+- For sensor play, connect GAIT-SHANK and capture resting and raised references in Sensor Calibration. Notes are hit automatically at the matching height.
 
-Therapy Mode keeps notes at the selected target height. Free Mode uses varied heights and difficulty levels. The prototype includes mode previews, a wellbeing check-in, local JSON settings and session history, rhythm calibration, hit feedback and space-themed visual effects. Song entries currently use generated tempo beats. Sensor connection and calibration are frameworks awaiting device integration.
+Therapy Mode keeps notes at the selected target height. Free Mode uses varied heights and difficulty levels. The prototype includes mode previews, a wellbeing check-in, local JSON settings and session history, rhythm calibration, hit feedback and space-themed visual effects. The classical collection includes licensed recordings of Für Elise, Canon in D and Bach’s Prelude in C, plus Mozart’s Rondo K.545 and Chopin’s Prelude in E minor, with individual Easy, Medium, Hard and Therapy charts for all five songs. Every session fits within 2:30.
+
+Gameplay includes in-session audio and sensor settings, four wellbeing scenarios, and a sensor-removal reminder when leaving sensor play. Performance History supports selecting and deleting local records with confirmation. Music, beat/hit and UI volumes are separate; music uses a gentler volume curve across menus, previews and gameplay.
 
 ## Project folders
 

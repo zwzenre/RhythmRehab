@@ -5,17 +5,51 @@ namespace RhythmRehab
     public sealed class GameplayAudio : MonoBehaviour
     {
         [SerializeField] private AudioSource beatSource;
+        [SerializeField] private AudioSource musicSource;
         [SerializeField] private AudioSource hitSource;
         private AudioClip beatClip, adjustedHitClip, originalHitClip;
-        public void Initialize(LocalSettings settings, float bpm, float duration, double startDsp)
+        private double scheduledDsp, remainingLead;
+        private bool audioPaused, waitingToStart;
+        private AudioSource playbackSource;
+        public AudioSource MusicSource => musicSource;
+        public AudioSource BeatSource => beatSource;
+        public AudioSource HitSource => hitSource;
+        public void Initialize(LocalSettings settings, float bpm, float duration, double startDsp, AudioClip song = null, float leadIn = 0)
         {
-            beatSource.volume = settings.beatVolume; hitSource.volume = settings.sfxVolume;
+            ApplyVolumes(settings.musicVolume, settings.beatVolume);
+            musicSource.Stop(); beatSource.Stop();
             originalHitClip = hitSource.clip; adjustedHitClip = HitSoundTiming.Adjust(originalHitClip, settings.hitSoundOffsetMs);
-            beatClip = MakeMetronome(bpm, duration); beatSource.clip = beatClip; beatSource.PlayScheduled(startDsp);
+            playbackSource = song ? musicSource : beatSource;
+            if (song) musicSource.clip = song;
+            else { beatClip = MakeMetronome(bpm, duration); beatSource.clip = beatClip; }
+            scheduledDsp = startDsp + (song ? leadIn : 0); audioPaused = waitingToStart = false;
+            playbackSource.PlayScheduled(scheduledDsp);
         }
         public void PlayHit() { if (adjustedHitClip) hitSource.PlayOneShot(adjustedHitClip); }
-        public void SetPaused(bool paused) { if (paused) { beatSource.Pause(); hitSource.Pause(); } else { beatSource.UnPause(); hitSource.UnPause(); } }
-        public void Stop() { beatSource.Stop(); hitSource.Stop(); }
+        public void ApplyVolumes(float music, float beat)
+        {
+            musicSource.volume = AudioVolume.MusicGain(music);
+            beatSource.volume = hitSource.volume = beat;
+        }
+        public void SetPaused(bool paused)
+        {
+            if (paused == audioPaused) return;
+            audioPaused = paused;
+            if (paused)
+            {
+                waitingToStart = AudioSettings.dspTime < scheduledDsp;
+                if (waitingToStart) { remainingLead = scheduledDsp - AudioSettings.dspTime; playbackSource.Stop(); }
+                else playbackSource.Pause();
+                hitSource.Pause();
+            }
+            else
+            {
+                if (waitingToStart) { scheduledDsp = AudioSettings.dspTime + remainingLead; playbackSource.PlayScheduled(scheduledDsp); waitingToStart = false; }
+                else playbackSource.UnPause();
+                hitSource.UnPause();
+            }
+        }
+        public void Stop() { musicSource.Stop(); beatSource.Stop(); hitSource.Stop(); audioPaused = waitingToStart = false; }
         private static AudioClip MakeMetronome(float bpm, float duration)
         {
             const int rate = 22050; var samples = new float[Mathf.CeilToInt(duration * rate)];

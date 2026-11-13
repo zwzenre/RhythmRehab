@@ -21,11 +21,29 @@ public static class VerifyRhythmPrototype
         var s=new SessionSummary {totalNotes=8};
         s.Record(HitJudgement.Perfect);s.Record(HitJudgement.Great);s.Record(HitJudgement.Good);s.Record(HitJudgement.Miss);
         check(s.Judged==4,"judgement total");
-        check(s.score==2100,"score weights");
+        check(s.score==2875,"normalized partial-chart score");
         check(Math.Abs(s.Accuracy-0.575f)<0.00001,"weighted accuracy");
         check(Math.Abs(s.Completion-0.5f)<0.00001,"partial session completion");
         check(new SessionSummary().Accuracy==0,"empty accuracy");
         check(new SessionSummary().Completion==0,"empty completion");
+        foreach (int count in new[] { 1, 3, 7, 32, 137 })
+        {
+            foreach (var judgement in new[] { HitJudgement.Perfect, HitJudgement.Great, HitJudgement.Good, HitJudgement.Miss })
+            {
+                var full = new SessionSummary { totalNotes = count };
+                for (int i = 0; i < count; i++) full.Record(judgement);
+                int expected = judgement == HitJudgement.Perfect ? 10000 : judgement == HitJudgement.Great ? 8000 : judgement == HitJudgement.Good ? 5000 : 0;
+                check(full.score == expected, "Chart length does not change judgement weighting");
+            }
+        }
+        var fractional = new SessionSummary { totalNotes = 3 };
+        fractional.Record(HitJudgement.Perfect);check(fractional.score == 3333, "First fractional note");
+        fractional.Record(HitJudgement.Perfect);check(fractional.score == 6667, "Accumulate before rounding");
+        fractional.Record(HitJudgement.Perfect);check(fractional.score == 10000, "No rounding loss at chart completion");
+        var saved = UnityEngine.JsonUtility.FromJson<SessionSummary>(UnityEngine.JsonUtility.ToJson(s));
+        check(saved.score == 2875, "New score survives save and reload");
+        var legacy = UnityEngine.JsonUtility.FromJson<SessionSummary>("{\"totalNotes\":8,\"score\":2100,\"perfect\":1,\"great\":1,\"good\":1,\"miss\":1}");
+        check(legacy.score == 2100, "Existing saved score preserved");
         return checks+" rhythm rules and session metric checks passed";
     }
 }

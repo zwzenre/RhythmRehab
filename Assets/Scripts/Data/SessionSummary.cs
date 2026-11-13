@@ -25,6 +25,7 @@ namespace RhythmRehab
         public int holdNotes;
         public int completedHolds;
         public int brokenHolds;
+        public bool sensorHeightControl;
         public WellbeingResponse wellbeing;
         [NonSerialized] public string historySaveError;
         public int Judged => perfect + great + good + miss;
@@ -41,7 +42,14 @@ namespace RhythmRehab
                 case HitJudgement.Good: good++; break;
                 default: miss++; break;
             }
-            score += RhythmRules.Points(judgement);
+            double earned = perfect * (double)RhythmRules.Points(HitJudgement.Perfect)
+                + great * (double)RhythmRules.Points(HitJudgement.Great)
+                + good * (double)RhythmRules.Points(HitJudgement.Good);
+            // Round the accumulated score once so charts with fractional note values
+            // still finish at exactly 10,000 for an all-Perfect performance.
+            score = totalNotes <= 0 ? 0 : (int)Math.Round(
+                RhythmRules.MaximumScore * earned / (totalNotes * (double)RhythmRules.Points(HitJudgement.Perfect)),
+                MidpointRounding.AwayFromZero);
         }
     }
 }

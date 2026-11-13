@@ -15,6 +15,9 @@ EditorBuildSettings:
     path: Assets/Scenes/Gameplay.unity
     guid: a30ddfbd4d866f64db8d52f79a743346
   - enabled: 1
+    path: Assets/Scenes/SensorRemoval.unity
+    guid: 61c7773281bd60a4a9c2e1b97aa9427f
+  - enabled: 1
     path: Assets/Scenes/Settings.unity
     guid: 002ca6bedf1e13f41b85b383fa2b47d4
   - enabled: 1

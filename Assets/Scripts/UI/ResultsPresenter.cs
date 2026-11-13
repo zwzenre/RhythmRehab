@@ -21,18 +21,19 @@ namespace RhythmRehab
                 grade.text = "—";
                 performance.text = "No completed session yet.\n\nChoose PLAY AGAIN to try the prototype.";
                 judgements.text = "PERFECT   —     GREAT   —\n\nGOOD       —     NOTES TO PRACTISE   —";
-                recommendation.text = "MOUSE PROTOTYPE\n\nSensor movement and ROM\nare not measured in this mode.";
+                recommendation.text = "NO COMPLETED SESSION\n\nComplete a session to view feedback.\nKnee-joint ROM is not measured.";
                 return;
             }
-            overall.text = s.Accuracy.ToString("P0");
+            overall.text = s.Judged == 0 ? "—" : s.Accuracy.ToString("P1");
             if (sessionContext != null) sessionContext.text = $"{s.songTitle}  ·  {s.modeLabel}  ·  {s.bpm:0} BPM";
-            grade.text = s.Accuracy >= 0.9f ? "A" : s.Accuracy >= 0.75f ? "B" : s.Accuracy >= 0.5f ? "C" : "D";
+            grade.text = s.Judged == 0 ? "—" : s.Accuracy >= 0.9f ? "A" : s.Accuracy >= 0.75f ? "B" : s.Accuracy >= 0.5f ? "C" : "D";
             var duration = System.TimeSpan.FromSeconds(s.duration);
-            performance.text = $"Total score                         {s.score:N0}\n\nOverall accuracy                {s.Accuracy:P0}\n\nCompletion rate                 {s.Completion:P0}\n\nBest combo                         {s.bestCombo}\n\nDuration                              {duration.Minutes:00}:{duration.Seconds:00}\n\nAverage ROM                      Not measured";
-            judgements.text = $"<color=#49DDF4>PERFECT</color>     {s.perfect}        <color=#58E89A>GREAT</color>     {s.great}\n\n<color=#FFD15A>GOOD</color>           {s.good}        <color=#A6BDE0>NOTES TO PRACTISE</color>   {s.miss}";
-            recommendation.text = "MOUSE PROTOTYPE — no sensor data.\nROM and difficulty are not assessed.\n\nAccuracy weights: Perfect 100% · Great 80%\nGood 50% · Notes to practise 0%.";
+            performance.text = $"SESSION  ·  {(s.endedEarly ? "ENDED EARLY" : "COMPLETED")}\n\nCompletion       {s.Completion:P0} ({s.Judged}/{s.totalNotes} notes)\n\nDuration           {(int)duration.TotalMinutes:00}:{duration.Seconds:00}\n\nBest combo       {s.bestCombo}";
+            judgements.text = $"<color=#FFD126>PERFECT</color>     {s.perfect}        <color=#B34DFF>GREAT</color>     {s.great}\n\n<color=#3399FF>GOOD</color>           {s.good}        <color=#A6BDE0>NOTES TO PRACTISE</color>   {s.miss}";
+            string scenario = "Scenario: " + SessionWellbeing.ScenarioLabel(s.wellbeing);
+            recommendation.text = (s.sensorHeightControl ? "SENSOR DATA  ·  SHIN SENSOR" : "MOUSE + KEYBOARD") + "\n" + scenario + "\n\nSaved locally for review.";
             if (!string.IsNullOrEmpty(s.historySaveError))
-                recommendation.text = "HISTORY NOT SAVED\nThe session result is still shown here.\nCheck disk access before your next session.\n\nMOUSE PROTOTYPE — ROM not measured.";
+                recommendation.text = scenario + "\nHISTORY NOT SAVED\nCheck disk access before your next session.";
         }
     }
 }

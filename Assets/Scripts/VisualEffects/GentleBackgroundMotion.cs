@@ -15,6 +15,9 @@ namespace RhythmRehab
         [SerializeField, Range(.9f,1)] private float textureWindow = .97f;
         [SerializeField, Range(0,15)] private float rotationSway;
         [SerializeField, Range(0,.08f)] private float scaleSway;
+        [SerializeField, Range(0, .6f)] private float twinkleAmount;
+        private Graphic graphic;
+        private float originalAlpha;
         private RectTransform rect;
         private RawImage image;
         private Vector2 origin;
@@ -27,6 +30,8 @@ namespace RhythmRehab
         private void Awake()
         {
             rect=GetComponent<RectTransform>();image=GetComponent<RawImage>();
+            graphic=GetComponent<Graphic>();
+            if(graphic)originalAlpha=graphic.color.a;
             if(rect)origin=rect.anchoredPosition;if(image)originalUV=image.uvRect;
             originalRotation=transform.localRotation;originalScale=transform.localScale;
             initialized=true;
@@ -37,6 +42,13 @@ namespace RhythmRehab
         {
             float angle=time*Mathf.PI*2/Mathf.Max(1,period);
             float easeIn=Mathf.SmoothStep(0,1,time/2);
+            if(graphic&&twinkleAmount>0)
+            {
+                var tint=graphic.color;
+                float shimmer = .5f + .5f * Mathf.Sin(angle*2+phase);
+                tint.a=Mathf.Clamp01(originalAlpha*(1+twinkleAmount*(3*shimmer-1)));
+                graphic.color=tint;
+            }
             Vector2 offset=new Vector2(Mathf.Sin(angle+phase)*amplitude.x,Mathf.Sin(angle*.73f+phase*.83f)*amplitude.y)*easeIn;
             if(motionType==MotionType.TextureDrift&&image)
             {
@@ -57,6 +69,7 @@ namespace RhythmRehab
         private void OnDisable()
         {
             if(!initialized)return;
+            if(graphic&&twinkleAmount>0){var tint=graphic.color;tint.a=originalAlpha;graphic.color=tint;}
             if(motionType==MotionType.TextureDrift&&image)image.uvRect=originalUV;
             else if(rect){rect.anchoredPosition=origin;rect.localRotation=originalRotation;rect.localScale=originalScale;}
         }

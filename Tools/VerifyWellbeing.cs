@@ -13,7 +13,7 @@ public static class VerifyWellbeing
    SessionWellbeing.Record(0,8,8,8);var stress=SessionWellbeing.Snapshot;check(!stress.highPain&&stress.highStress&&stress.reducedPerformanceFeedback,"Stress threshold includes 8");
    SessionWellbeing.Record(10,10,8,8);var both=SessionWellbeing.Snapshot;check(both.highPain&&both.highStress,"Both conditions retained");
    both.pain=0;check(SessionWellbeing.Snapshot.pain==10,"Assessment snapshots cannot mutate current state");
-   check(SessionWellbeing.GameplayMessage(pain).Contains("discomfort")&&SessionWellbeing.GameplayMessage(stress).Contains("comfortably"),"Condition-specific gameplay messages");
+   check(SessionWellbeing.GameplayMessage(pain).Contains("discomfort")&&SessionWellbeing.GameplayMessage(stress).Contains("score"),"Condition-specific gameplay messages");
    SessionWellbeing.Skip();var skipped=SessionWellbeing.Snapshot;check(skipped.skipped&&skipped.pain==-1&&skipped.stress==-1&&!skipped.reducedPerformanceFeedback,"Skip differs from zero scores");
    SessionSelection.BeginBrowsing();check(SessionWellbeing.Snapshot==null,"New Start clears previous assessment");
    var store=new SessionHistoryStore(Path.Combine(dir,"sessions.json"));var summary=new SessionSummary{wellbeing=pain,endedUtc=DateTime.UtcNow.ToString("O")};

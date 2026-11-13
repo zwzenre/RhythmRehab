@@ -33,9 +33,13 @@ namespace RhythmRehab
         protected override void OnPopulateMesh(UnityEngine.UI.VertexHelper vh)
         {
             vh.Clear();
-            if (!emitting || !noteImage) return;
+            if (!noteImage) return;
             Vector4 uv = sparkle ? DataUtility.GetOuterUV(sparkle) : new Vector4(0, 0, 1, 1);
             Color tint = Color.Lerp(noteImage.color, Color.white, .35f);
+            var head = noteImage.rectTransform;
+            Vector2 centerPoint = rectTransform.InverseTransformPoint(head.TransformPoint(head.rect.center));
+            AddOutline(vh, uv, centerPoint, head.rect.width * .5f + 8, animationTime * 3 + phase * 6.28f, tint);
+            if (!emitting) return;
             for (int i = 0; i < sparkCount; i++)
             {
                 float age = Mathf.Repeat(animationTime / Mathf.Max(.1f, lifetime) + phase + i * .618034f, 1);
@@ -52,6 +56,27 @@ namespace RhythmRehab
                 vh.AddVert(center + right + up, tint, new Vector2(uv.z, uv.w));
                 vh.AddVert(center + right - up, tint, new Vector2(uv.z, uv.y));
                 vh.AddTriangle(first, first + 1, first + 2); vh.AddTriangle(first + 2, first + 3, first);
+            }
+        }
+
+        internal static void AddOutline(UnityEngine.UI.VertexHelper mesh, Vector4 textureUv, Vector2 center, float radius, float angle, Color tint)
+        {
+            const int segments = 28;
+            const float sweep = Mathf.PI * 1.72f;
+            var uv = new Vector2((textureUv.x + textureUv.z) * .5f, (textureUv.y + textureUv.w) * .5f);
+            int first = mesh.currentVertCount;
+            for (int i = 0; i <= segments; i++)
+            {
+                float theta = angle + sweep * i / segments;
+                var direction = new Vector2(Mathf.Cos(theta), Mathf.Sin(theta));
+                mesh.AddVert(center + direction * radius, tint, uv);
+                mesh.AddVert(center + direction * (radius - 3), tint, uv);
+            }
+            for (int i = 0; i < segments; i++)
+            {
+                int edge = first + i * 2;
+                mesh.AddTriangle(edge, edge + 1, edge + 2);
+                mesh.AddTriangle(edge + 2, edge + 1, edge + 3);
             }
         }
     }

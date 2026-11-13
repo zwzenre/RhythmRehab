@@ -10,13 +10,28 @@ namespace RhythmRehab
         [SerializeField] private Vector2 amplitude = new Vector2(30,12);
         [SerializeField] private float speed = .2f;
         [SerializeField] private float phase;
+        [SerializeField, Range(0,.6f)] private float twinkleAmount;
+        private UnityEngine.UI.Graphic graphic;
+        private float originalAlpha;
         private RectTransform rect;
         private Vector2 origin;
         private Quaternion rotation;
-        private void Awake(){rect=GetComponent<RectTransform>();origin=rect.anchoredPosition;rotation=rect.localRotation;}
+        private void Awake()
+        {
+            rect=GetComponent<RectTransform>();origin=rect.anchoredPosition;rotation=rect.localRotation;
+            graphic=GetComponent<UnityEngine.UI.Graphic>();
+            if(graphic)originalAlpha=graphic.color.a;
+        }
         private void LateUpdate()
         {
             float t=controller.Clock;
+            if(graphic&&twinkleAmount>0)
+            {
+                var tint=graphic.color;
+                float shimmer = .5f + .5f * Mathf.Sin(t*.75f+phase);
+                tint.a=Mathf.Clamp01(originalAlpha*(1+twinkleAmount*(3*shimmer-1)));
+                graphic.color=tint;
+            }
             if(motion==Motion.Rotate)rect.localRotation=rotation*Quaternion.Euler(0,0,t*speed);
             else if(motion==Motion.Drift)rect.anchoredPosition=new Vector2(-530+Mathf.Repeat(origin.x+530-t*speed,1480),origin.y+Mathf.Sin(t*.4f+phase)*amplitude.y);
             else rect.anchoredPosition=origin+new Vector2(Mathf.Sin(t*speed+phase)*amplitude.x,Mathf.Sin(t*speed*.73f+phase)*amplitude.y);
