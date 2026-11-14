@@ -1884,7 +1884,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2383313117826352192, guid: 947abb5227e691a429c68ea88f481f51, type: 3}
       propertyPath: m_text
-      value: BACK
+      value: LOG OUT
       objectReference: {fileID: 0}
     - target: {fileID: 2383313117826352192, guid: 947abb5227e691a429c68ea88f481f51, type: 3}
       propertyPath: m_fontSize
@@ -1969,18 +1969,18 @@ PrefabInstance:
     - target: {fileID: 7883154109071514085, guid: 947abb5227e691a429c68ea88f481f51, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 138414526}
+      objectReference: {fileID: 1980264216}
     - target: {fileID: 7883154109071514085, guid: 947abb5227e691a429c68ea88f481f51, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7883154109071514085, guid: 947abb5227e691a429c68ea88f481f51, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: Home
+      value: Logout
       objectReference: {fileID: 0}
     - target: {fileID: 7883154109071514085, guid: 947abb5227e691a429c68ea88f481f51, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: RhythmRehab.SceneNavigation, Assembly-CSharp
+      value: RhythmRehab.PatientAccessGate, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 8478401015032068253, guid: 947abb5227e691a429c68ea88f481f51, type: 3}
       propertyPath: m_Pivot.x
@@ -5990,27 +5990,27 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 444629215251075907, guid: 7f68aeeb6fd9b8b409d4de2e97fa6877, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 444629215251075907, guid: 7f68aeeb6fd9b8b409d4de2e97fa6877, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 444629215251075907, guid: 7f68aeeb6fd9b8b409d4de2e97fa6877, type: 3}
       propertyPath: m_AnchorMin.x
-      value: 0.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 444629215251075907, guid: 7f68aeeb6fd9b8b409d4de2e97fa6877, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 444629215251075907, guid: 7f68aeeb6fd9b8b409d4de2e97fa6877, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 375
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 444629215251075907, guid: 7f68aeeb6fd9b8b409d4de2e97fa6877, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 535
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 444629215251075907, guid: 7f68aeeb6fd9b8b409d4de2e97fa6877, type: 3}
       propertyPath: m_LocalPosition.x
@@ -6595,6 +6595,7 @@ GameObject:
   - component: {fileID: 1980264213}
   - component: {fileID: 1980264215}
   - component: {fileID: 1980264214}
+  - component: {fileID: 1980264216}
   m_Layer: 0
   m_Name: Controllers
   m_TagString: Untagged
@@ -6666,6 +6667,21 @@ MonoBehaviour:
   refreshButton: {fileID: 1569901669}
   confirmButton: {fileID: 412789954}
   screenAudio: {fileID: 609421041}
+--- !u!114 &1980264216
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1980264210}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd65b87a0e0e51c4193a35b020eb4cc8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RhythmRehab.PatientAccessGate
+  profileButton: {fileID: 0}
+  profileOpacity: {fileID: 0}
+  protectedPage: 1
 --- !u!1 &1984554398
 GameObject:
   m_ObjectHideFlags: 0

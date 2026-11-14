@@ -28,12 +28,29 @@ namespace RhythmRehab
             if (Instance && Instance != this) { Destroy(this); return; }
             Instance = this; DontDestroyOnLoad(gameObject);
         }
-        private void Start() { if (Instance == this) Refresh(); }
-        public void Refresh() { if (!IsLoading) StartCoroutine(ReadPatients()); }
+        private int generation;
+        private FirebaseLoginSession login;
+        private void Start()
+        {
+            if (Instance != this) return;
+            login = FirebaseLoginSession.Instance;
+            if (login) login.Changed += AuthChanged;
+            AuthChanged();
+        }
+        private void AuthChanged()
+        {
+            if (login && login.IsSignedIn) { if (!HasLoaded) Refresh(); return; }
+            generation++; patients.Clear(); IsLoading = HasLoaded = false; Error = null; Changed?.Invoke();
+        }
+        public void Refresh() { if (login && login.IsSignedIn && !IsLoading) StartCoroutine(ReadPatients()); }
 
         private IEnumerator ReadPatients()
         {
+            int attempt = generation;
             IsLoading = true; Error = null; Changed?.Invoke();
+            string authToken = null;
+            yield return login.GetToken(value => authToken = value);
+            if (attempt != generation || string.IsNullOrEmpty(authToken)) yield break;
             var found = new Dictionary<string, PatientProfile>(StringComparer.Ordinal);
             var tokens = new HashSet<string>();
             string token = "";
@@ -43,8 +60,10 @@ namespace RhythmRehab
                 if (!string.IsNullOrEmpty(token)) url += "&pageToken=" + UnityWebRequest.EscapeURL(token);
                 using (var request = UnityWebRequest.Get(url))
                 {
+                    request.SetRequestHeader("Authorization", "Bearer " + authToken);
                     request.timeout = 15;
                     yield return request.SendWebRequest();
+                    if (attempt != generation) yield break;
                     if (request.result != UnityWebRequest.Result.Success)
                     { Error = "Patient list unavailable. You can still play as Guest."; break; }
                     try
@@ -86,7 +105,14 @@ namespace RhythmRehab
 
         private IEnumerator ReadHistory(string patientId, Action<List<SessionSummary>, string> completed)
         {
+            int attempt = generation;
             var found = new Dictionary<string, SessionSummary>(StringComparer.Ordinal);
+            if (!login || !login.IsSignedIn || !patients.Any(p => p.id == patientId))
+            { completed(new List<SessionSummary>(), "Sign in and choose a patient first."); yield break; }
+            string authToken = null;
+            yield return login.GetToken(value => authToken = value);
+            if (attempt != generation || string.IsNullOrEmpty(authToken))
+            { completed(new List<SessionSummary>(), "Please sign in again."); yield break; }
             if (string.IsNullOrEmpty(patientId)) { completed(new List<SessionSummary>(), null); yield break; }
             string error = null;
             // Both spellings exist in the shared portal schema. Deduplicate by document ID.
@@ -111,8 +137,10 @@ namespace RhythmRehab
                 {
                     request.uploadHandler = new UploadHandlerRaw(System.Text.Encoding.UTF8.GetBytes(body.ToString()));
                     request.downloadHandler = new DownloadHandlerBuffer();
-                    request.SetRequestHeader("Content-Type", "application/json"); request.timeout = 20;
+                    request.SetRequestHeader("Content-Type", "application/json");
+                    request.SetRequestHeader("Authorization", "Bearer " + authToken); request.timeout = 20;
                     yield return request.SendWebRequest();
+                    if (attempt != generation) { completed(new List<SessionSummary>(), "Signed out."); yield break; }
                     if (request.result != UnityWebRequest.Result.Success)
                     { error = "Cloud history unavailable. Showing saved local sessions."; continue; }
                     try
@@ -174,6 +202,6 @@ namespace RhythmRehab
             try { return DateTimeOffset.FromUnixTimeMilliseconds(milliseconds).ToString("O"); }
             catch (ArgumentOutOfRangeException) { return null; }
         }
-        private void OnDestroy() { if (Instance == this) Instance = null; }
+        private void OnDestroy() { if (login) login.Changed -= AuthChanged; if (Instance == this) Instance = null; }
     }
 }

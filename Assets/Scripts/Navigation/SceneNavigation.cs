@@ -26,8 +26,8 @@ namespace RhythmRehab
         public void RhythmCalibration() => IrisSceneTransition.Load("RhythmCalibration");
         public void SensorCalibration() => IrisSceneTransition.Load("SensorCalibration");
         public void SensorConnection() => IrisSceneTransition.Load("SensorConnection");
-        public void Profile() => IrisSceneTransition.Load("PerformanceHistory");
-        public void Patients() => IrisSceneTransition.Load("PatientSelection");
+        public void Profile() { if (!PatientContext.IsGuest && FirebaseLoginSession.Instance && FirebaseLoginSession.Instance.IsSignedIn) IrisSceneTransition.Load("PerformanceHistory"); }
+        public void Patients() => IrisSceneTransition.Load(FirebaseLoginSession.Instance && FirebaseLoginSession.Instance.IsSignedIn ? "PatientSelection" : "Login");
         public void Home() => IrisSceneTransition.Load("MainMenu");
         public void Exit()
         {

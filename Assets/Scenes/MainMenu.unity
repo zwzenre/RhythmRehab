@@ -4859,6 +4859,17 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1492282388}
   m_CullTransparentMesh: 1
+--- !u!114 &1528384862 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7883154109071514085, guid: 947abb5227e691a429c68ea88f481f51, type: 3}
+  m_PrefabInstance: {fileID: 1590492353}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1590492355}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1550305710
 GameObject:
   m_ObjectHideFlags: 0
@@ -5420,6 +5431,12 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 6095259093062610547, guid: 947abb5227e691a429c68ea88f481f51, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1590492360}
+    - targetCorrespondingSourceObject: {fileID: 6095259093062610547, guid: 947abb5227e691a429c68ea88f481f51, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1590492361}
+    - targetCorrespondingSourceObject: {fileID: 6095259093062610547, guid: 947abb5227e691a429c68ea88f481f51, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1590492362}
     - targetCorrespondingSourceObject: {fileID: 6020924409025969506, guid: 947abb5227e691a429c68ea88f481f51, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1590492358}
@@ -5503,6 +5520,33 @@ MonoBehaviour:
   duration: 0.15
   highlightColor: {r: 1, g: 1, b: 1, a: 1}
   colourStrength: 0.2
+--- !u!114 &1590492361
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1590492355}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd65b87a0e0e51c4193a35b020eb4cc8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RhythmRehab.PatientAccessGate
+  profileButton: {fileID: 1528384862}
+  profileOpacity: {fileID: 1590492362}
+  protectedPage: 0
+--- !u!225 &1590492362
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1590492355}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &1593987300
 GameObject:
   m_ObjectHideFlags: 0
@@ -6463,7 +6507,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5976491480128141724, guid: 947abb5227e691a429c68ea88f481f51, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0.0000038146973
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6020924409025969506, guid: 947abb5227e691a429c68ea88f481f51, type: 3}
       propertyPath: m_IsActive

@@ -39,9 +39,10 @@ namespace RhythmRehab
         public void Confirm()
         {
             if (IrisSceneTransition.IsBusy || chosen == null) return;
-            if (!chosen.IsGuest && (!directory || !directory.Patients.Any(p => p.id == chosen.id))) return;
-            PatientContext.Select(chosen);
+            if (!chosen.IsGuest && (!FirebaseLoginSession.Instance || !FirebaseLoginSession.Instance.IsSignedIn || !directory || !directory.Patients.Any(p => p.id == chosen.id))) return;
             IrisSceneTransition.Load("MainMenu");
+            if (chosen.IsGuest && FirebaseLoginSession.Instance) FirebaseLoginSession.Instance.SignOut();
+            else PatientContext.Select(chosen);
         }
         private void RefreshPage()
         {
