@@ -18,6 +18,8 @@ namespace RhythmRehab
         [SerializeField] private GameplayPlayfield playfieldView;
         [SerializeField] private GameplayHud hud;
         [SerializeField] private GameplayAudio audioService;
+        [Header("Pause recovery")]
+        [SerializeField, Min(.25f)] private float resumeDelaySeconds = 3f;
         [Header("Successful-hit effects")]
         [SerializeField] private NoteHitEffects hitEffects;
         [SerializeField] private PlayerMarkerTrail playerMarkerTrail;
@@ -33,9 +35,12 @@ namespace RhythmRehab
         private float sessionDuration, audioLeadIn;
         private string selectedMode = "TEMPO TEST", selectedSong = "Tempo Practice";
         private LocalSettings hitControls;
+        private bool resuming;
+        private Coroutine resumeRoutine;
 
         public float Elapsed => starting ? 0 : clock?.Elapsed ?? 0;
         public bool IsStarting => starting;
+        public bool IsResuming => resuming;
         public float CurrentHeight => currentHeight;
         public bool IsPaused => starting || (clock != null && clock.IsPaused);
         public int ActiveHoldIndex => runner?.ActiveHoldIndex ?? -1;
@@ -50,6 +55,13 @@ namespace RhythmRehab
         public bool UsingSensor => UsbSensorConnection.Instance && UsbSensorConnection.Instance.InputEnabled;
 
         private void Awake() => clock = new GameplaySessionClock(() => AudioSettings.dspTime);
+        private void LateUpdate()
+        {
+            // Keep absolute mouse height input; only hide the pointer itself.
+            Cursor.visible = finished || !Application.isFocused ||
+                (clock != null && clock.PauseMenuOpen && !resuming);
+        }
+        private void OnDisable() => Cursor.visible = true;
         private IEnumerator Start()
         {
             if (!playfieldView || !hud || !audioService)
@@ -68,6 +80,8 @@ namespace RhythmRehab
             var sensor = UsbSensorConnection.Instance;
             if (sensor) sensor.PrepareGameplayInput();
             var summary = new SessionSummary { songTitle = selectedSong, modeLabel = selectedMode, bpm = bpm, wellbeing = SessionWellbeing.Snapshot };
+            summary.patientId = PatientContext.PatientId;
+            summary.patientName = PatientContext.DisplayName;
             summary.sensorHeightControl = UsingSensor || (sensor && sensor.SensorControlSelected);
             runner = new GameplayChartRunner(chart, bpm, travel,
                 heightTolerance, timingScale, settings.judgementOffsetMs / 1000f, holdHeightGraceSeconds, summary, sessionDuration);
@@ -102,6 +116,7 @@ namespace RhythmRehab
             if (UsingSensor || (sensor && sensor.SensorControlSelected)) Summary.sensorHeightControl = true;
             if (sensor && sensor.InputEnabled && !sensor.TryGetHeight(out _))
             {
+                if (resuming) CancelResume();
                 if (!clock.PauseMenuOpen) TogglePause();
                 hud.ShowSensorUnavailable();
                 return;
@@ -165,14 +180,42 @@ namespace RhythmRehab
         }
         public void TogglePause()
         {
-            if (starting || finished || runner == null) return;
+            if (starting || finished || runner == null || IrisSceneTransition.IsBusy) return;
+            if (resuming) { CancelResume(); return; }
             if (hud.ClosePauseSettings()) return;
             if (hud.BackFromEndOptions()) return;
             var sensor = UsbSensorConnection.Instance;
             if (clock.PauseMenuOpen && sensor && (sensor.IsCapturing || (UsingSensor && !sensor.HasFreshReading))) return;
+            if (clock.PauseMenuOpen)
+            {
+                resuming = true;
+                hud.SetPauseMenu(false);
+                resumeRoutine = StartCoroutine(ResumeAfterDelay());
+                return;
+            }
             clock.TogglePause(ActiveHoldIndex >= 0);
             hud.SetPauseMenu(clock.PauseMenuOpen); audioService.SetPaused(IsPaused);
             if (hitEffects) hitEffects.SetPaused(IsPaused);
+        }
+        private IEnumerator ResumeAfterDelay()
+        {
+            // Leave the session clock and audio paused throughout the ready overlay.
+            yield return hud.ShowReady(resumeDelaySeconds);
+            resumeRoutine = null;
+            if (finished) { resuming = false; yield break; }
+            var sensor = UsbSensorConnection.Instance;
+            if (sensor && (sensor.IsCapturing || (UsingSensor && !sensor.HasFreshReading)))
+            { CancelResume(); hud.ShowSensorUnavailable(); yield break; }
+            resuming = false;
+            clock.TogglePause(ActiveHoldIndex >= 0);
+            audioService.SetPaused(IsPaused);
+            if (hitEffects) hitEffects.SetPaused(IsPaused);
+        }
+        private void CancelResume()
+        {
+            if (resumeRoutine != null) StopCoroutine(resumeRoutine);
+            resumeRoutine = null; resuming = false;
+            hud.HideReady(); hud.SetPauseMenu(true);
         }
         public void OpenPauseSettings()
         {
@@ -225,6 +268,7 @@ namespace RhythmRehab
         }
         private void OnApplicationFocus(bool focused)
         {
+            if (!focused && resuming) { CancelResume(); return; }
             if (!focused && !starting && runner != null && !clock.PauseMenuOpen && !finished) TogglePause();
         }
         private void OnDestroy()

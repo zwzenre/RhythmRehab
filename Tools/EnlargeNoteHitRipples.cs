@@ -41,13 +41,14 @@ public static class EnlargeNoteHitRipples
                 var config=new SerializedObject(ripple);
                 config.FindProperty("viewport").objectReferenceValue=ripple.GetComponentInParent<Canvas>().rootCanvas.GetComponent<RectTransform>();
                 config.FindProperty("minimumRightwardReach").floatValue=.7f;
-                config.FindProperty("duration").floatValue=1.15f;
-                config.FindProperty("opacity").floatValue=.28f;
+                config.FindProperty("duration").floatValue=.75f;
+                config.FindProperty("opacity").floatValue=.18f;
+                config.FindProperty("fadePower").floatValue=3f;
                 config.ApplyModifiedPropertiesWithoutUndo();
                 EditorSceneManager.MarkSceneDirty(scene);EditorSceneManager.SaveScene(scene);
             }
         }
         finally{if(!string.IsNullOrEmpty(path))EditorSceneManager.OpenScene(path);}
-        return "Gameplay and calibration: 70% screen-width final radius, 1.15 seconds, 28% initial opacity fading to zero, behind notes and clipped to playfield.";
+        return "Gameplay and calibration: 70% screen-width final radius, 0.75-second lifetime, 18% initial opacity with a rapid cubic fade, behind notes and clipped to playfield.";
     }
 }

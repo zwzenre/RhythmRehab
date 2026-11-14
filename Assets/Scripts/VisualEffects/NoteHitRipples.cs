@@ -6,10 +6,11 @@ namespace RhythmRehab
     public sealed class NoteHitRipples : MonoBehaviour
     {
         [SerializeField] private UnityEngine.UI.RawImage[] rings;
-        [SerializeField, Min(.1f)] private float duration = .6f;
+        [SerializeField, Min(.1f)] private float duration = .75f;
         [SerializeField, Min(1f)] private float startDiameter = 24f;
         [SerializeField, Min(1f)] private float endDiameter = 170f;
-        [SerializeField, Range(0f, 1f)] private float opacity = .85f;
+        [SerializeField, Range(0f, 1f)] private float opacity = .18f;
+        [SerializeField, Range(1f, 6f)] private float fadePower = 3f;
         [Header("Screen coverage")]
         [SerializeField] private RectTransform viewport;
         [SerializeField, Range(0f, 1f), Tooltip("Minimum final radius as a fraction of screen width.")]
@@ -59,7 +60,7 @@ namespace RhythmRehab
             float diameter = viewport ? Mathf.Max(endDiameter, viewport.rect.width * minimumRightwardReach * 2f) : endDiameter;
             rings[i].rectTransform.sizeDelta = Vector2.one * Mathf.Lerp(startDiameter, diameter, eased);
             Color colour = colours[i];
-            colour.a *= opacity * (1f - Mathf.SmoothStep(0, 1, t));
+            colour.a *= opacity * Mathf.Pow(1f - t, fadePower);
             rings[i].color = colour;
         }
 

@@ -20,11 +20,11 @@ Recording and MIDI attribution: [A-M Classical](https://amclassical.com/) under 
 
 The catalogue is Assets/Data/ClassicalSongs.asset. It contains five entries, each with its cover, audio, preview region and Therapy/Easy/Medium/Hard chart references. There are no placeholder entries or cards in the browser.
 
-The 20 SongChart assets are editable in the Inspector. Therapy uses the fixed height selected by the player. Easy uses fewer notes in the lower range; Medium and Hard add density and height variety. All modes include taps and holds with recovery gaps.
+The 20 SongChart assets are editable in the Inspector. Therapy uses the fixed height selected by the player. Free Mode Easy contains the original Medium chart, and Medium contains the original Hard chart. Hard alternates fast MIDI streams with lighter phrases and approximately 1–2 second no-input rests. Fast taps can be as close as 0.12 seconds apart; lighter sections use varied 0.45–0.8 second minimum spacing. Simultaneous chord notes share one target height. Holds end before rests and leave at least 0.2 seconds before the next tap. Phrase boundaries and rest regions are recorded in ChartingNotes.json. All modes include taps and holds.
 
 Chart timestamps follow each source MIDI tempo map, aligned against the corresponding MP3 waveform. A note's beat value is its absolute timestamp multiplied by the song's reference BPM / 60; this preserves tempo changes. All saved times already include the four-second audio lead-in. READY runs before the chart clock starts. Alignment estimates and counts are in ChartingNotes.json.
 
-To rebuild, use Tools/analyse-classical-midi.cjs and Tools/AnalyseClassicalAudio.cs, then Tools/chart-classical-songs.cjs. Bind the resulting JSON to Unity chart assets and refresh the five song cards with Tools/AuthorClassicalSongs.cs. Re-running that authoring tool overwrites Inspector chart edits from JSON.
+To rebuild, use Tools/analyse-classical-midi.cjs and Tools/AnalyseClassicalAudio.cs, then Tools/chart-classical-songs.cjs, which also applies Tools/rebalance-free-charts.cjs. The rebalancer can also run independently using the stored MP3 alignment; its version marker prevents repeatedly shifting difficulties on subsequent runs. Bind the resulting JSON to Unity chart assets and refresh the five song cards with Tools/AuthorClassicalSongs.cs. Re-running that authoring tool overwrites Inspector chart edits from JSON.
 
 ## Audio controls and previews
 

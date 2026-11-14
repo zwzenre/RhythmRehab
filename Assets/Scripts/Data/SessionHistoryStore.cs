@@ -19,6 +19,12 @@ namespace RhythmRehab
         public string FilePath { get; }
         public SessionHistoryStore(string path) { FilePath = path; }
 
+        public List<SessionSummary> LoadForPatient(string patientId, out string error)
+        {
+            string owner = patientId ?? "";
+            return Load(out error).FindAll(s => (s.patientId ?? "") == owner);
+        }
+
         public List<SessionSummary> Load(out string error)
         {
             error = null;

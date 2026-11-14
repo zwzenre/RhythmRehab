@@ -21,6 +21,12 @@ Therapy Mode keeps notes at the selected target height. Free Mode uses varied he
 
 Gameplay includes in-session audio and sensor settings, four wellbeing scenarios, and a sensor-removal reminder when leaving sensor play. Performance History supports selecting and deleting local records with confirmation. Music, beat/hit and UI volumes are separate; music uses a gentler volume curve across menus, previews and gameplay.
 
+## Patient profiles
+
+The game refreshes the Firebase patient directory at launch and starts in Guest mode. Click the welcome card at the top left of the main menu to browse patient profiles, search or refresh the list, then choose USE PROFILE. Guest is always available, including when the directory cannot be reached.
+
+New sessions record the selected patient ID and name. History filters local sessions by patient and reads matching RhythmRehab sessions from the shared Firestore rehabilitationSessions collection. Cloud history is read-only here; the delete action removes local records. Older records without a patient ID stay with Guest. This feature reads Firebase and does not automatically upload sessions or modify patient details.
+
 ## Project folders
 
 - `Assets/Scripts`: scripts grouped by feature; see [the folder guide](Assets/Scripts/README.md).

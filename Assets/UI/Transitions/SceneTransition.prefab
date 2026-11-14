@@ -85,6 +85,7 @@ GameObject:
   - component: {fileID: 4139329156191047304}
   - component: {fileID: 6104512841210489237}
   - component: {fileID: 8989801419302493007}
+  - component: {fileID: 5967690728674482768}
   m_Layer: 5
   m_Name: SceneTransition
   m_TagString: Untagged
@@ -182,3 +183,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::RhythmRehab.UsbSensorConnection
   staleAfterSeconds: 0.5
   smoothingSeconds: 0.08
+--- !u!114 &5967690728674482768
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6871114500992798515}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 296af450d1a95fd4caf2613274822846, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RhythmRehab.PatientDirectory

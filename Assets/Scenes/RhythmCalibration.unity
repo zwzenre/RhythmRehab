@@ -37330,10 +37330,11 @@ MonoBehaviour:
   - {fileID: 800679554}
   - {fileID: 844173235}
   - {fileID: 1736149616}
-  duration: 1.15
+  duration: 0.75
   startDiameter: 24
   endDiameter: 170
-  opacity: 0.28
+  opacity: 0.18
+  fadePower: 3
   viewport: {fileID: 289758162}
   minimumRightwardReach: 0.7
 --- !u!224 &422401027

@@ -2583,6 +2583,8 @@ MonoBehaviour:
   - {fileID: 1906400908}
   - {fileID: 1254807575}
   - {fileID: 1902150804}
+  patientContextLabel: {fileID: 249235662}
+  storageLabel: {fileID: 822243293}
 --- !u!114 &244903531
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2746,7 +2748,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Track your progress across sessions.
+  m_text: "Guest \xB7 Local guest history"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: b633915a7eab00342a258e5c2f50a75f, type: 2}
   m_sharedMaterial: {fileID: -5571592025542048100, guid: b633915a7eab00342a258e5c2f50a75f, type: 2}
@@ -6884,7 +6886,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Saved on this computer \xB7 Mouse prototype \xB7 ROM not measured"
+  m_text: "Guest history \xB7 Saved on this computer"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: b633915a7eab00342a258e5c2f50a75f, type: 2}
   m_sharedMaterial: {fileID: -5571592025542048100, guid: b633915a7eab00342a258e5c2f50a75f, type: 2}

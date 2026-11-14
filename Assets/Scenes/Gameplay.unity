@@ -55409,10 +55409,11 @@ MonoBehaviour:
   - {fileID: 387045597}
   - {fileID: 932277889}
   - {fileID: 159834907}
-  duration: 1.15
+  duration: 0.75
   startDiameter: 24
   endDiameter: 170
-  opacity: 0.28
+  opacity: 0.18
+  fadePower: 3
   viewport: {fileID: 1422992257}
   minimumRightwardReach: 0.7
 --- !u!224 &1148105796
@@ -78823,6 +78824,7 @@ MonoBehaviour:
   playfieldView: {fileID: 1427271262}
   hud: {fileID: 1427271261}
   audioService: {fileID: 1427271260}
+  resumeDelaySeconds: 3
   hitEffects: {fileID: 2044426195}
   playerMarkerTrail: {fileID: 1059733783}
   visualLevels: {fileID: 26727092}

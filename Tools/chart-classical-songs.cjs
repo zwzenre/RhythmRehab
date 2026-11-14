@@ -37,3 +37,5 @@ for(let songIndex=0;songIndex<songs.length;songIndex++){
  const metadata={folder,mp3,title,artist,bpm,leadIn:lead,audioDuration:audio.duration,shortened:!!edit,fadeOutSeconds:edit?edit.fadeOutSeconds:0,alignment:{offsetSeconds:round(fit.offset),scale:round(fit.scale),meanAttackDistanceMs:round(distance/anchors.length*1000)},charts:Object.fromEntries(Object.entries(charts).map(([k,v])=>[k,{notes:v.notes.length,holds:v.notes.filter(n=>n.holdBeats>0).length}]))};
  fs.writeFileSync(dir+'/ChartingNotes.json',JSON.stringify(metadata,null,2));console.log(JSON.stringify(metadata));
 }
+// Build the current Free Mode tiers from the original chart progression.
+require('./rebalance-free-charts.cjs');

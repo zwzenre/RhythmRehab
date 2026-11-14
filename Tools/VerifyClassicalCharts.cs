@@ -21,8 +21,7 @@ public static class VerifyClassicalCharts
                 check(notes.Length>32&&notes.All(n=>n.TargetHeight>=0&&n.TargetHeight<=1),"Long chart and normalized heights");
                 check(notes.Any(n=>n.IsHold)&&notes.Any(n=>!n.IsHold),"Taps and holds present");
                 check(notes.Any(n=>Math.Abs(n.TargetHeight*2-Math.Round(n.TargetHeight*2))>.01),"Intermediate note heights present");
-                if(difficulty==FreeDifficulty.Easy)check(notes.All(n=>n.TargetHeight<=.5f),"Easy lower-height range retained");
-                for(int i=1;i<notes.Length;i++)check((notes[i].beat-notes[i-1].EndBeat)*60/song.bpm>=.59f,"Recovery gap and ordered notes");
+                for(int i=1;i<notes.Length;i++)check((notes[i].beat-notes[i-1].EndBeat)*60/song.bpm >= (difficulty==FreeDifficulty.Hard ? (notes[i-1].IsHold ? .199f : .119f) : .649f),"Recovery gap and ordered notes");
                 check(notes.Last().EndBeat*60/song.bpm<profile.durationSeconds&&profile.durationSeconds>=song.audio.length+song.audioLeadInSeconds-.01,"Chart covers full song and includes its tail");
                 var summary=new SessionSummary{bpm=song.bpm};var runner=new GameplayChartRunner(notes,song.bpm,profile.approachSeconds,profile.heightTolerance,profile.timingScale,0,.12f,summary,profile.durationSeconds);
                 for(int i=0;i<notes.Length;i++)
@@ -38,7 +37,7 @@ public static class VerifyClassicalCharts
             foreach(var height in new[]{HeightLevel.Low,HeightLevel.Medium,HeightLevel.High})
             {
                 var p=SessionSelection.BuildProfile(song,SessionMode.Therapy,height,FreeDifficulty.Easy);
-                check(p.chart.All(n=>n.TargetHeight==(int)height*.5f),"Therapy height stays fixed");
+                check(p.chart.All(n=>Math.Abs(n.TargetHeight-(height==HeightLevel.Low?ChartNote.LowTargetHeight:height==HeightLevel.Medium?ChartNote.MidTargetHeight:1))<.0001f),"Therapy height stays fixed");
             }
             check(original.SequenceEqual(song.therapyChart.notes.Select(n=>n.TargetHeight)),"Therapy choices do not mutate the saved chart");
         }

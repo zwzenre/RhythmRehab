@@ -27,6 +27,7 @@ namespace RhythmRehab
         public void SensorCalibration() => IrisSceneTransition.Load("SensorCalibration");
         public void SensorConnection() => IrisSceneTransition.Load("SensorConnection");
         public void Profile() => IrisSceneTransition.Load("PerformanceHistory");
+        public void Patients() => IrisSceneTransition.Load("PatientSelection");
         public void Home() => IrisSceneTransition.Load("MainMenu");
         public void Exit()
         {

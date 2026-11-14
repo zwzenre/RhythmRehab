@@ -26,11 +26,17 @@ namespace RhythmRehab
         public int completedHolds;
         public int brokenHolds;
         public bool sensorHeightControl;
+        public string patientId;
+        public string patientName;
+        [NonSerialized] public bool isCloudRecord;
+        [NonSerialized] public float cloudAccuracy = -1;
+        [NonSerialized] public float cloudCompletion = -1;
         public WellbeingResponse wellbeing;
         [NonSerialized] public string historySaveError;
         public int Judged => perfect + great + good + miss;
-        public float Accuracy => Judged == 0 ? 0 : (perfect + great * 0.8f + good * 0.5f) / Judged;
-        public float Completion => totalNotes == 0 ? 0 : (float)Judged / totalNotes;
+        public bool HasAccuracy => Judged > 0 || (isCloudRecord && cloudAccuracy >= 0);
+        public float Accuracy => isCloudRecord && cloudAccuracy >= 0 ? UnityEngine.Mathf.Clamp01(cloudAccuracy) : Judged == 0 ? 0 : (perfect + great * 0.8f + good * 0.5f) / Judged;
+        public float Completion => isCloudRecord && cloudCompletion >= 0 ? UnityEngine.Mathf.Clamp01(cloudCompletion) : totalNotes == 0 ? 0 : (float)Judged / totalNotes;
         public static SessionSummary Last { get; set; }
 
         public void Record(HitJudgement judgement)

@@ -23,6 +23,11 @@ namespace RhythmRehab
         [SerializeField] private GameObject deleteConfirmation;
         [SerializeField] private TMP_Text deletePrompt;
         [SerializeField] private Outline[] selectionOutlines;
+        [SerializeField] private TMP_Text patientContextLabel, storageLabel;
+        private List<SessionSummary> cloudSessions = new List<SessionSummary>();
+        private string cloudError;
+        private bool cloudLoading;
+        public bool IsLoadingCloudHistory => cloudLoading;
         private readonly HashSet<string> pendingDeletion = new HashSet<string>();
         private List<SessionSummary> sessions;
         private List<SessionSummary> reviewSessions;
@@ -32,10 +37,28 @@ namespace RhythmRehab
         private const int PageSize = 10;
         private static readonly string[] Titles = { "OVERALL ACCURACY", "AVERAGE ROM", "SCORE", "MOVEMENT ACCURACY" };
 
-        private void Start() => Reload();
+        private void Start()
+        {
+            cloudLoading = Application.isPlaying && !PatientContext.IsGuest && PatientDirectory.Instance;
+            Reload();
+            if (cloudLoading)
+            {
+                string owner = PatientContext.PatientId;
+                PatientDirectory.Instance.LoadHistory(owner, (records, error) =>
+                {
+                    if (!this || owner != PatientContext.PatientId) return;
+                    cloudSessions = records; cloudError = error; cloudLoading = false; Reload();
+                });
+            }
+        }
         private void Reload()
         {
-            sessions = SessionHistoryStore.Default.Load(out var error);
+            sessions = SessionHistoryStore.Default.LoadForPatient(PatientContext.PatientId, out var error);
+            var ids = new HashSet<string>(sessions.Select(s => s.sessionId));
+            sessions.AddRange(cloudSessions.Where(s => s.patientId == PatientContext.PatientId && ids.Add(s.sessionId)));
+            sessions = sessions.OrderByDescending(s => System.DateTimeOffset.Parse(s.endedUtc)).ToList();
+            if (patientContextLabel) patientContextLabel.text = PatientContext.DisplayName + " · " + (PatientContext.IsGuest ? "Local guest history" : cloudLoading ? "Refreshing cloud history…" : cloudError ?? "Patient session history");
+            if (storageLabel) storageLabel.text = PatientContext.IsGuest ? "Guest history · Saved on this computer" : "Patient history · Cloud records are read-only";
             reviewSessions = sessions.OrderByDescending(s => s.endedEarly).ToList();
             selectedSessions.IntersectWith(sessions.Select(s => s.sessionId));
             page = Mathf.Min(page, Mathf.Max(0, (sessions.Count - 1) / PageSize));
@@ -92,6 +115,7 @@ namespace RhythmRehab
             int index = page * PageSize + row;
             if (!all || row < 0 || row >= PageSize || index >= reviewSessions.Count) return;
             string id = reviewSessions[index].sessionId;
+            if (reviewSessions[index].isCloudRecord) return;
             if (!selectedSessions.Add(id)) selectedSessions.Remove(id);
             RefreshList(resetScroll: false);
         }
@@ -134,13 +158,14 @@ namespace RhythmRehab
                 var s=list[n];
                 bool selected = all && selectedSessions.Contains(s.sessionId);
                 if (selectionOutlines != null && i < selectionOutlines.Length && selectionOutlines[i]) selectionOutlines[i].enabled = selected;
-                if (row.TryGetComponent<Button>(out var select)) select.interactable = all;
-                string accuracy=s.Judged==0?"—":s.Accuracy.ToString("P1");
+                if (row.TryGetComponent<Button>(out var select)) select.interactable = all && !s.isCloudRecord;
+                string accuracy=!s.HasAccuracy?"—":s.Accuracy.ToString("P1");
+                string noteCount = s.isCloudRecord && s.totalNotes == 0 ? "CLOUD HISTORY" : $"{s.Judged}/{s.totalNotes} NOTES";
                 rows[i].text=$"<color=#AF8BF5>{DateTimeOffset.Parse(s.endedUtc).ToLocalTime():dd MMM yyyy  HH:mm}</color>\n"+
                     $"{s.songTitle}\n<color=#76D8F3>{s.modeLabel}</color>\n"+
                     $"{accuracy} OVERALL  ·  {s.Completion:P0} COMPLETE\n"+
-                    $"<color=#9DA7BF>{TimeSpan.FromSeconds(s.duration):mm\\:ss}  ·  {s.Judged}/{s.totalNotes} NOTES  ·  "+
-                    (s.endedEarly?"ENDED EARLY":"COMPLETED")+"</color>\n"+
+                    $"<color=#9DA7BF>{TimeSpan.FromSeconds(s.duration):mm\\:ss}  ·  {noteCount}  ·  "+
+                    (s.endedEarly?"ENDED EARLY":"COMPLETED")+(s.isCloudRecord?" · CLOUD":"")+"</color>\n"+
                     $"<color=#C5CBE0>{SessionWellbeing.ScenarioLabel(s.wellbeing)}</color>";
             }
             listTitle.text=all?"NEEDS REVIEW":sessions.Count==0?"NO RECENT SESSIONS":"RECENT SESSIONS";

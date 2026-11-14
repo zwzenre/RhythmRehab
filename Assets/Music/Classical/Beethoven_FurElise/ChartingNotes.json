@@ -19,16 +19,164 @@
       "holds": 5
     },
     "Easy": {
-      "notes": 47,
-      "holds": 6
-    },
-    "Medium": {
       "notes": 71,
       "holds": 9
     },
-    "Hard": {
+    "Medium": {
       "notes": 96,
       "holds": 12
+    },
+    "Hard": {
+      "notes": 310,
+      "holds": 9
     }
-  }
+  },
+  "freeDifficultyVersion": 2,
+  "freeDifficultyDesign": {
+    "Easy": "Original Medium chart",
+    "Medium": "Original Hard chart",
+    "Hard": "Fast MIDI bursts alternate with lighter phrases and 1–2 second no-input rests; boundaries follow nearby musical attacks"
+  },
+  "hardSections": [
+    {
+      "kind": "burst",
+      "startSeconds": 6.090272,
+      "endSeconds": 13.28125
+    },
+    {
+      "kind": "light",
+      "startSeconds": 13.28125,
+      "endSeconds": 16.59028
+    },
+    {
+      "kind": "rest",
+      "startSeconds": 16.59028,
+      "endSeconds": 17.989587
+    },
+    {
+      "kind": "burst",
+      "startSeconds": 17.989587,
+      "endSeconds": 27.024316
+    },
+    {
+      "kind": "light",
+      "startSeconds": 27.024316,
+      "endSeconds": 31.173625
+    },
+    {
+      "kind": "rest",
+      "startSeconds": 31.173625,
+      "endSeconds": 33.177099
+    },
+    {
+      "kind": "burst",
+      "startSeconds": 33.177099,
+      "endSeconds": 39.92016
+    },
+    {
+      "kind": "light",
+      "startSeconds": 39.92016,
+      "endSeconds": 43.381968
+    },
+    {
+      "kind": "rest",
+      "startSeconds": 43.381968,
+      "endSeconds": 45.354192
+    },
+    {
+      "kind": "burst",
+      "startSeconds": 45.354192,
+      "endSeconds": 52.020864
+    },
+    {
+      "kind": "light",
+      "startSeconds": 52.020864,
+      "endSeconds": 55.361145
+    },
+    {
+      "kind": "rest",
+      "startSeconds": 55.361145,
+      "endSeconds": 56.61809
+    },
+    {
+      "kind": "burst",
+      "startSeconds": 56.61809,
+      "endSeconds": 65.697958
+    },
+    {
+      "kind": "light",
+      "startSeconds": 65.697958,
+      "endSeconds": 69.656295
+    },
+    {
+      "kind": "rest",
+      "startSeconds": 69.656295,
+      "endSeconds": 72.048658
+    },
+    {
+      "kind": "burst",
+      "startSeconds": 72.048658,
+      "endSeconds": 78.330608
+    },
+    {
+      "kind": "light",
+      "startSeconds": 78.330608,
+      "endSeconds": 81.986048
+    },
+    {
+      "kind": "rest",
+      "startSeconds": 81.986048,
+      "endSeconds": 83.441455
+    },
+    {
+      "kind": "burst",
+      "startSeconds": 83.441455,
+      "endSeconds": 90.464638
+    },
+    {
+      "kind": "light",
+      "startSeconds": 90.464638,
+      "endSeconds": 93.565839
+    },
+    {
+      "kind": "rest",
+      "startSeconds": 93.565839,
+      "endSeconds": 94.949322
+    },
+    {
+      "kind": "burst",
+      "startSeconds": 94.949322,
+      "endSeconds": 104.027661
+    },
+    {
+      "kind": "light",
+      "startSeconds": 104.027661,
+      "endSeconds": 107.709535
+    },
+    {
+      "kind": "rest",
+      "startSeconds": 107.709535,
+      "endSeconds": 109.373659
+    },
+    {
+      "kind": "burst",
+      "startSeconds": 109.373659,
+      "endSeconds": 115.933081
+    },
+    {
+      "kind": "light",
+      "startSeconds": 115.933081,
+      "endSeconds": 119.393072
+    },
+    {
+      "kind": "rest",
+      "startSeconds": 119.393072,
+      "endSeconds": 120.592628
+    },
+    {
+      "kind": "burst",
+      "startSeconds": 120.592628,
+      "endSeconds": 124.392
+    }
+  ]
 }

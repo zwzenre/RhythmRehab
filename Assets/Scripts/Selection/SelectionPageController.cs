@@ -16,6 +16,7 @@ namespace RhythmRehab
         [SerializeField] private Outline[] choiceOutlines;
         [SerializeField] private GameObject[] choiceBadges;
         [SerializeField] private ModeSelectionPreview modePreview;
+        [SerializeField] private TMP_Text[] difficultyNoteCounts;
 
         private void Start()
         {
@@ -53,6 +54,9 @@ namespace RhythmRehab
         }
         private void Refresh()
         {
+            if (page == SelectionPage.Difficulty && SessionSelection.Song != null && difficultyNoteCounts != null)
+                for (int i = 0; i < difficultyNoteCounts.Length && i < 3; i++)
+                    if (difficultyNoteCounts[i]) difficultyNoteCounts[i].text = SessionSelection.BuildProfile(SessionSelection.Song, SessionMode.Free, HeightLevel.Low, (FreeDifficulty)i).chart.Length + " notes";
             int index = page == SelectionPage.Mode ? (int)SessionSelection.Mode :
                 page == SelectionPage.Height ? (int)SessionSelection.Height : (int)SessionSelection.Difficulty;
             for (int i = 0; i < choiceOutlines.Length; i++)

@@ -25,17 +25,23 @@ namespace RhythmRehab
         private int lastRemainingSeconds = -1;
         private string hitKeyLabel = "SPACE";
 
-        public IEnumerator ShowReady()
+        public IEnumerator ShowReady(float totalSeconds = -1)
         {
             if (!readyOverlay) yield break;
             readyOverlay.gameObject.SetActive(true); readyOverlay.alpha = 1;
             readyOverlay.blocksRaycasts = true;
-            yield return new WaitForSecondsRealtime(readyDuration);
+            yield return new WaitForSecondsRealtime(totalSeconds < 0 ? readyDuration : Mathf.Max(0, totalSeconds - .25f));
             for (float t = 0; t < 1; t += Time.unscaledDeltaTime / .25f)
             {
                 readyOverlay.alpha = 1 - Mathf.SmoothStep(0, 1, t);
                 yield return null;
             }
+            HideReady();
+        }
+
+        public void HideReady()
+        {
+            if (!readyOverlay) return;
             readyOverlay.alpha = 0; readyOverlay.blocksRaycasts = false;
             readyOverlay.gameObject.SetActive(false);
         }

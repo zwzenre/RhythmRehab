@@ -1,12 +1,26 @@
 {
-  "description": "Für Elise — Hard. Note timings follow the source MIDI tempo map aligned to this MP3. Heights follow melodic contour and phrase shapes. Four-second audio lead-in.",
+  "description": "Für Elise — Hard. Alternating piano-tile-style bursts, lighter musical phrases and no-input rests. Burst taps follow MIDI attacks as close as 0.12 seconds apart; lighter passages use varied spacing. Chords share one height, and holds finish before rest sections. Four-second audio lead-in.",
   "durationSeconds": 127.3241,
   "notes": [
     {
-      "beat": 14.616653,
+      "beat": 14.616652,
       "lane": 1,
       "useCustomHeight": true,
       "customHeight": 0.625,
+      "holdBeats": 0
+    },
+    {
+      "beat": 15.28332,
+      "lane": 2,
+      "useCustomHeight": true,
+      "customHeight": 0.75,
+      "holdBeats": 0
+    },
+    {
+      "beat": 15.924987,
+      "lane": 2,
+      "useCustomHeight": true,
+      "customHeight": 0.75,
       "holdBeats": 0
     },
     {
@@ -17,38 +31,178 @@
       "holdBeats": 0
     },
     {
-      "beat": 19.949991,
-      "lane": 1,
-      "useCustomHeight": true,
-      "customHeight": 0.5625,
-      "holdBeats": 0
-    },
-    {
-      "beat": 23.01666,
-      "lane": 1,
-      "useCustomHeight": true,
-      "customHeight": 0.6875,
-      "holdBeats": 2.4
-    },
-    {
-      "beat": 27.00833,
+      "beat": 17.366655,
       "lane": 2,
       "useCustomHeight": true,
       "customHeight": 0.75,
       "holdBeats": 0
     },
     {
-      "beat": 30.074999,
-      "lane": 2,
+      "beat": 18.033322,
+      "lane": 1,
       "useCustomHeight": true,
-      "customHeight": 0.8125,
+      "customHeight": 0.625,
       "holdBeats": 0
     },
     {
-      "beat": 33.150001,
+      "beat": 18.666656,
+      "lane": 1,
+      "useCustomHeight": true,
+      "customHeight": 0.6875,
+      "holdBeats": 0
+    },
+    {
+      "beat": 19.324989,
+      "lane": 1,
+      "useCustomHeight": true,
+      "customHeight": 0.6875,
+      "holdBeats": 0
+    },
+    {
+      "beat": 19.94999,
+      "lane": 1,
+      "useCustomHeight": true,
+      "customHeight": 0.5625,
+      "holdBeats": 0
+    },
+    {
+      "beat": 20.591657,
+      "lane": 0,
+      "useCustomHeight": true,
+      "customHeight": 0.228298,
+      "holdBeats": 0
+    },
+    {
+      "beat": 21.208324,
+      "lane": 1,
+      "useCustomHeight": true,
+      "customHeight": 0.3125,
+      "holdBeats": 0
+    },
+    {
+      "beat": 21.808325,
+      "lane": 1,
+      "useCustomHeight": true,
+      "customHeight": 0.375,
+      "holdBeats": 0
+    },
+    {
+      "beat": 22.416659,
+      "lane": 1,
+      "useCustomHeight": true,
+      "customHeight": 0.5,
+      "holdBeats": 0
+    },
+    {
+      "beat": 23.016659,
+      "lane": 1,
+      "useCustomHeight": true,
+      "customHeight": 0.6875,
+      "holdBeats": 0
+    },
+    {
+      "beat": 23.624993,
+      "lane": 1,
+      "useCustomHeight": true,
+      "customHeight": 0.6875,
+      "holdBeats": 0
+    },
+    {
+      "beat": 24.249993,
+      "lane": 1,
+      "useCustomHeight": true,
+      "customHeight": 0.361979,
+      "holdBeats": 0
+    },
+    {
+      "beat": 24.71666,
+      "lane": 1,
+      "useCustomHeight": true,
+      "customHeight": 0.375,
+      "holdBeats": 0
+    },
+    {
+      "beat": 25.233327,
+      "lane": 1,
+      "useCustomHeight": true,
+      "customHeight": 0.5625,
+      "holdBeats": 0
+    },
+    {
+      "beat": 25.824995,
+      "lane": 1,
+      "useCustomHeight": true,
+      "customHeight": 0.625,
+      "holdBeats": 0
+    },
+    {
+      "beat": 26.424995,
+      "lane": 1,
+      "useCustomHeight": true,
+      "customHeight": 0.6875,
+      "holdBeats": 0
+    },
+    {
+      "beat": 27.008329,
+      "lane": 2,
+      "useCustomHeight": true,
+      "customHeight": 0.75,
+      "holdBeats": 0
+    },
+    {
+      "beat": 27.608329,
+      "lane": 1,
+      "useCustomHeight": true,
+      "customHeight": 0.4375,
+      "holdBeats": 0
+    },
+    {
+      "beat": 28.241663,
+      "lane": 1,
+      "useCustomHeight": true,
+      "customHeight": 0.375,
+      "holdBeats": 0
+    },
+    {
+      "beat": 28.80833,
+      "lane": 1,
+      "useCustomHeight": true,
+      "customHeight": 0.5625,
+      "holdBeats": 0
+    },
+    {
+      "beat": 29.474998,
+      "lane": 2,
+      "useCustomHeight": true,
+      "customHeight": 0.8125,
+      "holdBeats": 1.08
+    },
+    {
+      "beat": 31.283332,
       "lane": 2,
       "useCustomHeight": true,
       "customHeight": 0.875,
+      "holdBeats": 0
+    },
+    {
+      "beat": 31.874999,
+      "lane": 2,
+      "useCustomHeight": true,
+      "customHeight": 0.875,
+      "holdBeats": 0
+    },
+    {
+      "beat": 33.15,
+      "lane": 2,
+      "useCustomHeight": true,
+      "customHeight": 0.875,
+      "holdBeats": 0
+    },
+    {
+      "beat": 34.425002,
+      "lane": 2,
+      "useCustomHeight": true,
+      "customHeight": 0.75,
       "holdBeats": 0
     },
     {
@@ -59,17 +213,24 @@
       "holdBeats": 0
     },
     {
-      "beat": 37.966672,
+      "beat": 36.81667,
+      "lane": 1,
+      "useCustomHeight": true,
+      "customHeight": 0.625,
+      "holdBeats": 0
+    },
+    {
+      "beat": 37.966671,
       "lane": 2,
       "useCustomHeight": true,
       "customHeight": 0.8125,
       "holdBeats": 0
     },
     {
-      "beat": 41.108341,
-      "lane": 2,
+      "beat": 39.258339,
+      "lane": 1,
       "useCustomHeight": true,
-      "customHeight": 0.875,
+      "customHeight": 0.5,
       "holdBeats": 0
     },
     {
@@ -80,17 +241,94 @@
       "holdBeats": 0
     },
     {
-      "beat": 45.933345,
+      "beat": 44.62501,
       "lane": 2,
       "useCustomHeight": true,
       "customHeight": 1,
-      "holdBeats": 2.4
+      "holdBeats": 0
+    },
+    {
+      "beat": 45.25001,
+      "lane": 2,
+      "useCustomHeight": true,
+      "customHeight": 0.9375,
+      "holdBeats": 0
+    },
+    {
+      "beat": 45.933344,
+      "lane": 2,
+      "useCustomHeight": true,
+      "customHeight": 1,
+      "holdBeats": 0
+    },
+    {
+      "beat": 46.533345,
+      "lane": 2,
+      "useCustomHeight": true,
+      "customHeight": 0.9375,
+      "holdBeats": 0
+    },
+    {
+      "beat": 47.191678,
+      "lane": 2,
+      "useCustomHeight": true,
+      "customHeight": 0.875,
+      "holdBeats": 0
+    },
+    {
+      "beat": 47.833346,
+      "lane": 2,
+      "useCustomHeight": true,
+      "customHeight": 0.8125,
+      "holdBeats": 0
+    },
+    {
+      "beat": 48.516679,
+      "lane": 2,
+      "useCustomHeight": true,
+      "customHeight": 0.875,
+      "holdBeats": 0
+    },
+    {
+      "beat": 49.19168,
+      "lane": 2,
+      "useCustomHeight": true,
+      "customHeight": 0.8125,
+      "holdBeats": 0
     },
     {
       "beat": 49.891681,
       "lane": 2,
       "useCustomHeight": true,
       "customHeight": 0.75,
+      "holdBeats": 0
+    },
+    {
+      "beat": 50.583348,
+      "lane": 1,
+      "useCustomHeight": true,
+      "customHeight": 0.389757,
+      "holdBeats": 0
+    },
+    {
+      "beat": 51.208348,
+      "lane": 1,
+      "useCustomHeight": true,
+      "customHeight": 0.4375,
+      "holdBeats": 0
+    },
+    {
+      "beat": 51.766682,
+      "lane": 1,
+      "useCustomHeight": true,
+      "customHeight": 0.5,
+      "holdBeats": 0
+    },
+    {
+      "beat": 52.350016,
+      "lane": 1,
+      "useCustomHeight": true,
+      "customHeight": 0.625,
       "holdBeats": 0
     },
     {
@@ -101,17 +339,94 @@
       "holdBeats": 0
     },
     {
-      "beat": 56.02502,
+      "beat": 53.58335,
+      "lane": 2,
+      "useCustomHeight": true,
+      "customHeight": 0.8125,
+      "holdBeats": 0
+    },
+    {
+      "beat": 54.233351,
+      "lane": 1,
+      "useCustomHeight": true,
+      "customHeight": 0.473958,
+      "holdBeats": 0
+    },
+    {
+      "beat": 54.883351,
+      "lane": 1,
+      "useCustomHeight": true,
+      "customHeight": 0.375,
+      "holdBeats": 0
+    },
+    {
+      "beat": 55.441685,
+      "lane": 1,
+      "useCustomHeight": true,
+      "customHeight": 0.5625,
+      "holdBeats": 0
+    },
+    {
+      "beat": 56.025019,
       "lane": 1,
       "useCustomHeight": true,
       "customHeight": 0.625,
       "holdBeats": 0
     },
     {
-      "beat": 59.125022,
+      "beat": 56.558353,
+      "lane": 1,
+      "useCustomHeight": true,
+      "customHeight": 0.6875,
+      "holdBeats": 0
+    },
+    {
+      "beat": 57.25002,
+      "lane": 2,
+      "useCustomHeight": true,
+      "customHeight": 0.75,
+      "holdBeats": 0
+    },
+    {
+      "beat": 57.866687,
+      "lane": 1,
+      "useCustomHeight": true,
+      "customHeight": 0.428819,
+      "holdBeats": 0
+    },
+    {
+      "beat": 58.541687,
+      "lane": 1,
+      "useCustomHeight": true,
+      "customHeight": 0.375,
+      "holdBeats": 0
+    },
+    {
+      "beat": 59.125021,
       "lane": 1,
       "useCustomHeight": true,
       "customHeight": 0.5625,
+      "holdBeats": 0
+    },
+    {
+      "beat": 59.783355,
+      "lane": 2,
+      "useCustomHeight": true,
+      "customHeight": 0.8125,
+      "holdBeats": 0
+    },
+    {
+      "beat": 60.408356,
+      "lane": 2,
+      "useCustomHeight": true,
+      "customHeight": 0.8125,
+      "holdBeats": 0
+    },
+    {
+      "beat": 61.025023,
+      "lane": 2,
+      "useCustomHeight": true,
+      "customHeight": 0.8125,
       "holdBeats": 0
     },
     {
@@ -122,17 +437,59 @@
       "holdBeats": 0
     },
     {
-      "beat": 64.85836,
-      "lane": 1,
+      "beat": 62.24169,
+      "lane": 2,
       "useCustomHeight": true,
-      "customHeight": 0.5625,
+      "customHeight": 0.8125,
       "holdBeats": 0
     },
     {
-      "beat": 67.900029,
+      "beat": 62.875024,
       "lane": 1,
       "useCustomHeight": true,
-      "customHeight": 0.5625,
+      "customHeight": 0.6875,
+      "holdBeats": 0
+    },
+    {
+      "beat": 63.516691,
+      "lane": 1,
+      "useCustomHeight": true,
+      "customHeight": 0.6875,
+      "holdBeats": 0
+    },
+    {
+      "beat": 64.158359,
+      "lane": 1,
+      "useCustomHeight": true,
+      "customHeight": 0.6875,
+      "holdBeats": 0
+    },
+    {
+      "beat": 64.800026,
+      "lane": 1,
+      "useCustomHeight": true,
+      "customHeight": 0.353298,
+      "holdBeats": 0
+    },
+    {
+      "beat": 65.450026,
+      "lane": 0,
+      "useCustomHeight": true,
+      "customHeight": 0.1875,
+      "holdBeats": 0
+    },
+    {
+      "beat": 67.350028,
+      "lane": 1,
+      "useCustomHeight": true,
+      "customHeight": 0.5,
+      "holdBeats": 0
+    },
+    {
+      "beat": 69.116696,
+      "lane": 0,
+      "useCustomHeight": true,
+      "customHeight": 0.1875,
       "holdBeats": 0
     },
     {
@@ -140,20 +497,27 @@
       "lane": 1,
       "useCustomHeight": true,
       "customHeight": 0.5625,
-      "holdBeats": 2.4
-    },
-    {
-      "beat": 76.041702,
-      "lane": 1,
-      "useCustomHeight": true,
-      "customHeight": 0.6875,
       "holdBeats": 0
     },
     {
-      "beat": 79.016705,
-      "lane": 2,
+      "beat": 72.983366,
+      "lane": 0,
       "useCustomHeight": true,
-      "customHeight": 0.75,
+      "customHeight": 0.125,
+      "holdBeats": 0
+    },
+    {
+      "beat": 79.625038,
+      "lane": 1,
+      "useCustomHeight": true,
+      "customHeight": 0.6875,
+      "holdBeats": 1.08
+    },
+    {
+      "beat": 81.408372,
+      "lane": 1,
+      "useCustomHeight": true,
+      "customHeight": 0.5,
       "holdBeats": 0
     },
     {
@@ -164,6 +528,34 @@
       "holdBeats": 0
     },
     {
+      "beat": 82.608373,
+      "lane": 1,
+      "useCustomHeight": true,
+      "customHeight": 0.6875,
+      "holdBeats": 0
+    },
+    {
+      "beat": 83.208374,
+      "lane": 1,
+      "useCustomHeight": true,
+      "customHeight": 0.6875,
+      "holdBeats": 0
+    },
+    {
+      "beat": 83.808374,
+      "lane": 1,
+      "useCustomHeight": true,
+      "customHeight": 0.375,
+      "holdBeats": 0
+    },
+    {
+      "beat": 84.441708,
+      "lane": 1,
+      "useCustomHeight": true,
+      "customHeight": 0.3125,
+      "holdBeats": 0
+    },
+    {
       "beat": 84.991709,
       "lane": 1,
       "useCustomHeight": true,
@@ -171,14 +563,91 @@
       "holdBeats": 0
     },
     {
-      "beat": 88.075045,
+      "beat": 85.658376,
+      "lane": 1,
+      "useCustomHeight": true,
+      "customHeight": 0.6875,
+      "holdBeats": 0
+    },
+    {
+      "beat": 86.183376,
+      "lane": 1,
+      "useCustomHeight": true,
+      "customHeight": 0.6875,
+      "holdBeats": 0
+    },
+    {
+      "beat": 86.833377,
+      "lane": 1,
+      "useCustomHeight": true,
+      "customHeight": 0.625,
+      "holdBeats": 0
+    },
+    {
+      "beat": 87.525044,
+      "lane": 1,
+      "useCustomHeight": true,
+      "customHeight": 0.264757,
+      "holdBeats": 0
+    },
+    {
+      "beat": 88.075044,
+      "lane": 1,
+      "useCustomHeight": true,
+      "customHeight": 0.551215,
+      "holdBeats": 0
+    },
+    {
+      "beat": 88.675045,
       "lane": 1,
       "useCustomHeight": true,
       "customHeight": 0.5625,
       "holdBeats": 0
     },
     {
-      "beat": 90.966714,
+      "beat": 89.241712,
+      "lane": 2,
+      "useCustomHeight": true,
+      "customHeight": 0.8125,
+      "holdBeats": 0
+    },
+    {
+      "beat": 89.841713,
+      "lane": 1,
+      "useCustomHeight": true,
+      "customHeight": 0.5625,
+      "holdBeats": 0
+    },
+    {
+      "beat": 90.43338,
+      "lane": 2,
+      "useCustomHeight": true,
+      "customHeight": 0.8125,
+      "holdBeats": 0
+    },
+    {
+      "beat": 90.966713,
+      "lane": 2,
+      "useCustomHeight": true,
+      "customHeight": 0.8125,
+      "holdBeats": 0
+    },
+    {
+      "beat": 91.600047,
+      "lane": 2,
+      "useCustomHeight": true,
+      "customHeight": 0.875,
+      "holdBeats": 0
+    },
+    {
+      "beat": 92.266714,
+      "lane": 2,
+      "useCustomHeight": true,
+      "customHeight": 0.8125,
+      "holdBeats": 0
+    },
+    {
+      "beat": 92.975048,
       "lane": 2,
       "useCustomHeight": true,
       "customHeight": 0.8125,
@@ -192,59 +661,171 @@
       "holdBeats": 0
     },
     {
-      "beat": 95.808385,
-      "lane": 2,
-      "useCustomHeight": true,
-      "customHeight": 0.875,
-      "holdBeats": 2.4
-    },
-    {
-      "beat": 99.816721,
-      "lane": 2,
-      "useCustomHeight": true,
-      "customHeight": 0.875,
-      "holdBeats": 0
-    },
-    {
-      "beat": 102.966724,
-      "lane": 1,
-      "useCustomHeight": true,
-      "customHeight": 0.4375,
-      "holdBeats": 0
-    },
-    {
-      "beat": 105.900059,
-      "lane": 2,
-      "useCustomHeight": true,
-      "customHeight": 0.875,
-      "holdBeats": 0
-    },
-    {
-      "beat": 108.850062,
-      "lane": 2,
-      "useCustomHeight": true,
-      "customHeight": 0.875,
-      "holdBeats": 0
-    },
-    {
-      "beat": 111.900064,
-      "lane": 2,
-      "useCustomHeight": true,
-      "customHeight": 0.875,
-      "holdBeats": 0
-    },
-    {
-      "beat": 114.9584,
+      "beat": 94.308383,
       "lane": 2,
       "useCustomHeight": true,
       "customHeight": 0.8125,
       "holdBeats": 0
     },
     {
+      "beat": 95.008383,
+      "lane": 2,
+      "useCustomHeight": true,
+      "customHeight": 0.875,
+      "holdBeats": 0
+    },
+    {
+      "beat": 95.808384,
+      "lane": 2,
+      "useCustomHeight": true,
+      "customHeight": 0.875,
+      "holdBeats": 0
+    },
+    {
+      "beat": 97.883386,
+      "lane": 2,
+      "useCustomHeight": true,
+      "customHeight": 0.875,
+      "holdBeats": 0
+    },
+    {
+      "beat": 99.81672,
+      "lane": 2,
+      "useCustomHeight": true,
+      "customHeight": 0.875,
+      "holdBeats": 0
+    },
+    {
+      "beat": 102.333389,
+      "lane": 2,
+      "useCustomHeight": true,
+      "customHeight": 0.75,
+      "holdBeats": 0
+    },
+    {
+      "beat": 108.850061,
+      "lane": 2,
+      "useCustomHeight": true,
+      "customHeight": 0.875,
+      "holdBeats": 0
+    },
+    {
+      "beat": 109.458395,
+      "lane": 2,
+      "useCustomHeight": true,
+      "customHeight": 0.875,
+      "holdBeats": 0
+    },
+    {
+      "beat": 110.050062,
+      "lane": 1,
+      "useCustomHeight": true,
+      "customHeight": 0.56684,
+      "holdBeats": 0
+    },
+    {
+      "beat": 110.675063,
+      "lane": 1,
+      "useCustomHeight": true,
+      "customHeight": 0.5625,
+      "holdBeats": 0
+    },
+    {
+      "beat": 111.225063,
+      "lane": 1,
+      "useCustomHeight": true,
+      "customHeight": 0.625,
+      "holdBeats": 0
+    },
+    {
+      "beat": 111.900063,
+      "lane": 2,
+      "useCustomHeight": true,
+      "customHeight": 0.875,
+      "holdBeats": 0
+    },
+    {
+      "beat": 112.525064,
+      "lane": 2,
+      "useCustomHeight": true,
+      "customHeight": 0.875,
+      "holdBeats": 0
+    },
+    {
+      "beat": 113.150064,
+      "lane": 2,
+      "useCustomHeight": true,
+      "customHeight": 0.875,
+      "holdBeats": 0
+    },
+    {
+      "beat": 113.708398,
+      "lane": 2,
+      "useCustomHeight": true,
+      "customHeight": 0.875,
+      "holdBeats": 0
+    },
+    {
+      "beat": 114.366732,
+      "lane": 2,
+      "useCustomHeight": true,
+      "customHeight": 0.875,
+      "holdBeats": 0
+    },
+    {
+      "beat": 114.958399,
+      "lane": 2,
+      "useCustomHeight": true,
+      "customHeight": 0.8125,
+      "holdBeats": 0
+    },
+    {
+      "beat": 115.591733,
+      "lane": 2,
+      "useCustomHeight": true,
+      "customHeight": 0.875,
+      "holdBeats": 0
+    },
+    {
+      "beat": 116.191734,
+      "lane": 2,
+      "useCustomHeight": true,
+      "customHeight": 0.8125,
+      "holdBeats": 0
+    },
+    {
+      "beat": 116.841734,
+      "lane": 2,
+      "useCustomHeight": true,
+      "customHeight": 0.75,
+      "holdBeats": 0
+    },
+    {
       "beat": 117.541735,
       "lane": 1,
       "useCustomHeight": true,
-      "customHeight": 0.3125,
+      "customHeight": 0.385416,
+      "holdBeats": 0
+    },
+    {
+      "beat": 118.191735,
+      "lane": 1,
+      "useCustomHeight": true,
+      "customHeight": 0.4375,
+      "holdBeats": 0
+    },
+    {
+      "beat": 118.766736,
+      "lane": 1,
+      "useCustomHeight": true,
+      "customHeight": 0.5,
+      "holdBeats": 0
+    },
+    {
+      "beat": 119.358403,
+      "lane": 1,
+      "useCustomHeight": true,
+      "customHeight": 0.5625,
       "holdBeats": 0
     },
     {
@@ -252,41 +833,132 @@
       "lane": 1,
       "useCustomHeight": true,
       "customHeight": 0.6875,
-      "holdBeats": 2.4
+      "holdBeats": 0
     },
     {
-      "beat": 124.850075,
+      "beat": 120.57507,
+      "lane": 1,
+      "useCustomHeight": true,
+      "customHeight": 0.6875,
+      "holdBeats": 0
+    },
+    {
+      "beat": 121.225071,
+      "lane": 1,
+      "useCustomHeight": true,
+      "customHeight": 0.348958,
+      "holdBeats": 1.08
+    },
+    {
+      "beat": 123.008406,
+      "lane": 2,
+      "useCustomHeight": true,
+      "customHeight": 0.75,
+      "holdBeats": 0
+    },
+    {
+      "beat": 123.600073,
+      "lane": 1,
+      "useCustomHeight": true,
+      "customHeight": 0.6875,
+      "holdBeats": 0
+    },
+    {
+      "beat": 124.225073,
+      "lane": 1,
+      "useCustomHeight": true,
+      "customHeight": 0.6875,
+      "holdBeats": 0
+    },
+    {
+      "beat": 124.850074,
+      "lane": 1,
+      "useCustomHeight": true,
+      "customHeight": 0.361979,
+      "holdBeats": 0
+    },
+    {
+      "beat": 126.041741,
+      "lane": 1,
+      "useCustomHeight": true,
+      "customHeight": 0.6875,
+      "holdBeats": 0
+    },
+    {
+      "beat": 127.275076,
+      "lane": 1,
+      "useCustomHeight": true,
+      "customHeight": 0.6875,
+      "holdBeats": 0
+    },
+    {
+      "beat": 128.575077,
       "lane": 1,
       "useCustomHeight": true,
       "customHeight": 0.25,
       "holdBeats": 0
     },
     {
-      "beat": 127.875077,
+      "beat": 129.741744,
+      "lane": 1,
+      "useCustomHeight": true,
+      "customHeight": 0.5625,
+      "holdBeats": 0
+    },
+    {
+      "beat": 130.991745,
       "lane": 2,
       "useCustomHeight": true,
       "customHeight": 0.75,
       "holdBeats": 0
     },
     {
-      "beat": 130.991746,
-      "lane": 2,
+      "beat": 132.241746,
+      "lane": 1,
       "useCustomHeight": true,
-      "customHeight": 0.75,
+      "customHeight": 0.25,
       "holdBeats": 0
     },
     {
-      "beat": 134.033415,
-      "lane": 2,
+      "beat": 135.883416,
+      "lane": 0,
       "useCustomHeight": true,
-      "customHeight": 0.75,
+      "customHeight": 0.125,
       "holdBeats": 0
     },
     {
-      "beat": 137.083418,
+      "beat": 136.533417,
+      "lane": 1,
+      "useCustomHeight": true,
+      "customHeight": 0.25,
+      "holdBeats": 0
+    },
+    {
+      "beat": 137.083417,
       "lane": 1,
       "useCustomHeight": true,
       "customHeight": 0.375,
+      "holdBeats": 0
+    },
+    {
+      "beat": 137.775084,
+      "lane": 1,
+      "useCustomHeight": true,
+      "customHeight": 0.625,
+      "holdBeats": 0
+    },
+    {
+      "beat": 138.408418,
+      "lane": 1,
+      "useCustomHeight": true,
+      "customHeight": 0.5625,
+      "holdBeats": 0
+    },
+    {
+      "beat": 138.975085,
+      "lane": 1,
+      "useCustomHeight": true,
+      "customHeight": 0.267361,
       "holdBeats": 0
     },
     {
@@ -297,87 +969,290 @@
       "holdBeats": 0
     },
     {
-      "beat": 142.091755,
+      "beat": 140.325086,
       "lane": 1,
       "useCustomHeight": true,
       "customHeight": 0.375,
       "holdBeats": 0
     },
     {
-      "beat": 145.133424,
-      "lane": 2,
+      "beat": 140.941753,
+      "lane": 1,
       "useCustomHeight": true,
-      "customHeight": 0.75,
-      "holdBeats": 2.4
+      "customHeight": 0.375,
+      "holdBeats": 0
     },
     {
-      "beat": 150.025095,
+      "beat": 141.441754,
+      "lane": 1,
+      "useCustomHeight": true,
+      "customHeight": 0.635417,
+      "holdBeats": 0
+    },
+    {
+      "beat": 142.091754,
+      "lane": 1,
+      "useCustomHeight": true,
+      "customHeight": 0.375,
+      "holdBeats": 0
+    },
+    {
+      "beat": 142.675088,
+      "lane": 1,
+      "useCustomHeight": true,
+      "customHeight": 0.67882,
+      "holdBeats": 0
+    },
+    {
+      "beat": 143.208422,
       "lane": 2,
       "useCustomHeight": true,
       "customHeight": 0.75,
       "holdBeats": 0
     },
     {
-      "beat": 152.066763,
+      "beat": 143.816756,
+      "lane": 2,
+      "useCustomHeight": true,
+      "customHeight": 0.75,
+      "holdBeats": 0
+    },
+    {
+      "beat": 144.47509,
+      "lane": 2,
+      "useCustomHeight": true,
+      "customHeight": 0.75,
+      "holdBeats": 0
+    },
+    {
+      "beat": 145.133423,
+      "lane": 2,
+      "useCustomHeight": true,
+      "customHeight": 0.75,
+      "holdBeats": 0
+    },
+    {
+      "beat": 145.791757,
+      "lane": 2,
+      "useCustomHeight": true,
+      "customHeight": 0.75,
+      "holdBeats": 0
+    },
+    {
+      "beat": 146.450091,
+      "lane": 2,
+      "useCustomHeight": true,
+      "customHeight": 0.75,
+      "holdBeats": 0
+    },
+    {
+      "beat": 147.150092,
+      "lane": 2,
+      "useCustomHeight": true,
+      "customHeight": 0.75,
+      "holdBeats": 0
+    },
+    {
+      "beat": 147.875092,
+      "lane": 2,
+      "useCustomHeight": true,
+      "customHeight": 0.75,
+      "holdBeats": 0
+    },
+    {
+      "beat": 148.658426,
+      "lane": 2,
+      "useCustomHeight": true,
+      "customHeight": 0.75,
+      "holdBeats": 0
+    },
+    {
+      "beat": 149.31676,
+      "lane": 2,
+      "useCustomHeight": true,
+      "customHeight": 0.75,
+      "holdBeats": 0
+    },
+    {
+      "beat": 150.025094,
+      "lane": 2,
+      "useCustomHeight": true,
+      "customHeight": 0.75,
+      "holdBeats": 0
+    },
+    {
+      "beat": 150.758428,
+      "lane": 2,
+      "useCustomHeight": true,
+      "customHeight": 0.75,
+      "holdBeats": 0
+    },
+    {
+      "beat": 151.366762,
       "lane": 2,
       "useCustomHeight": true,
       "customHeight": 0.8125,
       "holdBeats": 0
     },
     {
-      "beat": 154.591765,
+      "beat": 152.066762,
+      "lane": 2,
+      "useCustomHeight": true,
+      "customHeight": 0.8125,
+      "holdBeats": 0
+    },
+    {
+      "beat": 152.700096,
       "lane": 1,
       "useCustomHeight": true,
       "customHeight": 0.6875,
       "holdBeats": 0
     },
     {
-      "beat": 157.066767,
+      "beat": 153.350097,
+      "lane": 2,
+      "useCustomHeight": true,
+      "customHeight": 0.75,
+      "holdBeats": 0
+    },
+    {
+      "beat": 153.966764,
+      "lane": 2,
+      "useCustomHeight": true,
+      "customHeight": 0.75,
+      "holdBeats": 0
+    },
+    {
+      "beat": 154.591764,
+      "lane": 1,
+      "useCustomHeight": true,
+      "customHeight": 0.6875,
+      "holdBeats": 0
+    },
+    {
+      "beat": 155.258432,
+      "lane": 1,
+      "useCustomHeight": true,
+      "customHeight": 0.340278,
+      "holdBeats": 0
+    },
+    {
+      "beat": 155.891765,
+      "lane": 1,
+      "useCustomHeight": true,
+      "customHeight": 0.375,
+      "holdBeats": 0
+    },
+    {
+      "beat": 156.458432,
+      "lane": 1,
+      "useCustomHeight": true,
+      "customHeight": 0.4375,
+      "holdBeats": 0
+    },
+    {
+      "beat": 157.066766,
       "lane": 1,
       "useCustomHeight": true,
       "customHeight": 0.5625,
       "holdBeats": 0
     },
     {
-      "beat": 160.133436,
+      "beat": 157.6751,
+      "lane": 1,
+      "useCustomHeight": true,
+      "customHeight": 0.6875,
+      "holdBeats": 0
+    },
+    {
+      "beat": 159.591768,
+      "lane": 1,
+      "useCustomHeight": true,
+      "customHeight": 0.4375,
+      "holdBeats": 0
+    },
+    {
+      "beat": 161.283436,
+      "lane": 2,
+      "useCustomHeight": true,
+      "customHeight": 0.8125,
+      "holdBeats": 0
+    },
+    {
+      "beat": 163.283438,
+      "lane": 1,
+      "useCustomHeight": true,
+      "customHeight": 0.4375,
+      "holdBeats": 1.08
+    },
+    {
+      "beat": 165.250106,
+      "lane": 2,
+      "useCustomHeight": true,
+      "customHeight": 0.875,
+      "holdBeats": 0
+    },
+    {
+      "beat": 172.916779,
+      "lane": 2,
+      "useCustomHeight": true,
+      "customHeight": 0.8125,
+      "holdBeats": 0
+    },
+    {
+      "beat": 173.550113,
+      "lane": 2,
+      "useCustomHeight": true,
+      "customHeight": 0.875,
+      "holdBeats": 0
+    },
+    {
+      "beat": 174.225113,
+      "lane": 1,
+      "useCustomHeight": true,
+      "customHeight": 0.523437,
+      "holdBeats": 0
+    },
+    {
+      "beat": 174.850114,
+      "lane": 1,
+      "useCustomHeight": true,
+      "customHeight": 0.5,
+      "holdBeats": 0
+    },
+    {
+      "beat": 175.466781,
       "lane": 1,
       "useCustomHeight": true,
       "customHeight": 0.625,
       "holdBeats": 0
     },
     {
-      "beat": 162.625105,
-      "lane": 1,
-      "useCustomHeight": true,
-      "customHeight": 0.3125,
-      "holdBeats": 0
-    },
-    {
-      "beat": 165.916774,
-      "lane": 2,
-      "useCustomHeight": true,
-      "customHeight": 0.875,
-      "holdBeats": 0
-    },
-    {
-      "beat": 169.083443,
-      "lane": 2,
-      "useCustomHeight": true,
-      "customHeight": 0.875,
-      "holdBeats": 2.4
-    },
-    {
-      "beat": 173.550114,
-      "lane": 2,
-      "useCustomHeight": true,
-      "customHeight": 0.875,
-      "holdBeats": 0
-    },
-    {
-      "beat": 176.891783,
+      "beat": 176.266782,
       "lane": 2,
       "useCustomHeight": true,
       "customHeight": 0.8125,
+      "holdBeats": 0
+    },
+    {
+      "beat": 176.891782,
+      "lane": 2,
+      "useCustomHeight": true,
+      "customHeight": 0.8125,
+      "holdBeats": 0
+    },
+    {
+      "beat": 177.591783,
+      "lane": 2,
+      "useCustomHeight": true,
+      "customHeight": 0.75,
+      "holdBeats": 0
+    },
+    {
+      "beat": 178.275117,
+      "lane": 1,
+      "useCustomHeight": true,
+      "customHeight": 0.394097,
       "holdBeats": 0
     },
     {
@@ -388,157 +1263,528 @@
       "holdBeats": 0
     },
     {
-      "beat": 182.080944,
-      "lane": 1,
-      "useCustomHeight": true,
-      "customHeight": 0.375,
-      "holdBeats": 0
-    },
-    {
-      "beat": 184.449715,
+      "beat": 179.800333,
       "lane": 2,
       "useCustomHeight": true,
-      "customHeight": 0.875,
+      "customHeight": 0.8125,
       "holdBeats": 0
     },
     {
-      "beat": 186.846059,
+      "beat": 180.527204,
       "lane": 2,
       "useCustomHeight": true,
-      "customHeight": 0.75,
+      "customHeight": 0.8125,
       "holdBeats": 0
     },
     {
-      "beat": 189.191633,
+      "beat": 181.274485,
       "lane": 2,
       "useCustomHeight": true,
-      "customHeight": 0.875,
+      "customHeight": 0.8125,
       "holdBeats": 0
     },
     {
-      "beat": 191.608285,
-      "lane": 2,
-      "useCustomHeight": true,
-      "customHeight": 0.75,
-      "holdBeats": 2.4
-    },
-    {
-      "beat": 195.608961,
-      "lane": 1,
-      "useCustomHeight": true,
-      "customHeight": 0.5625,
-      "holdBeats": 0
-    },
-    {
-      "beat": 197.883457,
-      "lane": 1,
-      "useCustomHeight": true,
-      "customHeight": 0.3125,
-      "holdBeats": 0
-    },
-    {
-      "beat": 200.259493,
-      "lane": 1,
-      "useCustomHeight": true,
-      "customHeight": 0.3125,
-      "holdBeats": 0
-    },
-    {
-      "beat": 202.513681,
-      "lane": 1,
-      "useCustomHeight": true,
-      "customHeight": 0.5625,
-      "holdBeats": 0
-    },
-    {
-      "beat": 205.011565,
-      "lane": 1,
-      "useCustomHeight": true,
-      "customHeight": 0.375,
-      "holdBeats": 0
-    },
-    {
-      "beat": 207.458679,
-      "lane": 1,
-      "useCustomHeight": true,
-      "customHeight": 0.4375,
-      "holdBeats": 0
-    },
-    {
-      "beat": 209.966717,
+      "beat": 181.790771,
       "lane": 1,
       "useCustomHeight": true,
       "customHeight": 0.625,
       "holdBeats": 0
     },
     {
-      "beat": 212.393523,
+      "beat": 182.080943,
       "lane": 1,
       "useCustomHeight": true,
-      "customHeight": 0.6875,
-      "holdBeats": 2.4
-    },
-    {
-      "beat": 217.115133,
-      "lane": 2,
-      "useCustomHeight": true,
-      "customHeight": 0.75,
+      "customHeight": 0.473869,
       "holdBeats": 0
     },
     {
-      "beat": 219.826251,
-      "lane": 2,
-      "useCustomHeight": true,
-      "customHeight": 0.75,
-      "holdBeats": 0
-    },
-    {
-      "beat": 222.192133,
-      "lane": 2,
-      "useCustomHeight": true,
-      "customHeight": 0.75,
-      "holdBeats": 0
-    },
-    {
-      "beat": 224.558015,
-      "lane": 2,
-      "useCustomHeight": true,
-      "customHeight": 0.8125,
-      "holdBeats": 0
-    },
-    {
-      "beat": 226.984821,
-      "lane": 2,
-      "useCustomHeight": true,
-      "customHeight": 0.8125,
-      "holdBeats": 0
-    },
-    {
-      "beat": 230.518413,
+      "beat": 182.603748,
       "lane": 1,
       "useCustomHeight": true,
-      "customHeight": 0.6875,
+      "customHeight": 0.4375,
       "holdBeats": 0
     },
     {
-      "beat": 233.087375,
+      "beat": 183.264661,
+      "lane": 1,
+      "useCustomHeight": true,
+      "customHeight": 0.4375,
+      "holdBeats": 0
+    },
+    {
+      "beat": 183.811516,
+      "lane": 1,
+      "useCustomHeight": true,
+      "customHeight": 0.375,
+      "holdBeats": 0
+    },
+    {
+      "beat": 184.449714,
+      "lane": 1,
+      "useCustomHeight": true,
+      "customHeight": 0.707395,
+      "holdBeats": 0
+    },
+    {
+      "beat": 185.0488,
+      "lane": 1,
+      "useCustomHeight": true,
+      "customHeight": 0.395371,
+      "holdBeats": 0
+    },
+    {
+      "beat": 185.647886,
+      "lane": 1,
+      "useCustomHeight": true,
+      "customHeight": 0.707395,
+      "holdBeats": 0
+    },
+    {
+      "beat": 186.246972,
+      "lane": 1,
+      "useCustomHeight": true,
+      "customHeight": 0.4375,
+      "holdBeats": 0
+    },
+    {
+      "beat": 186.846058,
+      "lane": 1,
+      "useCustomHeight": true,
+      "customHeight": 0.749524,
+      "holdBeats": 0
+    },
+    {
+      "beat": 187.404528,
+      "lane": 1,
+      "useCustomHeight": true,
+      "customHeight": 0.458654,
+      "holdBeats": 0
+    },
+    {
+      "beat": 187.99346,
+      "lane": 2,
+      "useCustomHeight": true,
+      "customHeight": 0.76539,
+      "holdBeats": 0
+    },
+    {
+      "beat": 190.399958,
       "lane": 2,
       "useCustomHeight": true,
       "customHeight": 0.875,
       "holdBeats": 0
     },
     {
-      "beat": 235.686799,
-      "lane": 2,
+      "beat": 192.786148,
+      "lane": 1,
       "useCustomHeight": true,
-      "customHeight": 0.8125,
-      "holdBeats": 2.4
+      "customHeight": 0.6875,
+      "holdBeats": 0
     },
     {
-      "beat": 240.545397,
+      "beat": 195.111414,
+      "lane": 1,
+      "useCustomHeight": true,
+      "customHeight": 0.625,
+      "holdBeats": 0
+    },
+    {
+      "beat": 200.259492,
+      "lane": 1,
+      "useCustomHeight": true,
+      "customHeight": 0.3125,
+      "holdBeats": 0
+    },
+    {
+      "beat": 200.807808,
+      "lane": 1,
+      "useCustomHeight": true,
+      "customHeight": 0.375,
+      "holdBeats": 0
+    },
+    {
+      "beat": 201.356124,
+      "lane": 1,
+      "useCustomHeight": true,
+      "customHeight": 0.660581,
+      "holdBeats": 0
+    },
+    {
+      "beat": 201.95521,
+      "lane": 2,
+      "useCustomHeight": true,
+      "customHeight": 0.75,
+      "holdBeats": 0
+    },
+    {
+      "beat": 202.51368,
+      "lane": 1,
+      "useCustomHeight": true,
+      "customHeight": 0.5625,
+      "holdBeats": 0
+    },
+    {
+      "beat": 203.143228,
+      "lane": 1,
+      "useCustomHeight": true,
+      "customHeight": 0.5625,
+      "holdBeats": 0
+    },
+    {
+      "beat": 203.711852,
+      "lane": 1,
+      "useCustomHeight": true,
+      "customHeight": 0.375,
+      "holdBeats": 0
+    },
+    {
+      "beat": 204.402324,
+      "lane": 0,
+      "useCustomHeight": true,
+      "customHeight": 0.1875,
+      "holdBeats": 0
+    },
+    {
+      "beat": 205.011564,
+      "lane": 1,
+      "useCustomHeight": true,
+      "customHeight": 0.375,
+      "holdBeats": 0
+    },
+    {
+      "beat": 205.600496,
+      "lane": 1,
+      "useCustomHeight": true,
+      "customHeight": 0.625,
+      "holdBeats": 0
+    },
+    {
+      "beat": 206.189428,
+      "lane": 1,
+      "useCustomHeight": true,
+      "customHeight": 0.4375,
+      "holdBeats": 0
+    },
+    {
+      "beat": 206.595588,
+      "lane": 1,
+      "useCustomHeight": true,
+      "customHeight": 0.5625,
+      "holdBeats": 0
+    },
+    {
+      "beat": 207.18452,
+      "lane": 1,
+      "useCustomHeight": true,
+      "customHeight": 0.6875,
+      "holdBeats": 0
+    },
+    {
+      "beat": 207.74299,
+      "lane": 1,
+      "useCustomHeight": true,
+      "customHeight": 0.6875,
+      "holdBeats": 0
+    },
+    {
+      "beat": 208.057764,
+      "lane": 1,
+      "useCustomHeight": true,
+      "customHeight": 0.523555,
+      "holdBeats": 0
+    },
+    {
+      "beat": 208.403,
+      "lane": 1,
+      "useCustomHeight": true,
+      "customHeight": 0.6875,
+      "holdBeats": 0
+    },
+    {
+      "beat": 208.697466,
+      "lane": 1,
+      "useCustomHeight": true,
+      "customHeight": 0.5625,
+      "holdBeats": 0
+    },
+    {
+      "beat": 209.032548,
+      "lane": 1,
+      "useCustomHeight": true,
+      "customHeight": 0.6875,
+      "holdBeats": 0
+    },
+    {
+      "beat": 209.641788,
+      "lane": 1,
+      "useCustomHeight": true,
+      "customHeight": 0.6875,
+      "holdBeats": 1.08
+    },
+    {
+      "beat": 211.39843,
+      "lane": 1,
+      "useCustomHeight": true,
+      "customHeight": 0.6875,
+      "holdBeats": 0
+    },
+    {
+      "beat": 211.723358,
+      "lane": 1,
+      "useCustomHeight": true,
+      "customHeight": 0.518267,
+      "holdBeats": 0
+    },
+    {
+      "beat": 212.099056,
+      "lane": 1,
+      "useCustomHeight": true,
+      "customHeight": 0.6875,
+      "holdBeats": 0
+    },
+    {
+      "beat": 212.393522,
+      "lane": 1,
+      "useCustomHeight": true,
+      "customHeight": 0.6875,
+      "holdBeats": 0
+    },
+    {
+      "beat": 212.708296,
+      "lane": 2,
+      "useCustomHeight": true,
+      "customHeight": 0.75,
+      "holdBeats": 0
+    },
+    {
+      "beat": 213.012916,
+      "lane": 1,
+      "useCustomHeight": true,
+      "customHeight": 0.6875,
+      "holdBeats": 0
+    },
+    {
+      "beat": 213.32769,
+      "lane": 2,
+      "useCustomHeight": true,
+      "customHeight": 0.75,
+      "holdBeats": 0
+    },
+    {
+      "beat": 213.63231,
+      "lane": 2,
+      "useCustomHeight": true,
+      "customHeight": 0.75,
+      "holdBeats": 0
+    },
+    {
+      "beat": 214.272012,
+      "lane": 1,
+      "useCustomHeight": true,
+      "customHeight": 0.416822,
+      "holdBeats": 0
+    },
+    {
+      "beat": 214.576632,
+      "lane": 1,
+      "useCustomHeight": true,
+      "customHeight": 0.575478,
+      "holdBeats": 0
+    },
+    {
+      "beat": 214.921868,
+      "lane": 1,
+      "useCustomHeight": true,
+      "customHeight": 0.5625,
+      "holdBeats": 0
+    },
+    {
+      "beat": 215.25695,
+      "lane": 1,
+      "useCustomHeight": true,
+      "customHeight": 0.737022,
+      "holdBeats": 0
+    },
+    {
+      "beat": 215.551416,
+      "lane": 1,
+      "useCustomHeight": true,
+      "customHeight": 0.583654,
+      "holdBeats": 0
+    },
+    {
+      "beat": 215.886498,
+      "lane": 2,
+      "useCustomHeight": true,
+      "customHeight": 0.75,
+      "holdBeats": 0
+    },
+    {
+      "beat": 216.201272,
+      "lane": 1,
+      "useCustomHeight": true,
+      "customHeight": 0.625,
+      "holdBeats": 0
+    },
+    {
+      "beat": 216.505892,
+      "lane": 2,
+      "useCustomHeight": true,
+      "customHeight": 0.75,
+      "holdBeats": 0
+    },
+    {
+      "beat": 216.851128,
+      "lane": 1,
+      "useCustomHeight": true,
+      "customHeight": 0.6875,
+      "holdBeats": 0
+    },
+    {
+      "beat": 217.480676,
+      "lane": 1,
+      "useCustomHeight": true,
+      "customHeight": 0.6875,
+      "holdBeats": 0
+    },
+    {
+      "beat": 218.831158,
+      "lane": 2,
+      "useCustomHeight": true,
+      "customHeight": 0.75,
+      "holdBeats": 0
+    },
+    {
+      "beat": 220.141024,
+      "lane": 2,
+      "useCustomHeight": true,
+      "customHeight": 0.75,
+      "holdBeats": 0
+    },
+    {
+      "beat": 221.440736,
+      "lane": 2,
+      "useCustomHeight": true,
+      "customHeight": 0.75,
+      "holdBeats": 0
+    },
+    {
+      "beat": 222.547522,
       "lane": 2,
       "useCustomHeight": true,
       "customHeight": 0.875,
+      "holdBeats": 0
+    },
+    {
+      "beat": 223.73554,
+      "lane": 2,
+      "useCustomHeight": true,
+      "customHeight": 0.8125,
+      "holdBeats": 0
+    },
+    {
+      "beat": 227.878372,
+      "lane": 2,
+      "useCustomHeight": true,
+      "customHeight": 0.8125,
+      "holdBeats": 2.000338
+    },
+    {
+      "beat": 230.518412,
+      "lane": 1,
+      "useCustomHeight": true,
+      "customHeight": 0.6875,
+      "holdBeats": 0
+    },
+    {
+      "beat": 231.330732,
+      "lane": 2,
+      "useCustomHeight": true,
+      "customHeight": 0.8125,
+      "holdBeats": 0
+    },
+    {
+      "beat": 232.143052,
+      "lane": 2,
+      "useCustomHeight": true,
+      "customHeight": 0.875,
+      "holdBeats": 0
+    },
+    {
+      "beat": 233.087374,
+      "lane": 2,
+      "useCustomHeight": true,
+      "customHeight": 0.875,
+      "holdBeats": 1.817566
+    },
+    {
+      "beat": 235.686798,
+      "lane": 2,
+      "useCustomHeight": true,
+      "customHeight": 0.8125,
+      "holdBeats": 0
+    },
+    {
+      "beat": 236.549888,
+      "lane": 2,
+      "useCustomHeight": true,
+      "customHeight": 0.875,
+      "holdBeats": 0
+    },
+    {
+      "beat": 237.441934,
+      "lane": 2,
+      "useCustomHeight": true,
+      "customHeight": 0.875,
+      "holdBeats": 0
+    },
+    {
+      "beat": 238.315958,
+      "lane": 2,
+      "useCustomHeight": true,
+      "customHeight": 0.875,
+      "holdBeats": 0
+    },
+    {
+      "beat": 239.081844,
+      "lane": 2,
+      "useCustomHeight": true,
+      "customHeight": 0.875,
+      "holdBeats": 0
+    },
+    {
+      "beat": 239.802764,
+      "lane": 2,
+      "useCustomHeight": true,
+      "customHeight": 0.875,
+      "holdBeats": 0
+    },
+    {
+      "beat": 240.545396,
+      "lane": 2,
+      "useCustomHeight": true,
+      "customHeight": 0.875,
+      "holdBeats": 0
+    },
+    {
+      "beat": 241.415667,
+      "lane": 2,
+      "useCustomHeight": true,
+      "customHeight": 1,
+      "holdBeats": 0
+    },
+    {
+      "beat": 242.238017,
+      "lane": 2,
+      "useCustomHeight": true,
+      "customHeight": 0.9375,
+      "holdBeats": 0
+    },
+    {
+      "beat": 242.929826,
+      "lane": 2,
+      "useCustomHeight": true,
+      "customHeight": 1,
       "holdBeats": 0
     },
     {
@@ -549,31 +1795,73 @@
       "holdBeats": 0
     },
     {
-      "beat": 246.188368,
+      "beat": 244.274624,
+      "lane": 2,
+      "useCustomHeight": true,
+      "customHeight": 1,
+      "holdBeats": 0
+    },
+    {
+      "beat": 244.898671,
       "lane": 2,
       "useCustomHeight": true,
       "customHeight": 0.875,
       "holdBeats": 0
     },
     {
-      "beat": 248.426614,
-      "lane": 1,
+      "beat": 245.506076,
+      "lane": 2,
       "useCustomHeight": true,
-      "customHeight": 0.5625,
+      "customHeight": 0.9375,
       "holdBeats": 0
     },
     {
-      "beat": 251.530206,
+      "beat": 246.188367,
+      "lane": 2,
+      "useCustomHeight": true,
+      "customHeight": 0.875,
+      "holdBeats": 0
+    },
+    {
+      "beat": 246.978826,
+      "lane": 2,
+      "useCustomHeight": true,
+      "customHeight": 0.8125,
+      "holdBeats": 0
+    },
+    {
+      "beat": 247.70272,
+      "lane": 1,
+      "useCustomHeight": true,
+      "customHeight": 0.4375,
+      "holdBeats": 1.08
+    },
+    {
+      "beat": 249.666386,
+      "lane": 1,
+      "useCustomHeight": true,
+      "customHeight": 0.625,
+      "holdBeats": 0
+    },
+    {
+      "beat": 251.530205,
       "lane": 1,
       "useCustomHeight": true,
       "customHeight": 0.3125,
       "holdBeats": 0
     },
     {
-      "beat": 254.658759,
-      "lane": 2,
+      "beat": 253.394024,
+      "lane": 1,
       "useCustomHeight": true,
-      "customHeight": 0.8125,
+      "customHeight": 0.6875,
+      "holdBeats": 1.08
+    },
+    {
+      "beat": 255.341049,
+      "lane": 1,
+      "useCustomHeight": true,
+      "customHeight": 0.3125,
       "holdBeats": 0
     },
     {
@@ -584,91 +1872,301 @@
       "holdBeats": 0
     },
     {
-      "beat": 260.483193,
-      "lane": 1,
-      "useCustomHeight": true,
-      "customHeight": 0.6875,
-      "holdBeats": 2.4
-    },
-    {
-      "beat": 265.641977,
-      "lane": 1,
-      "useCustomHeight": true,
-      "customHeight": 0.5625,
-      "holdBeats": 0
-    },
-    {
-      "beat": 268.728927,
+      "beat": 262.496782,
       "lane": 1,
       "useCustomHeight": true,
       "customHeight": 0.6875,
       "holdBeats": 0
     },
     {
-      "beat": 271.299999,
+      "beat": 263.112508,
       "lane": 1,
       "useCustomHeight": true,
-      "customHeight": 0.3125,
+      "customHeight": 0.366809,
       "holdBeats": 0
     },
     {
-      "beat": 273.704658,
+      "beat": 263.81144,
       "lane": 1,
       "useCustomHeight": true,
-      "customHeight": 0.6875,
+      "customHeight": 0.375,
       "holdBeats": 0
     },
     {
-      "beat": 276.250768,
-      "lane": 1,
-      "useCustomHeight": true,
-      "customHeight": 0.6875,
-      "holdBeats": 0
-    },
-    {
-      "beat": 279.554054,
+      "beat": 264.393883,
       "lane": 1,
       "useCustomHeight": true,
       "customHeight": 0.4375,
       "holdBeats": 0
     },
     {
-      "beat": 282.075202,
-      "lane": 0,
+      "beat": 265.01793,
+      "lane": 1,
       "useCustomHeight": true,
-      "customHeight": 0.1875,
+      "customHeight": 0.5625,
       "holdBeats": 0
     },
     {
-      "beat": 284.554746,
+      "beat": 265.641976,
+      "lane": 1,
+      "useCustomHeight": true,
+      "customHeight": 0.5625,
+      "holdBeats": 0
+    },
+    {
+      "beat": 266.23274,
+      "lane": 1,
+      "useCustomHeight": true,
+      "customHeight": 0.625,
+      "holdBeats": 0
+    },
+    {
+      "beat": 266.890069,
+      "lane": 1,
+      "useCustomHeight": true,
+      "customHeight": 0.282641,
+      "holdBeats": 0
+    },
+    {
+      "beat": 267.514116,
+      "lane": 1,
+      "useCustomHeight": true,
+      "customHeight": 0.3125,
+      "holdBeats": 0
+    },
+    {
+      "beat": 268.054956,
+      "lane": 1,
+      "useCustomHeight": true,
+      "customHeight": 0.4375,
+      "holdBeats": 0
+    },
+    {
+      "beat": 268.728926,
       "lane": 1,
       "useCustomHeight": true,
       "customHeight": 0.6875,
-      "holdBeats": 2.4
+      "holdBeats": 0
     },
     {
-      "beat": 289.422309,
+      "beat": 269.352973,
+      "lane": 1,
+      "useCustomHeight": true,
+      "customHeight": 0.625,
+      "holdBeats": 0
+    },
+    {
+      "beat": 270.018623,
+      "lane": 1,
+      "useCustomHeight": true,
+      "customHeight": 0.5625,
+      "holdBeats": 0
+    },
+    {
+      "beat": 270.634348,
+      "lane": 0,
+      "useCustomHeight": true,
+      "customHeight": 0.241809,
+      "holdBeats": 0
+    },
+    {
+      "beat": 271.299998,
+      "lane": 1,
+      "useCustomHeight": true,
+      "customHeight": 0.3125,
+      "holdBeats": 0
+    },
+    {
+      "beat": 271.824197,
+      "lane": 1,
+      "useCustomHeight": true,
+      "customHeight": 0.58552,
+      "holdBeats": 0
+    },
+    {
+      "beat": 272.464885,
+      "lane": 1,
+      "useCustomHeight": true,
+      "customHeight": 0.6875,
+      "holdBeats": 0
+    },
+    {
+      "beat": 273.080611,
+      "lane": 1,
+      "useCustomHeight": true,
+      "customHeight": 0.6875,
+      "holdBeats": 0
+    },
+    {
+      "beat": 273.704657,
+      "lane": 1,
+      "useCustomHeight": true,
+      "customHeight": 0.6875,
+      "holdBeats": 0
+    },
+    {
+      "beat": 274.337024,
+      "lane": 1,
+      "useCustomHeight": true,
+      "customHeight": 0.358142,
+      "holdBeats": 0
+    },
+    {
+      "beat": 274.977712,
+      "lane": 1,
+      "useCustomHeight": true,
+      "customHeight": 0.3125,
+      "holdBeats": 0
+    },
+    {
+      "beat": 275.526873,
+      "lane": 1,
+      "useCustomHeight": true,
+      "customHeight": 0.4375,
+      "holdBeats": 0
+    },
+    {
+      "beat": 276.250767,
+      "lane": 1,
+      "useCustomHeight": true,
+      "customHeight": 0.6875,
+      "holdBeats": 0
+    },
+    {
+      "beat": 276.933058,
+      "lane": 1,
+      "useCustomHeight": true,
+      "customHeight": 0.6875,
+      "holdBeats": 0
+    },
+    {
+      "beat": 277.590387,
+      "lane": 1,
+      "useCustomHeight": true,
+      "customHeight": 0.625,
+      "holdBeats": 0
+    },
+    {
+      "beat": 278.239395,
+      "lane": 1,
+      "useCustomHeight": true,
+      "customHeight": 0.286975,
+      "holdBeats": 0
+    },
+    {
+      "beat": 280.203061,
+      "lane": 1,
+      "useCustomHeight": true,
+      "customHeight": 0.6875,
+      "holdBeats": 0
+    },
+    {
+      "beat": 282.774133,
+      "lane": 1,
+      "useCustomHeight": true,
+      "customHeight": 0.3125,
+      "holdBeats": 0
+    },
+    {
+      "beat": 285.195433,
+      "lane": 1,
+      "useCustomHeight": true,
+      "customHeight": 0.625,
+      "holdBeats": 0
+    },
+    {
+      "beat": 289.422308,
       "lane": 2,
       "useCustomHeight": true,
       "customHeight": 0.75,
       "holdBeats": 0
     },
     {
-      "beat": 292.683992,
+      "beat": 290.054676,
+      "lane": 2,
+      "useCustomHeight": true,
+      "customHeight": 0.875,
+      "holdBeats": 0
+    },
+    {
+      "beat": 290.662081,
       "lane": 2,
       "useCustomHeight": true,
       "customHeight": 0.8125,
       "holdBeats": 0
     },
     {
-      "beat": 295.379873,
+      "beat": 291.377654,
       "lane": 2,
       "useCustomHeight": true,
       "customHeight": 0.8125,
       "holdBeats": 0
     },
     {
-      "beat": 298.009189,
+      "beat": 292.059945,
+      "lane": 2,
+      "useCustomHeight": true,
+      "customHeight": 0.8125,
+      "holdBeats": 0
+    },
+    {
+      "beat": 292.683991,
+      "lane": 2,
+      "useCustomHeight": true,
+      "customHeight": 0.8125,
+      "holdBeats": 0
+    },
+    {
+      "beat": 293.366282,
+      "lane": 2,
+      "useCustomHeight": true,
+      "customHeight": 0.8125,
+      "holdBeats": 0
+    },
+    {
+      "beat": 294.00697,
+      "lane": 2,
+      "useCustomHeight": true,
+      "customHeight": 0.8125,
+      "holdBeats": 0
+    },
+    {
+      "beat": 294.714223,
+      "lane": 2,
+      "useCustomHeight": true,
+      "customHeight": 0.8125,
+      "holdBeats": 0
+    },
+    {
+      "beat": 295.379872,
+      "lane": 2,
+      "useCustomHeight": true,
+      "customHeight": 0.8125,
+      "holdBeats": 0
+    },
+    {
+      "beat": 296.003919,
+      "lane": 2,
+      "useCustomHeight": true,
+      "customHeight": 0.8125,
+      "holdBeats": 0
+    },
+    {
+      "beat": 296.711172,
+      "lane": 2,
+      "useCustomHeight": true,
+      "customHeight": 0.8125,
+      "holdBeats": 0
+    },
+    {
+      "beat": 297.343539,
+      "lane": 2,
+      "useCustomHeight": true,
+      "customHeight": 0.8125,
+      "holdBeats": 0
+    },
+    {
+      "beat": 298.009188,
       "lane": 2,
       "useCustomHeight": true,
       "customHeight": 0.875,
