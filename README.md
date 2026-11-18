@@ -23,7 +23,9 @@ Gameplay includes in-session audio and sensor settings, four wellbeing scenarios
 
 ## Patient profiles
 
-The game refreshes the Firebase patient directory at launch and starts in Guest mode. Click the welcome card at the top left of the main menu to browse patient profiles, search or refresh the list, then choose USE PROFILE. Guest is always available, including when the directory cannot be reached.
+The game starts at the login screen. Sign in to browse patient profiles, then choose USE PROFILE. Guest play is available without Firebase configuration.
+
+To enable sign-in after cloning, create `Assets/Resources` in Unity and use **Create > RhythmRehab > Firebase Client Config** inside it. Name the asset `FirebaseClientConfig` and set **Api Key** to the Firebase client API key provided by the project owner. Git ignores this asset and its `.meta` file. Unity includes the asset in the game build, so only enter the Firebase client API key. Firestore rules control access to patient records.
 
 New sessions record the selected patient ID and name. History filters local sessions by patient and reads matching RhythmRehab sessions from the shared Firestore rehabilitationSessions collection. Cloud history is read-only here; the delete action removes local records. Older records without a patient ID stay with Guest. This feature reads Firebase and does not automatically upload sessions or modify patient details.
 

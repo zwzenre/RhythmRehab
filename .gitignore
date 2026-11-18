@@ -28,6 +28,9 @@
 *.VC.db
 
 # Local credentials and operating-system files
+/Assets/Resources.meta
+/Assets/Resources/FirebaseClientConfig.asset
+/Assets/Resources/FirebaseClientConfig.asset.meta
 .env
 .env.*
 !.env.example

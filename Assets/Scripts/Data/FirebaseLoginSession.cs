@@ -9,11 +9,11 @@ namespace RhythmRehab
     // Prototype shared-account gate. Firestore rules must enforce backend access separately.
     public sealed class FirebaseLoginSession : MonoBehaviour
     {
-        private const string ApiKey = "AIzaSyBO6z6xuL7I7_-SoA0SfSG8NPUh2fTwH-8";
         public static FirebaseLoginSession Instance { get; private set; }
         public bool IsSignedIn => !string.IsNullOrEmpty(idToken);
         public bool IsSigningIn { get; private set; }
         public event Action Changed;
+        private string apiKey;
         private string idToken, refreshToken;
         private DateTime expires;
         private int generation;
@@ -24,17 +24,25 @@ namespace RhythmRehab
         {
             if (Instance && Instance != this) { Destroy(this); return; }
             Instance = this; DontDestroyOnLoad(gameObject);
+            var config = Resources.Load<FirebaseClientConfig>("FirebaseClientConfig");
+            apiKey = config ? config.ApiKey : null;
         }
         public void SignIn(string email, string password, Action<string> completed)
         {
-            if (!IsSigningIn) StartCoroutine(Login(email.Trim(), password, completed));
+            if (IsSigningIn) return;
+            if (string.IsNullOrEmpty(apiKey))
+            {
+                completed?.Invoke("Sign-in is unavailable on this installation. You can still play as Guest.");
+                return;
+            }
+            StartCoroutine(Login(email.Trim(), password, completed));
         }
         private IEnumerator Login(string email, string password, Action<string> completed)
         {
             int attempt = ++generation;
             IsSigningIn = true; Changed?.Invoke();
             var body = new JObject { ["email"] = email, ["password"] = password, ["returnSecureToken"] = true };
-            using (var request = new UnityWebRequest("https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=" + ApiKey, "POST"))
+            using (var request = new UnityWebRequest("https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=" + Uri.EscapeDataString(apiKey), "POST"))
             {
                 request.uploadHandler = new UploadHandlerRaw(System.Text.Encoding.UTF8.GetBytes(body.ToString()));
                 body.RemoveAll(); password = null;
@@ -69,7 +77,7 @@ namespace RhythmRehab
             {
                 refreshing = true;
                 var form = new WWWForm(); form.AddField("grant_type", "refresh_token"); form.AddField("refresh_token", refreshToken);
-                using (var request = UnityWebRequest.Post("https://securetoken.googleapis.com/v1/token?key=" + ApiKey, form))
+                using (var request = UnityWebRequest.Post("https://securetoken.googleapis.com/v1/token?key=" + Uri.EscapeDataString(apiKey), form))
                 {
                     request.timeout = 20; yield return request.SendWebRequest();
                     if (attempt != generation) { completed(null); yield break; }
