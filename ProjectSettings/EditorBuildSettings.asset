@@ -53,5 +53,8 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/SensorCalibration.unity
     guid: 387176064c2490b47a7e7950de598723
+  - enabled: 1
+    path: Assets/Scenes/DrawingActivity.unity
+    guid: 6fb167235fc3dbb4e9530ceb82a84688
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}

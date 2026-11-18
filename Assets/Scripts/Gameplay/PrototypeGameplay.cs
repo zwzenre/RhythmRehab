@@ -247,8 +247,8 @@ namespace RhythmRehab
         }
         private void LeaveScene(string scene)
         {
-            bool removal = UsingSensor || Summary?.sensorHeightControl == true ||
-                (UsbSensorConnection.Instance && UsbSensorConnection.Instance.SensorControlSelected);
+            bool removal = scene != "Gameplay" && (UsingSensor || Summary?.sensorHeightControl == true ||
+                (UsbSensorConnection.Instance && UsbSensorConnection.Instance.SensorControlSelected));
             if (!(removal ? SensorRemovalPresenter.ShowBefore(scene) : IrisSceneTransition.Load(scene))) return;
             finished = true; audioService.Stop();
         }

@@ -73,7 +73,7 @@ namespace RhythmRehab
             if (IrisSceneTransition.IsBusy) return;
             SessionSelection.SelectMode(page == SelectionPage.Height ? SessionMode.Therapy : SessionMode.Free);
             SessionSelection.Confirm();
-            IrisSceneTransition.Load("Gameplay");
+            IrisSceneTransition.Load(page == SelectionPage.Height ? "DrawingActivity" : "Gameplay");
         }
         public void Back()
         {

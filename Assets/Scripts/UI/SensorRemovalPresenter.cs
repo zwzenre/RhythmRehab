@@ -23,7 +23,7 @@ namespace RhythmRehab
         {
             string destination = nextScene;
             nextScene = "Results";
-            if (nextLabel) nextLabel.text = destination == "Results" ? "Session Summary opens shortly" : destination == "Gameplay" ? "Restarting shortly · Reattach your sensor when ready" : "Returning to the main menu shortly";
+            if (nextLabel) nextLabel.text = destination == "Results" ? "Session Summary opens shortly" : "Returning to the main menu shortly";
             while (IrisSceneTransition.IsBusy) yield return null;
             yield return new WaitForSecondsRealtime(displaySeconds);
             while (IrisSceneTransition.IsBusy) yield return null;
