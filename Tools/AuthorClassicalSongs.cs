@@ -21,6 +21,15 @@ public static class AuthorClassicalSongs
         if(!chart){chart=ScriptableObject.CreateInstance<SongChart>();AssetDatabase.CreateAsset(chart,path);}
         JsonUtility.FromJsonOverwrite(File.ReadAllText(root+name+".json"),chart);EditorUtility.SetDirty(chart);return chart;
     }
+    public static string UpdateCharts()
+    {
+        if (EditorApplication.isPlayingOrWillChangePlaymode) throw new Exception("Stop Play mode first.");
+        AssetDatabase.Refresh();
+        foreach (string folder in Folders)
+            foreach (string tier in new[] { "Therapy", "Easy", "Medium", "Hard" })
+                AssetDatabase.SaveAssetIfDirty(Chart(folder, tier));
+        return "Updated the 20 existing SongChart assets from JSON.";
+    }
     public static string Main()
     {
         if(EditorApplication.isPlaying)throw new Exception("Stop Play mode first.");

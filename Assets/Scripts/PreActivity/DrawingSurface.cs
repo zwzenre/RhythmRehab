@@ -9,6 +9,8 @@ namespace RhythmRehab
     public sealed class DrawingSurface : MonoBehaviour, IPointerDownHandler, IDragHandler, IPointerUpHandler, IEndDragHandler
     {
         private const int Width = 1024, Height = 576, UndoLimit = 6;
+        private const float StrokeSoundIdleSeconds = .12f;
+        [SerializeField] private AudioSource strokeSound;
         private readonly List<Color32[]> undo = new List<Color32[]>();
         private Color32[] pixels;
         private Texture2D texture;
@@ -18,6 +20,7 @@ namespace RhythmRehab
         private bool erasing, drawing, hasPrevious, dirty;
         private int pointer;
         private Vector2 previous;
+        private float lastAudibleStroke;
         public bool CanUndo => undo.Count > 0;
         public event System.Action Changed;
 
@@ -27,6 +30,8 @@ namespace RhythmRehab
             texture = new Texture2D(Width, Height, TextureFormat.RGBA32, false) { name = "Temporary drawing", wrapMode = TextureWrapMode.Clamp, filterMode = FilterMode.Bilinear };
             pixels = new Color32[Width * Height];
             GetComponent<RawImage>().texture = texture;
+            if (strokeSound)
+                strokeSound.volume *= LocalSettingsStore.Default.Load(out _).sfxVolume;
             Upload();
         }
         public void SetInk(Color colour) { Finish(); ink = colour; erasing = false; }
@@ -47,18 +52,42 @@ namespace RhythmRehab
         public void OnDrag(PointerEventData data)
         {
             if (!drawing || data.pointerId != pointer || IrisSceneTransition.IsBusy) return;
-            if (!Point(data, out var point)) { hasPrevious = false; return; }
+            if (!Point(data, out var point))
+            {
+                hasPrevious = false;
+                StopStrokeSound();
+                return;
+            }
             if (hasPrevious)
             {
                 int steps = Mathf.CeilToInt(Vector2.Distance(previous, point) / Mathf.Max(1, radius * .4f));
                 for (int i = 1; i <= steps; i++) Stamp(Vector2.Lerp(previous, point, i / (float)steps));
+                if (steps > 0) PlayStrokeSound();
             }
-            else Stamp(point);
+            else
+            {
+                Stamp(point);
+                PlayStrokeSound();
+            }
             previous = point; hasPrevious = true;
         }
         public void OnPointerUp(PointerEventData data) { if (data.pointerId == pointer) Finish(); }
         public void OnEndDrag(PointerEventData data) { if (data.pointerId == pointer) Finish(); }
-        private void Finish() { drawing = hasPrevious = false; }
+        private void Finish()
+        {
+            drawing = hasPrevious = false;
+            StopStrokeSound();
+        }
+        private void PlayStrokeSound()
+        {
+            if (erasing || !strokeSound || !strokeSound.clip || strokeSound.volume <= 0) return;
+            lastAudibleStroke = Time.unscaledTime;
+            if (!strokeSound.isPlaying) strokeSound.Play();
+        }
+        private void StopStrokeSound()
+        {
+            if (strokeSound && strokeSound.isPlaying) strokeSound.Stop();
+        }
         private void OnDisable() => Finish();
         private void OnApplicationFocus(bool focused) { if (!focused) Finish(); }
         private void Stamp(Vector2 point)
@@ -99,7 +128,12 @@ namespace RhythmRehab
             if (!System.Array.Exists(pixels, p => p.a > 0)) return;
             SaveUndo(); System.Array.Clear(pixels, 0, pixels.Length); dirty = true; Changed?.Invoke();
         }
-        private void LateUpdate() { if (dirty) Upload(); }
+        private void LateUpdate()
+        {
+            if (dirty) Upload();
+            if (IrisSceneTransition.IsBusy || Time.unscaledTime - lastAudibleStroke >= StrokeSoundIdleSeconds)
+                StopStrokeSound();
+        }
         private void Upload() { texture.SetPixels32(pixels); texture.Apply(false, false); dirty = false; }
         private void OnDestroy() { if (texture) Destroy(texture); undo.Clear(); }
     }

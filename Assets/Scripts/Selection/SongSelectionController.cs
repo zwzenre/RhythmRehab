@@ -17,6 +17,7 @@ namespace RhythmRehab
         [SerializeField] private GameObject emptyMessage;
         [SerializeField] private Button continueButton;
         [SerializeField] private SongPreviewAudio songPreview;
+        [SerializeField] private LeaderboardPresenter leaderboard;
         private int filter;
 
         private void Start()
@@ -28,6 +29,10 @@ namespace RhythmRehab
             SessionSelection.SelectSong(current ?? catalog.songs[0]);
             RefreshSelection();
             Filter(search.text);
+            var result = LeaderboardPresenter.OpenFromResults;
+            LeaderboardPresenter.OpenFromResults = null;
+            if (result != null && leaderboard)
+                leaderboard.Open(result.songId, result.freeDifficulty, result.playedWithSensor && !result.playedWithKeyboard);
         }
 
         public void SelectSong(int index)
@@ -78,15 +83,22 @@ namespace RhythmRehab
         }
         public void Continue()
         {
-            if (SessionSelection.Song != null && !IrisSceneTransition.IsBusy)
+            if (SessionSelection.Song != null && !IrisSceneTransition.IsBusy && (!leaderboard || !leaderboard.IsOpen))
             {
                 if (songPreview) songPreview.StopPreview();
                 IrisSceneTransition.Load("ModeSelection");
             }
         }
+        public void ShowLeaderboard()
+        {
+            if (!leaderboard || IrisSceneTransition.IsBusy) return;
+            if (songPreview) songPreview.StopPreview();
+            leaderboard.Show();
+        }
         public void Home()
         {
             if (IrisSceneTransition.IsBusy) return;
+            if (leaderboard && leaderboard.IsOpen) { leaderboard.Close(); return; }
             if (songPreview) songPreview.StopPreview();
             IrisSceneTransition.Load("MainMenu");
         }

@@ -11,182 +11,35 @@
   "alignment": {
     "offsetSeconds": 2.045306,
     "scale": 1,
-    "meanAttackDistanceMs": 10.822785
+    "localAdjustmentMeanMs": 9.883225,
+    "method": "MIDI tempo map fitted to recorded piano attacks, with local timing adjustments"
   },
   "charts": {
     "Therapy": {
-      "notes": 40,
-      "holds": 5
+      "notes": 39,
+      "holds": 7
     },
     "Easy": {
-      "notes": 61,
-      "holds": 9
+      "notes": 59,
+      "holds": 8
     },
     "Medium": {
-      "notes": 86,
-      "holds": 14
+      "notes": 88,
+      "holds": 11
     },
     "Hard": {
-      "notes": 148,
-      "holds": 3
+      "notes": 166,
+      "holds": 7
     }
   },
-  "freeDifficultyVersion": 2,
+  "freeDifficultyVersion": 3,
   "freeDifficultyDesign": {
-    "Easy": "Original Medium chart",
-    "Medium": "Original Hard chart",
-    "Hard": "Fast MIDI bursts alternate with lighter phrases and 1–2 second no-input rests; boundaries follow nearby musical attacks"
+    "Easy": "Spaced musical accents and gentle height transitions",
+    "Medium": "More subdivisions with room for holds",
+    "Hard": "Short bursts, lighter phrases and regular breaks, with a 0.28 s minimum tap interval"
   },
-  "hardSections": [
-    {
-      "kind": "burst",
-      "startSeconds": 6.070306,
-      "endSeconds": 15.082806
-    },
-    {
-      "kind": "light",
-      "startSeconds": 15.082806,
-      "endSeconds": 19.145306
-    },
-    {
-      "kind": "rest",
-      "startSeconds": 19.145306,
-      "endSeconds": 21.024473
-    },
-    {
-      "kind": "burst",
-      "startSeconds": 21.024473,
-      "endSeconds": 27.411973
-    },
-    {
-      "kind": "light",
-      "startSeconds": 27.411973,
-      "endSeconds": 30.836973
-    },
-    {
-      "kind": "rest",
-      "startSeconds": 30.836973,
-      "endSeconds": 32.499473
-    },
-    {
-      "kind": "burst",
-      "startSeconds": 32.499473,
-      "endSeconds": 39.366139
-    },
-    {
-      "kind": "light",
-      "startSeconds": 39.366139,
-      "endSeconds": 42.199473
-    },
-    {
-      "kind": "rest",
-      "startSeconds": 42.199473,
-      "endSeconds": 44.011973
-    },
-    {
-      "kind": "burst",
-      "startSeconds": 44.011973,
-      "endSeconds": 52.886973
-    },
-    {
-      "kind": "light",
-      "startSeconds": 52.886973,
-      "endSeconds": 57.074473
-    },
-    {
-      "kind": "rest",
-      "startSeconds": 57.074473,
-      "endSeconds": 59.295306
-    },
-    {
-      "kind": "burst",
-      "startSeconds": 59.295306,
-      "endSeconds": 65.545306
-    },
-    {
-      "kind": "light",
-      "startSeconds": 65.545306,
-      "endSeconds": 68.899473
-    },
-    {
-      "kind": "rest",
-      "startSeconds": 68.899473,
-      "endSeconds": 70.066139
-    },
-    {
-      "kind": "burst",
-      "startSeconds": 70.066139,
-      "endSeconds": 76.991139
-    },
-    {
-      "kind": "light",
-      "startSeconds": 76.991139,
-      "endSeconds": 79.716139
-    },
-    {
-      "kind": "rest",
-      "startSeconds": 79.716139,
-      "endSeconds": 81.011973
-    },
-    {
-      "kind": "burst",
-      "startSeconds": 81.011973,
-      "endSeconds": 90.207806
-    },
-    {
-      "kind": "light",
-      "startSeconds": 90.207806,
-      "endSeconds": 94.357806
-    },
-    {
-      "kind": "rest",
-      "startSeconds": 94.357806,
-      "endSeconds": 96.203639
-    },
-    {
-      "kind": "burst",
-      "startSeconds": 96.203639,
-      "endSeconds": 102.749473
-    },
-    {
-      "kind": "light",
-      "startSeconds": 102.749473,
-      "endSeconds": 106.382806
-    },
-    {
-      "kind": "rest",
-      "startSeconds": 106.382806,
-      "endSeconds": 107.566139
-    },
-    {
-      "kind": "burst",
-      "startSeconds": 107.566139,
-      "endSeconds": 114.566139
-    },
-    {
-      "kind": "light",
-      "startSeconds": 114.566139,
-      "endSeconds": 117.566139
-    },
-    {
-      "kind": "rest",
-      "startSeconds": 117.566139,
-      "endSeconds": 119.166139
-    },
-    {
-      "kind": "burst",
-      "startSeconds": 119.166139,
-      "endSeconds": 128.166139
-    },
-    {
-      "kind": "light",
-      "startSeconds": 128.166139,
-      "endSeconds": 132.166139
-    },
-    {
-      "kind": "rest",
-      "startSeconds": 132.166139,
-      "endSeconds": 132.5114
-    }
-  ]
+  "alignmentSeed": {
+    "offsetSeconds": 2.045306,
+    "scale": 1
+  }
 }

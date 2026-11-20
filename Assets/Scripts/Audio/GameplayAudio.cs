@@ -14,12 +14,13 @@ namespace RhythmRehab
         public AudioSource MusicSource => musicSource;
         public AudioSource BeatSource => beatSource;
         public AudioSource HitSource => hitSource;
-        public void Initialize(LocalSettings settings, float bpm, float duration, double startDsp, AudioClip song = null, float leadIn = 0)
+        public void Initialize(LocalSettings settings, float bpm, float duration, double startDsp, AudioClip song = null, float leadIn = 0, bool loop = false)
         {
             ApplyVolumes(settings.musicVolume, settings.beatVolume);
             musicSource.Stop(); beatSource.Stop();
             originalHitClip = hitSource.clip; adjustedHitClip = HitSoundTiming.Adjust(originalHitClip, settings.hitSoundOffsetMs);
             playbackSource = song ? musicSource : beatSource;
+            playbackSource.loop = loop;
             if (song) musicSource.clip = song;
             else { beatClip = MakeMetronome(bpm, duration); beatSource.clip = beatClip; }
             scheduledDsp = startDsp + (song ? leadIn : 0); audioPaused = waitingToStart = false;

@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+using System;
 using System.Linq;
 using TMPro;
 using UnityEngine;
@@ -8,15 +8,18 @@ namespace RhythmRehab
 {
     public sealed class PatientSelectionPresenter : MonoBehaviour
     {
-        [Header("Authored patient card prefab and page UI")]
-        [SerializeField] private PatientCardView cardPrefab, guestCard;
+        [Header("Patient card slots and page UI")]
+        [SerializeField] private PatientCardView guestCard;
+        [SerializeField] private PatientCardView[] cardSlots;
         [SerializeField] private RectTransform content;
         [SerializeField] private ScrollRect patientScroll;
         [SerializeField] private TMP_InputField search;
         [SerializeField] private TMP_Text status, selectionLabel;
         [SerializeField] private Button refreshButton, confirmButton;
+        [SerializeField] private Button previousPageButton, nextPageButton;
         [SerializeField] private UIScreenAudio screenAudio;
-        private readonly List<PatientCardView> cards = new List<PatientCardView>();
+        private PatientProfile[] filteredPatients = Array.Empty<PatientProfile>();
+        private int page;
         private PatientProfile chosen;
         private PatientDirectory directory;
 
@@ -46,46 +49,79 @@ namespace RhythmRehab
         }
         private void RefreshPage()
         {
-            if (!directory) status.text = "Patient list unavailable · Guest is ready";
-            else if (directory.IsLoading) status.text = "Refreshing patients… · Guest is ready";
-            else
-            {
-                RebuildCards();
-                status.text = directory.Error ?? (directory.Patients.Count == 0 ? "No patients found · Guest is ready" : directory.Patients.Count + " PATIENTS · DRAG OR SCROLL TO BROWSE");
-            }
+            if (directory && directory.HasLoaded && !directory.IsLoading && chosen != null && !chosen.IsGuest)
+                chosen = directory.Patients.FirstOrDefault(patient => patient.id == chosen.id) ?? PatientProfile.Guest;
             refreshButton.interactable = directory && !directory.IsLoading;
-            UpdateSelection();
-        }
-        private void RebuildCards()
-        {
-            foreach (var card in cards) if (card) { card.gameObject.SetActive(false); Destroy(card.gameObject); }
-            cards.Clear();
-            if (directory)
-            {
-                if (chosen != null && !chosen.IsGuest)
-                    chosen = directory.Patients.FirstOrDefault(p => p.id == chosen.id) ?? chosen;
-                foreach (var patient in directory.Patients)
-                {
-                    var card = Instantiate(cardPrefab, content);
-                    card.name = "PatientCard"; card.Bind(patient, this); cards.Add(card);
-                }
-            }
             Filter(search ? search.text : "");
-            patientScroll.horizontalNormalizedPosition = 0;
         }
+
         public void Filter(string query)
         {
             query = (query ?? "").Trim();
-            foreach (var card in cards)
-                card.gameObject.SetActive(query.Length == 0 || card.Patient.displayName.IndexOf(query, System.StringComparison.OrdinalIgnoreCase) >= 0 || card.Patient.id.IndexOf(query, System.StringComparison.OrdinalIgnoreCase) >= 0);
+            filteredPatients = directory ? directory.Patients.Where(patient =>
+                query.Length == 0 ||
+                patient.displayName.IndexOf(query, StringComparison.OrdinalIgnoreCase) >= 0 ||
+                patient.id.IndexOf(query, StringComparison.OrdinalIgnoreCase) >= 0).ToArray() : Array.Empty<PatientProfile>();
+            page = 0;
+            ShowPage();
+        }
+
+        private int PageCount => cardSlots.Length == 0 ? 1 : Mathf.Max(1, Mathf.CeilToInt((float)filteredPatients.Length / cardSlots.Length));
+        public void PreviousPage() => ChangePage(-1);
+        public void NextPage() => ChangePage(1);
+
+        private void ChangePage(int direction)
+        {
+            int next = Mathf.Clamp(page + direction, 0, PageCount - 1);
+            if (next == page) return;
+            page = next;
+            ShowPage();
+        }
+
+        private void ShowPage()
+        {
+            int first = page * cardSlots.Length;
+            for (int i = 0; i < cardSlots.Length; i++)
+            {
+                var card = cardSlots[i];
+                if (!card) continue;
+                int index = first + i;
+                var patient = index < filteredPatients.Length ? filteredPatients[index] : null;
+                card.Bind(patient, this);
+                card.gameObject.SetActive(patient != null);
+            }
+
+            bool canPage = PageCount > 1;
+            if (previousPageButton)
+            {
+                previousPageButton.gameObject.SetActive(canPage);
+                previousPageButton.interactable = page > 0;
+            }
+            if (nextPageButton)
+            {
+                nextPageButton.gameObject.SetActive(canPage);
+                nextPageButton.interactable = page + 1 < PageCount;
+            }
+            if (!directory) status.text = "Patient list unavailable · Guest is ready";
+            else if (directory.IsLoading) status.text = "Refreshing patients… · Guest is ready";
+            else if (directory.Error != null) status.text = directory.Error;
+            else if (directory.Patients.Count == 0) status.text = "No patients found · Guest is ready";
+            else if (filteredPatients.Length == 0) status.text = "No matching patients";
+            else status.text = canPage
+                ? $"{filteredPatients.Length} PATIENTS · PAGE {page + 1}/{PageCount}"
+                : $"{filteredPatients.Length} PATIENTS";
+
             Canvas.ForceUpdateCanvases();
             LayoutRebuilder.ForceRebuildLayoutImmediate(content);
+            patientScroll.horizontalNormalizedPosition = 0;
+            UpdateSelection();
         }
         private void UpdateSelection()
         {
             if (chosen == null) return;
             guestCard.SetSelected(chosen.IsGuest);
-            foreach (var card in cards) card.SetSelected(card.Patient.id == chosen.id);
+            foreach (var card in cardSlots)
+                if (card) card.SetSelected(card.Patient != null && card.Patient.id == chosen.id);
             bool valid = chosen.IsGuest || (directory && directory.Patients.Any(p => p.id == chosen.id));
             confirmButton.interactable = valid;
             selectionLabel.text = "SELECTED · " + PatientContext.CleanName(chosen.displayName);

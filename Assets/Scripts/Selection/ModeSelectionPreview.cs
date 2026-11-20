@@ -51,11 +51,14 @@ namespace RhythmRehab
             card.interactable = card.blocksRaycasts = true;
             replacedCard = -1; IsTransitioning = false;
         }
-        private IEnumerator Animate(CanvasGroup group, float from, float to, bool isPreview)
+        private IEnumerator Animate(CanvasGroup group, float from, float to, bool isPreview) =>
+            SlideFade(group, isPreview ? previewOrigin : ((RectTransform)group.transform).anchoredPosition,
+                replacedCard == 1 ? 1 : -1, transitionSeconds, from, to);
+
+        internal static IEnumerator SlideFade(CanvasGroup group, Vector2 origin, float direction,
+            float transitionSeconds, float from, float to)
         {
             var rect = (RectTransform)group.transform;
-            Vector2 origin = isPreview ? previewOrigin : rect.anchoredPosition;
-            float direction = replacedCard == 1 ? 1 : -1;
             for (float t = 0; t < 1; t += Time.unscaledDeltaTime / transitionSeconds)
             {
                 float ease = 1 - Mathf.Pow(1 - t, 3);

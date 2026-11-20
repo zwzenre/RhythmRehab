@@ -12,7 +12,14 @@ namespace RhythmRehab
         public PatientProfile Patient { get; private set; }
         public void Bind(PatientProfile patient, PatientSelectionPresenter presenter)
         {
-            Patient = patient; owner = presenter;
+            Patient = patient;
+            owner = presenter;
+            if (patient == null)
+            {
+                nameLabel.text = "";
+                detailLabel.text = "";
+                return;
+            }
             nameLabel.text = patient.displayName;
             detailLabel.text = patient.IsGuest ? "Local play" : "ID · " + (patient.id.Length > 8 ? patient.id.Substring(patient.id.Length - 8) : patient.id);
         }

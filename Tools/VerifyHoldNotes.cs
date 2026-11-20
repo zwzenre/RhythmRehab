@@ -32,7 +32,7 @@ public static class VerifyHoldNotes
             check(!profile.chart[0].IsHold&&!profile.chart[1].IsHold,"Opening taps remain available");
             for(int i=0;i<profile.chart.Length-1;i++)if(profile.chart[i].IsHold)
                 check(profile.chart[i+1].beat-profile.chart[i].EndBeat>=1,"Recovery gap after each hold");
-            if(mode==SessionMode.Therapy)check(profile.chart.All(n=>n.TargetHeight==.5f),"Therapy holds use selected fixed height");
+            if(mode==SessionMode.Therapy)check(profile.chart.All(n=>n.TargetHeight==ChartNote.MidTargetHeight),"Therapy holds use selected fixed height");
         }
         check(!new ChartNote{beat=2}.IsHold&&new ChartNote{beat=2}.EndBeat==2,"Old chart data stays a tap");
         var json=JsonUtility.ToJson(new SessionSummary{holdNotes=3,completedHolds=2,brokenHolds=1});

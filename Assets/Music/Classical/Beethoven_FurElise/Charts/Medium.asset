@@ -12,486 +12,540 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2cb2ff3c405c5be4e87d1fd815f57df4, type: 3}
   m_Name: Medium
   m_EditorClassIdentifier: Assembly-CSharp::RhythmRehab.SongChart
-  description: "F\xFCr Elise \u2014 Medium. Note timings follow the source MIDI tempo
-    map aligned to this MP3. Heights follow melodic contour and phrase shapes. Four-second
-    audio lead-in. Promoted from the original Hard chart."
+  description: "F\xFCr Elise \u2014 Medium. Recording-aligned musical attacks, phrase
+    breaks and sustain-based holds."
   notes:
-  - beat: 14.616653
-    lane: 1
-    useCustomHeight: 1
-    customHeight: 0.625
-    holdBeats: 0
-  - beat: 16.658321
+  - beat: 14.616599
     lane: 2
     useCustomHeight: 1
-    customHeight: 0.75
+    customHeight: 0.77
     holdBeats: 0
-  - beat: 19.949991
-    lane: 1
+  - beat: 17.37034
+    lane: 2
     useCustomHeight: 1
-    customHeight: 0.5625
+    customHeight: 0.875
     holdBeats: 0
-  - beat: 23.01666
+  - beat: 19.94449
     lane: 1
     useCustomHeight: 1
     customHeight: 0.6875
-    holdBeats: 2.4
-  - beat: 27.00833
-    lane: 2
-    useCustomHeight: 1
-    customHeight: 0.75
-    holdBeats: 0
-  - beat: 30.074999
-    lane: 2
-    useCustomHeight: 1
-    customHeight: 0.8125
-    holdBeats: 0
-  - beat: 33.15
-    lane: 2
-    useCustomHeight: 1
-    customHeight: 0.875
-    holdBeats: 0
-  - beat: 35.675003
-    lane: 1
-    useCustomHeight: 1
-    customHeight: 0.4375
-    holdBeats: 0
-  - beat: 37.96667
-    lane: 2
-    useCustomHeight: 1
-    customHeight: 0.8125
-    holdBeats: 0
-  - beat: 41.10834
-    lane: 2
-    useCustomHeight: 1
-    customHeight: 0.875
-    holdBeats: 0
-  - beat: 43.17501
-    lane: 1
-    useCustomHeight: 1
-    customHeight: 0.5625
-    holdBeats: 0
-  - beat: 45.933346
-    lane: 2
-    useCustomHeight: 1
-    customHeight: 1
-    holdBeats: 2.4
-  - beat: 49.89168
-    lane: 2
-    useCustomHeight: 1
-    customHeight: 0.75
-    holdBeats: 0
-  - beat: 52.90835
-    lane: 2
-    useCustomHeight: 1
-    customHeight: 0.75
-    holdBeats: 0
-  - beat: 56.02502
-    lane: 1
-    useCustomHeight: 1
-    customHeight: 0.625
-    holdBeats: 0
-  - beat: 59.125023
-    lane: 1
-    useCustomHeight: 1
-    customHeight: 0.5625
-    holdBeats: 0
-  - beat: 61.608356
-    lane: 2
-    useCustomHeight: 1
-    customHeight: 0.8125
-    holdBeats: 0
-  - beat: 64.85836
-    lane: 1
-    useCustomHeight: 1
-    customHeight: 0.5625
-    holdBeats: 0
-  - beat: 67.90003
-    lane: 1
-    useCustomHeight: 1
-    customHeight: 0.5625
-    holdBeats: 0
-  - beat: 70.97503
-    lane: 1
-    useCustomHeight: 1
-    customHeight: 0.5625
-    holdBeats: 2.4
-  - beat: 76.0417
+    holdBeats: 2.285061
+  - beat: 22.997551
     lane: 1
     useCustomHeight: 1
     customHeight: 0.6875
     holdBeats: 0
-  - beat: 79.01671
-    lane: 2
-    useCustomHeight: 1
-    customHeight: 0.75
-    holdBeats: 0
-  - beat: 82.02504
-    lane: 2
-    useCustomHeight: 1
-    customHeight: 0.75
-    holdBeats: 0
-  - beat: 84.99171
+  - beat: 25.835102
     lane: 1
     useCustomHeight: 1
-    customHeight: 0.5
+    customHeight: 0.625
     holdBeats: 0
-  - beat: 88.07504
-    lane: 1
-    useCustomHeight: 1
-    customHeight: 0.5625
-    holdBeats: 0
-  - beat: 90.96671
-    lane: 2
-    useCustomHeight: 1
-    customHeight: 0.8125
-    holdBeats: 0
-  - beat: 93.641716
-    lane: 2
-    useCustomHeight: 1
-    customHeight: 0.8125
-    holdBeats: 0
-  - beat: 95.80839
-    lane: 2
-    useCustomHeight: 1
-    customHeight: 0.875
-    holdBeats: 2.4
-  - beat: 99.81672
-    lane: 2
-    useCustomHeight: 1
-    customHeight: 0.875
-    holdBeats: 0
-  - beat: 102.96672
-    lane: 1
-    useCustomHeight: 1
-    customHeight: 0.4375
-    holdBeats: 0
-  - beat: 105.90006
-    lane: 2
-    useCustomHeight: 1
-    customHeight: 0.875
-    holdBeats: 0
-  - beat: 108.85006
-    lane: 2
-    useCustomHeight: 1
-    customHeight: 0.875
-    holdBeats: 0
-  - beat: 111.90006
-    lane: 2
-    useCustomHeight: 1
-    customHeight: 0.875
-    holdBeats: 0
-  - beat: 114.9584
-    lane: 2
-    useCustomHeight: 1
-    customHeight: 0.8125
-    holdBeats: 0
-  - beat: 117.54173
+  - beat: 28.241632
     lane: 1
     useCustomHeight: 1
     customHeight: 0.3125
     holdBeats: 0
-  - beat: 119.941734
+  - beat: 31.294695
     lane: 1
     useCustomHeight: 1
-    customHeight: 0.6875
-    holdBeats: 2.4
-  - beat: 124.850075
+    customHeight: 0.7325
+    holdBeats: 0
+  - beat: 33.76109
+    lane: 2
+    useCustomHeight: 1
+    customHeight: 0.75
+    holdBeats: 0
+  - beat: 36.191566
+    lane: 1
+    useCustomHeight: 1
+    customHeight: 0.375
+    holdBeats: 0
+  - beat: 39.26857
     lane: 1
     useCustomHeight: 1
     customHeight: 0.25
     holdBeats: 0
-  - beat: 127.87508
-    lane: 2
-    useCustomHeight: 1
-    customHeight: 0.75
-    holdBeats: 0
-  - beat: 130.99174
-    lane: 2
-    useCustomHeight: 1
-    customHeight: 0.75
-    holdBeats: 0
-  - beat: 134.03342
-    lane: 2
-    useCustomHeight: 1
-    customHeight: 0.75
-    holdBeats: 0
-  - beat: 137.08342
+  - beat: 41.782856
     lane: 1
     useCustomHeight: 1
-    customHeight: 0.375
+    customHeight: 0.67
+    holdBeats: 1.650001
+  - beat: 44.644356
+    lane: 2
+    useCustomHeight: 1
+    customHeight: 0.875
     holdBeats: 0
-  - beat: 139.72508
+  - beat: 47.194557
+    lane: 2
+    useCustomHeight: 1
+    customHeight: 0.875
+    holdBeats: 0
+  - beat: 49.91238
+    lane: 1
+    useCustomHeight: 1
+    customHeight: 0.6875
+    holdBeats: 0
+  - beat: 52.35483
+    lane: 1
+    useCustomHeight: 1
+    customHeight: 0.5
+    holdBeats: 0
+  - beat: 54.88109
+    lane: 1
+    useCustomHeight: 1
+    customHeight: 0.25
+    holdBeats: 0
+  - beat: 57.2517
+    lane: 1
+    useCustomHeight: 1
+    customHeight: 0.67
+    holdBeats: 0
+  - beat: 59.801907
+    lane: 2
+    useCustomHeight: 1
+    customHeight: 0.875
+    holdBeats: 0
+  - beat: 62.878914
+    lane: 2
+    useCustomHeight: 1
+    customHeight: 0.75
+    holdBeats: 0
+  - beat: 65.453064
+    lane: 1
+    useCustomHeight: 1
+    customHeight: 0.33
+    holdBeats: 1.686422
+  - beat: 67.907486
+    lane: 1
+    useCustomHeight: 1
+    customHeight: 0.6875
+    holdBeats: 0
+  - beat: 70.99646
+    lane: 2
+    useCustomHeight: 1
+    customHeight: 0.75
+    holdBeats: 0
+  - beat: 73.70232
+    lane: 1
+    useCustomHeight: 1
+    customHeight: 0.33
+    holdBeats: 0
+  - beat: 76.06095
+    lane: 2
+    useCustomHeight: 1
+    customHeight: 0.75
+    holdBeats: 0
+  - beat: 79.018234
+    lane: 2
+    useCustomHeight: 1
+    customHeight: 0.875
+    holdBeats: 0
+  - beat: 81.42476
+    lane: 1
+    useCustomHeight: 1
+    customHeight: 0.5625
+    holdBeats: 0
+  - beat: 83.81932
     lane: 0
     useCustomHeight: 1
-    customHeight: 0.125
+    customHeight: 0.1425
     holdBeats: 0
-  - beat: 142.09175
-    lane: 1
-    useCustomHeight: 1
-    customHeight: 0.375
-    holdBeats: 0
-  - beat: 145.13342
-    lane: 2
-    useCustomHeight: 1
-    customHeight: 0.75
-    holdBeats: 2.4
-  - beat: 150.0251
-    lane: 2
-    useCustomHeight: 1
-    customHeight: 0.75
-    holdBeats: 0
-  - beat: 152.06676
-    lane: 2
-    useCustomHeight: 1
-    customHeight: 0.8125
-    holdBeats: 0
-  - beat: 154.59177
-    lane: 1
-    useCustomHeight: 1
-    customHeight: 0.6875
-    holdBeats: 0
-  - beat: 157.06677
+  - beat: 86.896324
     lane: 1
     useCustomHeight: 1
     customHeight: 0.5625
     holdBeats: 0
-  - beat: 160.13344
-    lane: 1
-    useCustomHeight: 1
-    customHeight: 0.625
-    holdBeats: 0
-  - beat: 162.6251
-    lane: 1
-    useCustomHeight: 1
-    customHeight: 0.3125
-    holdBeats: 0
-  - beat: 165.91678
+  - beat: 89.26694
     lane: 2
     useCustomHeight: 1
     customHeight: 0.875
     holdBeats: 0
-  - beat: 169.08345
-    lane: 2
-    useCustomHeight: 1
-    customHeight: 0.875
-    holdBeats: 2.4
-  - beat: 173.55011
-    lane: 2
-    useCustomHeight: 1
-    customHeight: 0.875
-    holdBeats: 0
-  - beat: 176.89178
-    lane: 2
-    useCustomHeight: 1
-    customHeight: 0.8125
-    holdBeats: 0
-  - beat: 179.05927
-    lane: 1
-    useCustomHeight: 1
-    customHeight: 0.4375
-    holdBeats: 0
-  - beat: 182.08095
-    lane: 1
-    useCustomHeight: 1
-    customHeight: 0.375
-    holdBeats: 0
-  - beat: 184.44972
-    lane: 2
-    useCustomHeight: 1
-    customHeight: 0.875
-    holdBeats: 0
-  - beat: 186.84605
-    lane: 2
-    useCustomHeight: 1
-    customHeight: 0.75
-    holdBeats: 0
-  - beat: 189.19164
-    lane: 2
-    useCustomHeight: 1
-    customHeight: 0.875
-    holdBeats: 0
-  - beat: 191.60829
-    lane: 2
-    useCustomHeight: 1
-    customHeight: 0.75
-    holdBeats: 2.4
-  - beat: 195.60896
-    lane: 1
-    useCustomHeight: 1
-    customHeight: 0.5625
-    holdBeats: 0
-  - beat: 197.88345
-    lane: 1
-    useCustomHeight: 1
-    customHeight: 0.3125
-    holdBeats: 0
-  - beat: 200.25949
-    lane: 1
-    useCustomHeight: 1
-    customHeight: 0.3125
-    holdBeats: 0
-  - beat: 202.51369
-    lane: 1
-    useCustomHeight: 1
-    customHeight: 0.5625
-    holdBeats: 0
-  - beat: 205.01157
-    lane: 1
-    useCustomHeight: 1
-    customHeight: 0.375
-    holdBeats: 0
-  - beat: 207.45868
-    lane: 1
-    useCustomHeight: 1
-    customHeight: 0.4375
-    holdBeats: 0
-  - beat: 209.96672
-    lane: 1
-    useCustomHeight: 1
-    customHeight: 0.625
-    holdBeats: 0
-  - beat: 212.39352
-    lane: 1
-    useCustomHeight: 1
-    customHeight: 0.6875
-    holdBeats: 2.4
-  - beat: 217.11513
-    lane: 2
-    useCustomHeight: 1
-    customHeight: 0.75
-    holdBeats: 0
-  - beat: 219.82625
-    lane: 2
-    useCustomHeight: 1
-    customHeight: 0.75
-    holdBeats: 0
-  - beat: 222.19214
-    lane: 2
-    useCustomHeight: 1
-    customHeight: 0.75
-    holdBeats: 0
-  - beat: 224.55801
-    lane: 2
-    useCustomHeight: 1
-    customHeight: 0.8125
-    holdBeats: 0
-  - beat: 226.98482
-    lane: 2
-    useCustomHeight: 1
-    customHeight: 0.8125
-    holdBeats: 0
-  - beat: 230.51842
-    lane: 1
-    useCustomHeight: 1
-    customHeight: 0.6875
-    holdBeats: 0
-  - beat: 233.08737
-    lane: 2
-    useCustomHeight: 1
-    customHeight: 0.875
-    holdBeats: 0
-  - beat: 235.6868
-    lane: 2
-    useCustomHeight: 1
-    customHeight: 0.8125
-    holdBeats: 2.4
-  - beat: 240.5454
-    lane: 2
-    useCustomHeight: 1
-    customHeight: 0.875
-    holdBeats: 0
-  - beat: 243.62459
+  - beat: 91.6136
     lane: 2
     useCustomHeight: 1
     customHeight: 0.9375
     holdBeats: 0
-  - beat: 246.18837
+  - beat: 95.00191
     lane: 2
     useCustomHeight: 1
     customHeight: 0.875
     holdBeats: 0
-  - beat: 248.42662
-    lane: 1
-    useCustomHeight: 1
-    customHeight: 0.5625
-    holdBeats: 0
-  - beat: 251.53021
-    lane: 1
-    useCustomHeight: 1
-    customHeight: 0.3125
-    holdBeats: 0
-  - beat: 254.65875
-    lane: 2
-    useCustomHeight: 1
-    customHeight: 0.8125
-    holdBeats: 0
-  - beat: 257.18823
+  - beat: 97.875374
     lane: 2
     useCustomHeight: 1
     customHeight: 0.875
     holdBeats: 0
-  - beat: 260.4832
-    lane: 1
-    useCustomHeight: 1
-    customHeight: 0.6875
-    holdBeats: 2.4
-  - beat: 265.64197
-    lane: 1
-    useCustomHeight: 1
-    customHeight: 0.5625
-    holdBeats: 0
-  - beat: 268.7289
-    lane: 1
-    useCustomHeight: 1
-    customHeight: 0.6875
-    holdBeats: 0
-  - beat: 271.3
-    lane: 1
-    useCustomHeight: 1
-    customHeight: 0.3125
-    holdBeats: 0
-  - beat: 273.70465
-    lane: 1
-    useCustomHeight: 1
-    customHeight: 0.6875
-    holdBeats: 0
-  - beat: 276.25076
-    lane: 1
-    useCustomHeight: 1
-    customHeight: 0.6875
-    holdBeats: 0
-  - beat: 279.55405
-    lane: 1
-    useCustomHeight: 1
-    customHeight: 0.4375
-    holdBeats: 0
-  - beat: 282.0752
-    lane: 0
-    useCustomHeight: 1
-    customHeight: 0.1875
-    holdBeats: 0
-  - beat: 284.55475
-    lane: 1
-    useCustomHeight: 1
-    customHeight: 0.6875
-    holdBeats: 2.4
-  - beat: 289.4223
+  - beat: 100.401634
     lane: 2
     useCustomHeight: 1
     customHeight: 0.75
     holdBeats: 0
-  - beat: 292.684
+  - beat: 102.96381
+    lane: 1
+    useCustomHeight: 1
+    customHeight: 0.33
+    holdBeats: 1.590639
+  - beat: 105.32245
+    lane: 1
+    useCustomHeight: 1
+    customHeight: 0.6875
+    holdBeats: 0
+  - beat: 107.68109
+    lane: 1
+    useCustomHeight: 1
+    customHeight: 0.5
+    holdBeats: 0
+  - beat: 111.22504
+    lane: 1
+    useCustomHeight: 1
+    customHeight: 0.5
+    holdBeats: 0
+  - beat: 113.7034
+    lane: 2
+    useCustomHeight: 1
+    customHeight: 0.875
+    holdBeats: 0
+  - beat: 116.19374
+    lane: 2
+    useCustomHeight: 1
+    customHeight: 0.75
+    holdBeats: 0
+  - beat: 119.36653
+    lane: 1
+    useCustomHeight: 1
+    customHeight: 0.5
+    holdBeats: 0
+  - beat: 121.844894
+    lane: 1
+    useCustomHeight: 1
+    customHeight: 0.25
+    holdBeats: 0
+  - beat: 124.227486
+    lane: 1
+    useCustomHeight: 1
+    customHeight: 0.67
+    holdBeats: 2.309007
+  - beat: 127.30449
     lane: 2
     useCustomHeight: 1
     customHeight: 0.8125
     holdBeats: 0
-  - beat: 295.37988
+  - beat: 129.75891
+    lane: 1
+    useCustomHeight: 1
+    customHeight: 0.625
+    holdBeats: 0
+  - beat: 132.26123
+    lane: 0
+    useCustomHeight: 1
+    customHeight: 0.205
+    holdBeats: 0
+  - beat: 135.25443
+    lane: 1
+    useCustomHeight: 1
+    customHeight: 0.625
+    holdBeats: 0
+  - beat: 137.78069
     lane: 2
     useCustomHeight: 1
     customHeight: 0.8125
     holdBeats: 0
-  - beat: 298.0092
+  - beat: 140.33089
+    lane: 1
+    useCustomHeight: 1
+    customHeight: 0.5
+    holdBeats: 0
+  - beat: 143.2283
+    lane: 2
+    useCustomHeight: 1
+    customHeight: 0.875
+    holdBeats: 0
+  - beat: 145.79048
+    lane: 2
+    useCustomHeight: 1
+    customHeight: 0.875
+    holdBeats: 0
+  - beat: 148.65198
+    lane: 2
+    useCustomHeight: 1
+    customHeight: 0.875
+    holdBeats: 0
+  - beat: 151.38177
+    lane: 2
+    useCustomHeight: 1
+    customHeight: 0.875
+    holdBeats: 0
+  - beat: 153.9679
+    lane: 2
+    useCustomHeight: 1
+    customHeight: 0.75
+    holdBeats: 0
+  - beat: 156.45824
+    lane: 1
+    useCustomHeight: 1
+    customHeight: 0.375
+    holdBeats: 1.333334
+  - beat: 158.97252
+    lane: 0
+    useCustomHeight: 1
+    customHeight: 0.125
+    holdBeats: 0
+  - beat: 161.9298
+    lane: 1
+    useCustomHeight: 1
+    customHeight: 0.545
+    holdBeats: 0
+  - beat: 164.62367
+    lane: 2
+    useCustomHeight: 1
+    customHeight: 0.875
+    holdBeats: 0
+  - beat: 167.18585
+    lane: 2
+    useCustomHeight: 1
+    customHeight: 0.875
+    holdBeats: 0
+  - beat: 169.73605
+    lane: 1
+    useCustomHeight: 1
+    customHeight: 0.6875
+    holdBeats: 0
+  - beat: 172.32217
+    lane: 1
+    useCustomHeight: 1
+    customHeight: 0.5
+    holdBeats: 0
+  - beat: 174.86041
+    lane: 1
+    useCustomHeight: 1
+    customHeight: 0.25
+    holdBeats: 0
+  - beat: 177.59021
+    lane: 1
+    useCustomHeight: 1
+    customHeight: 0.67
+    holdBeats: 1.797146
+  - beat: 180.52354
+    lane: 2
+    useCustomHeight: 1
+    customHeight: 0.75
+    holdBeats: 0
+  - beat: 183.25333
+    lane: 1
+    useCustomHeight: 1
+    customHeight: 0.375
+    holdBeats: 0
+  - beat: 185.67184
+    lane: 0
+    useCustomHeight: 1
+    customHeight: 0.125
+    holdBeats: 0
+  - beat: 188.01851
+    lane: 1
+    useCustomHeight: 1
+    customHeight: 0.545
+    holdBeats: 0
+  - beat: 190.42503
+    lane: 2
+    useCustomHeight: 1
+    customHeight: 0.9375
+    holdBeats: 0
+  - beat: 193.44218
+    lane: 1
+    useCustomHeight: 1
+    customHeight: 0.5175
+    holdBeats: 0
+  - beat: 196.1121
+    lane: 2
+    useCustomHeight: 1
+    customHeight: 0.75
+    holdBeats: 0
+  - beat: 198.44681
+    lane: 2
+    useCustomHeight: 1
+    customHeight: 0.8125
+    holdBeats: 0
+  - beat: 200.80544
+    lane: 1
+    useCustomHeight: 1
+    customHeight: 0.3925
+    holdBeats: 0
+  - beat: 203.16408
+    lane: 2
+    useCustomHeight: 1
+    customHeight: 0.75
+    holdBeats: 1.674449
+  - beat: 205.60654
+    lane: 2
+    useCustomHeight: 1
+    customHeight: 0.8125
+    holdBeats: 0
+  - beat: 208.04898
+    lane: 1
+    useCustomHeight: 1
+    customHeight: 0.6875
+    holdBeats: 0
+  - beat: 210.57524
+    lane: 2
+    useCustomHeight: 1
+    customHeight: 0.875
+    holdBeats: 0
+  - beat: 213.02966
+    lane: 2
+    useCustomHeight: 1
+    customHeight: 0.8125
+    holdBeats: 0
+  - beat: 215.55592
+    lane: 1
+    useCustomHeight: 1
+    customHeight: 0.6875
+    holdBeats: 0
+  - beat: 218.18993
+    lane: 2
+    useCustomHeight: 1
+    customHeight: 0.875
+    holdBeats: 0
+  - beat: 222.21278
+    lane: 2
+    useCustomHeight: 1
+    customHeight: 0.875
+    holdBeats: 0
+  - beat: 224.55946
+    lane: 2
+    useCustomHeight: 1
+    customHeight: 0.875
+    holdBeats: 0
+  - beat: 226.98993
+    lane: 2
+    useCustomHeight: 1
+    customHeight: 0.875
+    holdBeats: 0
+  - beat: 230.50993
+    lane: 2
+    useCustomHeight: 1
+    customHeight: 0.75
+    holdBeats: 0
+  - beat: 233.10803
+    lane: 2
+    useCustomHeight: 1
+    customHeight: 0.875
+    holdBeats: 1.80615
+  - beat: 235.68217
+    lane: 2
+    useCustomHeight: 1
+    customHeight: 0.75
+    holdBeats: 0
+  - beat: 238.34013
+    lane: 2
+    useCustomHeight: 1
+    customHeight: 0.875
+    holdBeats: 0
+  - beat: 241.41714
+    lane: 2
+    useCustomHeight: 1
+    customHeight: 0.875
+    holdBeats: 0
+  - beat: 244.30258
+    lane: 2
+    useCustomHeight: 1
+    customHeight: 0.875
+    holdBeats: 0
+  - beat: 246.99646
+    lane: 1
+    useCustomHeight: 1
+    customHeight: 0.6875
+    holdBeats: 0
+  - beat: 249.6664
+    lane: 1
+    useCustomHeight: 1
+    customHeight: 0.5
+    holdBeats: 0
+  - beat: 252.24054
+    lane: 1
+    useCustomHeight: 1
+    customHeight: 0.25
+    holdBeats: 0
+  - beat: 254.683
+    lane: 1
+    useCustomHeight: 1
+    customHeight: 0.67
+    holdBeats: 1.980308
+  - beat: 257.83185
+    lane: 2
+    useCustomHeight: 1
+    customHeight: 0.875
+    holdBeats: 0
+  - beat: 260.46585
+    lane: 2
+    useCustomHeight: 1
+    customHeight: 0.75
+    holdBeats: 0
+  - beat: 263.14777
+    lane: 1
+    useCustomHeight: 1
+    customHeight: 0.33
+    holdBeats: 0
+  - beat: 265.66205
+    lane: 1
+    useCustomHeight: 1
+    customHeight: 0.6875
+    holdBeats: 0
+  - beat: 268.09253
+    lane: 1
+    useCustomHeight: 1
+    customHeight: 0.4375
+    holdBeats: 0
+  - beat: 270.6068
+    lane: 0
+    useCustomHeight: 1
+    customHeight: 0.125
+    holdBeats: 0
+  - beat: 273.70776
+    lane: 1
+    useCustomHeight: 1
+    customHeight: 0.545
+    holdBeats: 0
+  - beat: 276.24597
+    lane: 2
+    useCustomHeight: 1
+    customHeight: 0.9375
+    holdBeats: 1.447788
+  - beat: 278.98776
+    lane: 1
+    useCustomHeight: 1
+    customHeight: 0.5175
+    holdBeats: 0
+  - beat: 281.4781
+    lane: 2
+    useCustomHeight: 1
+    customHeight: 0.75
+    holdBeats: 0
+  - beat: 283.99237
+    lane: 2
+    useCustomHeight: 1
+    customHeight: 0.8125
+    holdBeats: 0
+  - beat: 286.54257
+    lane: 1
+    useCustomHeight: 1
+    customHeight: 0.5
+    holdBeats: 0
+  - beat: 289.42804
+    lane: 2
+    useCustomHeight: 1
+    customHeight: 0.875
+    holdBeats: 0
+  - beat: 292.05008
+    lane: 2
+    useCustomHeight: 1
+    customHeight: 0.875
+    holdBeats: 0
+  - beat: 294.70804
+    lane: 2
+    useCustomHeight: 1
+    customHeight: 0.875
+    holdBeats: 0
+  - beat: 298.00055
     lane: 2
     useCustomHeight: 1
     customHeight: 0.875

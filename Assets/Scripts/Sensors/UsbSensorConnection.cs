@@ -101,10 +101,11 @@ namespace RhythmRehab
             InputEnabled = false;
             message = "Mouse control selected.";
         }
-        public void PrepareGameplayInput()
+        public void PrepareGameplayInput(float minimumRange = 0)
         {
             InputEnabled = false;
-            if (!preferMouse && !capturing && Calibration.IsReady && HasFreshReading) UseSensor();
+            if (!preferMouse && !capturing && Calibration.IsReady && HasFreshReading &&
+                Calibration.RangeDegrees >= minimumRange) UseSensor();
         }
         public void UseSensor()
         {

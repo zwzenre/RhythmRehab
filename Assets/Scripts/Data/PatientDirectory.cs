@@ -9,8 +9,8 @@ using UnityEngine.Networking;
 
 namespace RhythmRehab
 {
-    // Authored on SceneTransition. Reads Firebase only; no patient or session writes.
-    public sealed class PatientDirectory : MonoBehaviour
+    // Authored on SceneTransition. Cloud writes occur only through explicit session upload.
+    public sealed partial class PatientDirectory : MonoBehaviour
     {
         public const string DocumentsUrl = "https://firestore.googleapis.com/v1/projects/patient-dashboard-c109b/databases/(default)/documents";
         public static PatientDirectory Instance { get; private set; }
@@ -124,8 +124,9 @@ namespace RhythmRehab
                     ["select"] = new JObject { ["fields"] = new JArray(new[]
                     {
                         "patientId", "patientID", "gameID", "songTitle", "sessionID", "modeLabel", "startTime", "endTime", "createdAt",
-                        "durationSeconds", "duration", "finalScore", "rhythmAccuracyPercent", "completionRate", "score", "perfect", "great", "good", "miss",
-                        "totalNotes", "bestCombo", "sensorHeightControl", "endedEarly", "sessionStatus"
+                        "durationSeconds", "duration", "finalScore", "rhythmAccuracyPercent", "completionRate", "songCompletionPercent", "score", "perfect", "great", "good", "miss",
+                        "totalNotes", "bestCombo", "sensorHeightControl", "endedEarly", "sessionStatus", "algorithmVersion",
+                        "exerciseName", "stopReason", "totalRepetitions", "successRepetitions"
                     }.Select(name => new JObject { ["fieldPath"] = name })) },
                     ["where"] = new JObject { ["fieldFilter"] = new JObject
                     {
@@ -160,7 +161,9 @@ namespace RhythmRehab
         public static SessionSummary ParseSession(JToken document, string patientId)
         {
             var f = document?["fields"];
-            if (f == null || Text(f, "gameID") != "GAME003" || string.IsNullOrWhiteSpace(Text(f, "songTitle"))) return null;
+            if (f == null || Text(f, "gameID") != RehabilitationPlan.GameId) return null;
+            bool planSession = Text(f, "algorithmVersion") == LegRaiseAlgorithmVersion;
+            if (!planSession && string.IsNullOrWhiteSpace(Text(f, "songTitle"))) return null;
             if (Text(f, "patientId") != patientId && Text(f, "patientID") != patientId) return null;
             string ended = Timestamp(f, "endTime") ?? (string)f["createdAt"]?["timestampValue"];
             if (!DateTimeOffset.TryParse(ended, out var date)) return null;
@@ -170,21 +173,24 @@ namespace RhythmRehab
             if (string.IsNullOrEmpty(id)) return null;
             float accuracy = Number(f, "finalScore", -1);
             if (accuracy < 0) accuracy = Number(f, "rhythmAccuracyPercent", -1);
+            float completion = Number(f, "songCompletionPercent", Number(f, "completionRate", -1));
             var s = new SessionSummary
             {
                 sessionId = id, patientId = patientId, isCloudRecord = true,
-                songTitle = Text(f, "songTitle"), modeLabel = Text(f, "modeLabel"),
+                songTitle = planSession ? Text(f, "exerciseName") : Text(f, "songTitle"),
+                modeLabel = planSession ? "THERAPY · PLAN" : Text(f, "modeLabel"),
                 endedUtc = date.ToUniversalTime().ToString("O"), startedUtc = Timestamp(f, "startTime"),
                 duration = Mathf.Max(0, Number(f, "durationSeconds", Number(f, "duration"))),
                 perfect = (int)Number(f, "perfect"), great = (int)Number(f, "great"), good = (int)Number(f, "good"), miss = (int)Number(f, "miss"),
                 totalNotes = (int)Number(f, "totalNotes"), bestCombo = (int)Number(f, "bestCombo"),
                 cloudAccuracy = accuracy < 0 ? -1 : Mathf.Clamp01(accuracy / 100),
-                cloudCompletion = Number(f, "completionRate", -1) < 0 ? -1 : Mathf.Clamp01(Number(f, "completionRate") / 100),
-                sensorHeightControl = (bool?)f["sensorHeightControl"]?["booleanValue"] ?? false
+                cloudCompletion = completion < 0 ? -1 : Mathf.Clamp01(completion / 100),
+                sensorHeightControl = planSession || ((bool?)f["sensorHeightControl"]?["booleanValue"] ?? false)
             };
             if (string.IsNullOrEmpty(s.modeLabel)) s.modeLabel = "RhythmRehab";
             s.score = (int)Number(f, "score", accuracy < 0 ? 0 : Mathf.RoundToInt(RhythmRules.MaximumScore * s.cloudAccuracy));
-            s.endedEarly = (bool?)f["endedEarly"]?["booleanValue"] ?? (Text(f, "sessionStatus") == "EndedEarly" || s.Completion < 1);
+            bool stopped = Text(f, "sessionStatus") == "EndedEarly" || Text(f, "stopReason") == "user-stopped";
+            s.endedEarly = (bool?)f["endedEarly"]?["booleanValue"] ?? (stopped || (!planSession && s.Completion < 1));
             return s;
         }
         private static string Text(JToken fields, string name) => (string)fields?[name]?["stringValue"] ?? "";

@@ -9,159 +9,37 @@
   "shortened": false,
   "fadeOutSeconds": 0,
   "alignment": {
-    "offsetSeconds": 1.492829,
-    "scale": 1.0001,
-    "meanAttackDistanceMs": 10.105263
+    "offsetSeconds": 1.507829,
+    "scale": 1,
+    "localAdjustmentMeanMs": 7.495203,
+    "method": "MIDI tempo map fitted to recorded piano attacks, with local timing adjustments"
   },
   "charts": {
     "Therapy": {
-      "notes": 37,
-      "holds": 4
+      "notes": 35,
+      "holds": 1
     },
     "Easy": {
-      "notes": 59,
-      "holds": 7
+      "notes": 56,
+      "holds": 1
     },
     "Medium": {
-      "notes": 79,
-      "holds": 10
+      "notes": 88,
+      "holds": 1
     },
     "Hard": {
-      "notes": 356,
-      "holds": 9
+      "notes": 184,
+      "holds": 4
     }
   },
-  "freeDifficultyVersion": 2,
+  "freeDifficultyVersion": 3,
   "freeDifficultyDesign": {
-    "Easy": "Original Medium chart",
-    "Medium": "Original Hard chart",
-    "Hard": "Fast MIDI bursts alternate with lighter phrases and 1–2 second no-input rests; boundaries follow nearby musical attacks"
+    "Easy": "Spaced musical accents and gentle height transitions",
+    "Medium": "More subdivisions with room for holds",
+    "Hard": "Short bursts, lighter phrases and regular breaks, with a 0.28 s minimum tap interval"
   },
-  "hardSections": [
-    {
-      "kind": "burst",
-      "startSeconds": 6.055385,
-      "endSeconds": 13.010624
-    },
-    {
-      "kind": "light",
-      "startSeconds": 13.010624,
-      "endSeconds": 15.942735
-    },
-    {
-      "kind": "rest",
-      "startSeconds": 15.942735,
-      "endSeconds": 17.744051
-    },
-    {
-      "kind": "burst",
-      "startSeconds": 17.744051,
-      "endSeconds": 26.561612
-    },
-    {
-      "kind": "light",
-      "startSeconds": 26.561612,
-      "endSeconds": 30.632018
-    },
-    {
-      "kind": "rest",
-      "startSeconds": 30.632018,
-      "endSeconds": 32.536438
-    },
-    {
-      "kind": "burst",
-      "startSeconds": 32.536438,
-      "endSeconds": 39.112815
-    },
-    {
-      "kind": "light",
-      "startSeconds": 39.112815,
-      "endSeconds": 42.47061
-    },
-    {
-      "kind": "rest",
-      "startSeconds": 42.47061,
-      "endSeconds": 43.910434
-    },
-    {
-      "kind": "burst",
-      "startSeconds": 43.910434,
-      "endSeconds": 50.710655
-    },
-    {
-      "kind": "light",
-      "startSeconds": 50.710655,
-      "endSeconds": 54.156329
-    },
-    {
-      "kind": "rest",
-      "startSeconds": 54.156329,
-      "endSeconds": 55.471949
-    },
-    {
-      "kind": "burst",
-      "startSeconds": 55.471949,
-      "endSeconds": 64.51613
-    },
-    {
-      "kind": "light",
-      "startSeconds": 64.51613,
-      "endSeconds": 68.548422
-    },
-    {
-      "kind": "rest",
-      "startSeconds": 68.548422,
-      "endSeconds": 70.462052
-    },
-    {
-      "kind": "burst",
-      "startSeconds": 70.462052,
-      "endSeconds": 76.618701
-    },
-    {
-      "kind": "light",
-      "startSeconds": 76.618701,
-      "endSeconds": 80.252321
-    },
-    {
-      "kind": "rest",
-      "startSeconds": 80.252321,
-      "endSeconds": 81.493902
-    },
-    {
-      "kind": "burst",
-      "startSeconds": 81.493902,
-      "endSeconds": 88.914914
-    },
-    {
-      "kind": "light",
-      "startSeconds": 88.914914,
-      "endSeconds": 92.240759
-    },
-    {
-      "kind": "rest",
-      "startSeconds": 92.240759,
-      "endSeconds": 93.550673
-    },
-    {
-      "kind": "burst",
-      "startSeconds": 93.550673,
-      "endSeconds": 102.843715
-    },
-    {
-      "kind": "light",
-      "startSeconds": 102.843715,
-      "endSeconds": 106.843715
-    },
-    {
-      "kind": "rest",
-      "startSeconds": 106.843715,
-      "endSeconds": 108.843715
-    },
-    {
-      "kind": "burst",
-      "startSeconds": 108.843715,
-      "endSeconds": 110.0722
-    }
-  ]
+  "alignmentSeed": {
+    "offsetSeconds": 1.492829,
+    "scale": 1.0001
+  }
 }

@@ -1,29 +1,71 @@
 using System;
 using System.IO;
 using System.Linq;
+using System.Text;
+using System.Globalization;
 using UnityEngine;
 using UnityEditor;
 public static class AnalyseClassicalAudio
 {
-    public static string Main()=>Analyse(new[]{"Beethoven_FurElise","Pachelbel_CanonInD","Bach_PreludeInC","Mozart_SonataK545_Rondo","Chopin_PreludeInEMinor"});
-    public static string NewSongs()=>Analyse(new[]{"Mozart_SonataK545_Rondo","Chopin_PreludeInEMinor"});
-    static string Analyse(string[] folders)
+    public static string Main() => Analyse(new[] {
+        "Beethoven_FurElise", "Pachelbel_CanonInD", "Bach_PreludeInC",
+        "Mozart_SonataK545_Rondo", "Chopin_PreludeInEMinor"
+    });
+
+    public static string NewSongs() => Analyse(new[] { "Mozart_SonataK545_Rondo", "Chopin_PreludeInEMinor" });
+
+    private static string Analyse(string[] folders)
     {
-        if(EditorApplication.isPlaying)throw new Exception("Stop Play mode before analysing audio.");
-        AssetDatabase.Refresh();var report=new System.Collections.Generic.List<string>();
-        foreach(string folder in folders)
+        if (EditorApplication.isPlayingOrWillChangePlaymode) throw new Exception("Play Mode must be stopped.");
+        const string scratch = "Assets/__ChartAttackAnalysis";
+        if (AssetDatabase.IsValidFolder(scratch)) throw new Exception("Analysis scratch folder already exists.");
+        Directory.CreateDirectory("Temp/ClassicalAnalysis");
+        AssetDatabase.CreateFolder("Assets", "__ChartAttackAnalysis");
+        try
         {
-            string path=Directory.GetFiles("Assets/Music/Classical/"+folder,"*.mp3").Single().Replace('\\','/');
-            var importer=(AudioImporter)AssetImporter.GetAtPath(path);var settings=importer.defaultSampleSettings;
-            settings.loadType=AudioClipLoadType.DecompressOnLoad;settings.compressionFormat=AudioCompressionFormat.PCM;settings.preloadAudioData=true;importer.defaultSampleSettings=settings;importer.SaveAndReimport();
-            var clip=AssetDatabase.LoadAssetAtPath<AudioClip>(path);clip.LoadAudioData();
-            var samples=new float[clip.samples*clip.channels];if(!clip.GetData(samples,0))throw new Exception("Audio data unavailable: "+folder);
-            int hop=Mathf.Max(1,clip.frequency/200),count=clip.samples/hop;var energy=new double[count];
-            for(int i=0;i<count;i++){double e=0;for(int j=0;j<hop;j++)for(int c=0;c<clip.channels;c++){double s=samples[((i*hop+j)*clip.channels)+c];e+=s*s;}energy[i]=Math.Sqrt(e/(hop*clip.channels));}
-            File.WriteAllText("Temp/ClassicalAnalysis/"+folder+"-audio.json","{\"duration\":"+clip.length.ToString(System.Globalization.CultureInfo.InvariantCulture)+",\"rate\":"+((double)clip.frequency/hop).ToString(System.Globalization.CultureInfo.InvariantCulture)+",\"energy\":["+string.Join(",",energy.Select(v=>v.ToString("G6",System.Globalization.CultureInfo.InvariantCulture)))+"]}");
-            report.Add(folder+": "+clip.length+" seconds, "+clip.frequency+" Hz, "+clip.channels+" channels");
+            foreach (var folder in folders)
+            {
+                var original = Directory.GetFiles("Assets/Music/Classical/"+folder,"*.mp3").Single().Replace('\\','/');
+                string copy = scratch + "/" + folder + ".mp3";
+                if (!AssetDatabase.CopyAsset(original, copy)) throw new Exception("Could not copy " + original);
+                var importer = (AudioImporter)AssetImporter.GetAtPath(copy);
+                var settings = importer.defaultSampleSettings;
+                settings.loadType = AudioClipLoadType.DecompressOnLoad;
+                settings.compressionFormat = AudioCompressionFormat.PCM;
+                settings.preloadAudioData = true;
+                importer.defaultSampleSettings = settings;
+                importer.SaveAndReimport();
+                var clip = AssetDatabase.LoadAssetAtPath<AudioClip>(copy);
+                clip.LoadAudioData();
+                var samples = new float[clip.samples*clip.channels];
+                if (!clip.GetData(samples,0)) throw new Exception("PCM unavailable for " + folder);
+                int hop = Mathf.Max(1, Mathf.RoundToInt(clip.frequency / 200f));
+                var dump = new StringBuilder("{\"rate\":" + ((double)clip.frequency/hop).ToString("R",CultureInfo.InvariantCulture) +
+                    ",\"duration\":" + clip.length.ToString("R",CultureInfo.InvariantCulture) + ",\"energy\":[");
+                float preceding = 0;
+                for (int offset=0; offset+hop<=clip.samples; offset+=hop)
+                {
+                    double energy=0, edge=0;
+                    for (int index=offset; index<offset+hop; index++)
+                    {
+                        float sample=0;
+                        for(int channel=0;channel<clip.channels;channel++) sample+=samples[index*clip.channels+channel];
+                        sample/=clip.channels;
+                        energy+=sample*sample;
+                        float change=sample-preceding;
+                        edge+=change*change;
+                        preceding=sample;
+                    }
+                    if(offset!=0)dump.Append(',');
+                    dump.Append('[').Append(Math.Sqrt(energy/hop).ToString("G6",CultureInfo.InvariantCulture));
+                    dump.Append(',').Append(Math.Sqrt(edge/hop).ToString("G6",CultureInfo.InvariantCulture)).Append(']');
+                }
+                dump.Append("]}");
+                File.WriteAllText("Temp/ClassicalAnalysis/"+folder+"-transients.json", dump.ToString());
+                AssetDatabase.DeleteAsset(copy);
+            }
         }
-        return string.Join("\n",report);
+        finally { AssetDatabase.DeleteAsset(scratch); }
+        return $"Decoded {folders.Length} shipped recordings for attack alignment.";
     }
 }
-

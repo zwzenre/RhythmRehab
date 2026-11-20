@@ -39,6 +39,10 @@ namespace RhythmRehab
                 else if (!paused && burst.isPaused) burst.Play(true);
             }
         }
+        public void SetReducedFeedback(bool reduced)
+        {
+            if (ripples) ripples.SetReducedFeedback(reduced);
+        }
         public void Clear()
         {
             if (ripples) ripples.Clear();

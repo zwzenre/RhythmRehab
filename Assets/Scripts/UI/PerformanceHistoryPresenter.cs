@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
@@ -27,6 +28,9 @@ namespace RhythmRehab
         private List<SessionSummary> cloudSessions = new List<SessionSummary>();
         private string cloudError;
         private bool cloudLoading;
+        private bool uploading;
+        private string uploadStatus;
+        private readonly HashSet<string> uploadedSessions = new HashSet<string>();
         public bool IsLoadingCloudHistory => cloudLoading;
         private readonly HashSet<string> pendingDeletion = new HashSet<string>();
         private List<SessionSummary> sessions;
@@ -39,6 +43,7 @@ namespace RhythmRehab
 
         private void Start()
         {
+            if (uploadSelectedButton) uploadSelectedButton.onClick.AddListener(UploadSelected);
             cloudLoading = Application.isPlaying && !PatientContext.IsGuest && PatientDirectory.Instance;
             Reload();
             if (cloudLoading)
@@ -47,7 +52,9 @@ namespace RhythmRehab
                 PatientDirectory.Instance.LoadHistory(owner, (records, error) =>
                 {
                     if (!this || owner != PatientContext.PatientId) return;
-                    cloudSessions = records; cloudError = error; cloudLoading = false; Reload();
+                    cloudSessions = records;
+                    uploadedSessions.UnionWith(records.Select(record => record.sessionId));
+                    cloudError = error; cloudLoading = false; Reload();
                 });
             }
         }
@@ -62,9 +69,11 @@ namespace RhythmRehab
             reviewSessions = sessions.OrderByDescending(s => s.endedEarly).ToList();
             selectedSessions.IntersectWith(sessions.Select(s => s.sessionId));
             page = Mathf.Min(page, Mathf.Max(0, (sessions.Count - 1) / PageSize));
+            var scored = sessions.Where(session => session.HasAccuracy).ToArray();
+            string bestOverall = scored.Length == 0 ? "—" : scored.Max(session => session.Accuracy).ToString("P1");
             overview.text = error != null ? "History could not be read. Your saved file has been preserved." :
                 sessions.Count == 0 ? "Your journey starts with your first session." :
-                $"{sessions.Count} SESSIONS  ·  {sessions.Sum(s => s.duration) / 60f:0.0} MIN PLAYED  ·  BEST OVERALL {sessions.Max(s => s.Accuracy):P1}";
+                $"{sessions.Count} SESSIONS  ·  {sessions.Sum(s => s.duration) / 60f:0.0} MIN PLAYED  ·  BEST OVERALL {bestOverall}";
             RefreshList(); ChooseMetric(metric);
             if (error != null) graphMessage.text = "History unavailable. Check access to the local history file.";
         }
@@ -77,7 +86,7 @@ namespace RhythmRehab
             foreach(var p in segments) p.gameObject.SetActive(false);
             foreach(var p in valueLabels) p.gameObject.SetActive(false);
             foreach(var p in dateLabels) p.gameObject.SetActive(false);
-            var data = sessions.Where(s => metric != 3 || s.heightAttempts > 0).Take(points.Length).Reverse().ToArray();
+            var data = sessions.Where(s => metric == 3 ? s.heightAttempts > 0 : s.HasAccuracy).Take(points.Length).Reverse().ToArray();
             bool measured = metric != 1;
             graphMessage.gameObject.SetActive(!measured || data.Length==0);
             graphMessage.text = metric==1 ? "Knee-joint ROM is not recorded.\nThe shin sensor currently controls game height." :
@@ -121,7 +130,7 @@ namespace RhythmRehab
         }
         public void RequestDelete()
         {
-            if (!all || selectedSessions.Count == 0 || !deleteConfirmation) return;
+            if (uploading || !all || selectedSessions.Count == 0 || !deleteConfirmation) return;
             pendingDeletion.Clear();
             pendingDeletion.UnionWith(selectedSessions);
             deletePrompt.text = $"Delete {pendingDeletion.Count} selected local session record{(pendingDeletion.Count == 1 ? "" : "s")}?\n\nThis cannot be undone.";
@@ -145,6 +154,42 @@ namespace RhythmRehab
             CancelDelete();
             Reload();
         }
+        private SessionSummary[] SelectedPlanSessions() => sessions.Where(session =>
+            selectedSessions.Contains(session.sessionId) && !uploadedSessions.Contains(session.sessionId) &&
+            session.CanUploadPlan &&
+            session.patientId == PatientContext.PatientId)
+            .OrderBy(session => DateTimeOffset.Parse(session.endedUtc))
+            .ThenBy(session => session.sessionId, StringComparer.Ordinal)
+            .ToArray();
+
+        public void UploadSelected()
+        {
+            if (!all || uploading || cloudLoading || PatientContext.IsGuest || !PatientDirectory.Instance ||
+                (deleteConfirmation && deleteConfirmation.activeSelf)) return;
+            var records = SelectedPlanSessions();
+            if (records.Length > 0) StartCoroutine(Upload(records));
+        }
+
+        private IEnumerator Upload(SessionSummary[] records)
+        {
+            uploading = true;
+            uploadStatus = "Uploading selected plan sessions…";
+            RefreshList(resetScroll: false);
+            int sent = 0;
+            string lastError = null;
+            foreach (var record in records)
+            {
+                string error = null;
+                yield return PatientDirectory.Instance.UploadPlanSession(record, value => error = value);
+                if (error != null) { lastError = error; continue; }
+                uploadedSessions.Add(record.sessionId);
+                selectedSessions.Remove(record.sessionId);
+                sent++;
+            }
+            uploading = false;
+            uploadStatus = sent == 0 ? lastError : lastError == null ? $"Uploaded {sent} session(s)." : $"Uploaded {sent}/{records.Length}. {lastError}";
+            RefreshList(resetScroll: false);
+        }
         private void RefreshList(bool resetScroll = true)
         {
             var list = all ? reviewSessions : sessions;
@@ -160,25 +205,32 @@ namespace RhythmRehab
                 if (selectionOutlines != null && i < selectionOutlines.Length && selectionOutlines[i]) selectionOutlines[i].enabled = selected;
                 if (row.TryGetComponent<Button>(out var select)) select.interactable = all && !s.isCloudRecord;
                 string accuracy=!s.HasAccuracy?"—":s.Accuracy.ToString("P1");
-                string noteCount = s.isCloudRecord && s.totalNotes == 0 ? "CLOUD HISTORY" : $"{s.Judged}/{s.totalNotes} NOTES";
+                string progress = s.guidedReps ? $"{s.GuidedCompletion:P0} PLAN PROGRESS" : $"{accuracy} OVERALL  ·  {s.Completion:P0} COMPLETE";
+                string noteCount = s.guidedReps ? $"{s.successfulLegRaises}/{s.PrescribedRepetitions} TARGET REPS" :
+                    s.isCloudRecord && s.totalNotes == 0 ? "CLOUD HISTORY" : $"{s.Judged}/{s.totalNotes} NOTES";
                 rows[i].text=$"<color=#AF8BF5>{DateTimeOffset.Parse(s.endedUtc).ToLocalTime():dd MMM yyyy  HH:mm}</color>\n"+
-                    $"{s.songTitle}\n<color=#76D8F3>{s.modeLabel}</color>\n"+
-                    $"{accuracy} OVERALL  ·  {s.Completion:P0} COMPLETE\n"+
+                    $"{s.songTitle}\n<color=#76D8F3>{s.modeLabel}{(s.mousePractice ? " · PRACTICE" : "")}</color>\n"+
+                    $"{progress}\n"+
                     $"<color=#9DA7BF>{TimeSpan.FromSeconds(s.duration):mm\\:ss}  ·  {noteCount}  ·  "+
-                    (s.endedEarly?"ENDED EARLY":"COMPLETED")+(s.isCloudRecord?" · CLOUD":"")+"</color>\n"+
+                    (s.endedEarly?"ENDED EARLY":"COMPLETED")+(s.isCloudRecord || uploadedSessions.Contains(s.sessionId)?" · CLOUD":"")+"</color>\n"+
                     $"<color=#C5CBE0>{SessionWellbeing.ScenarioLabel(s.wellbeing)}</color>";
             }
             listTitle.text=all?"NEEDS REVIEW":sessions.Count==0?"NO RECENT SESSIONS":"RECENT SESSIONS";
-            if (uploadSelectedButton) uploadSelectedButton.gameObject.SetActive(all);
+            var uploadableCount = all ? SelectedPlanSessions().Length : 0;
+            if (uploadSelectedButton)
+            {
+                uploadSelectedButton.gameObject.SetActive(all);
+                uploadSelectedButton.interactable = !uploading && !cloudLoading && uploadableCount > 0;
+            }
             if (deleteSelectedButton)
             {
                 deleteSelectedButton.gameObject.SetActive(all);
-                deleteSelectedButton.interactable = selectedSessions.Count > 0;
+                deleteSelectedButton.interactable = !uploading && selectedSessions.Count > 0;
                 var reviewButton = (RectTransform)viewAllLabel.transform.parent;
                 reviewButton.anchoredPosition = new Vector2(all ? -140 : 0, reviewButton.anchoredPosition.y);
                 reviewButton.sizeDelta = new Vector2(all ? 254 : 520, reviewButton.sizeDelta.y);
             }
-            pageLabel.text=all ? $"{selectedSessions.Count} SELECTED  ·  PAGE {page+1}/{Mathf.Max(1,(sessions.Count+9)/10)}\nAccount link required for upload" :
+            pageLabel.text=all ? $"{selectedSessions.Count} SELECTED  ·  PAGE {page+1}/{Mathf.Max(1,(sessions.Count+PageSize-1)/PageSize)}\n{uploadStatus ?? (uploadableCount > 0 ? $"{uploadableCount} plan session(s) ready to upload" : "Select a local plan session to upload")}" :
                 sessions.Count==0 ? "Complete a session to begin your history." : "Your 4 most recent sessions";
             previousButton.interactable=all&&page>0;
             nextButton.interactable=all&&(page+1)*PageSize<sessions.Count;

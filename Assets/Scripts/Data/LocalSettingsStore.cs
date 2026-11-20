@@ -16,6 +16,7 @@ namespace RhythmRehab
         public float hitSoundOffsetMs;
         public int hitKeyPrimary = (int)UnityEngine.InputSystem.Key.Space;
         public int hitKeySecondary;
+        public string lastLeaderboardName;
     }
 
     // No cached document: every update merges with the latest file on disk.
@@ -101,6 +102,14 @@ namespace RhythmRehab
             var settings = Load(out error);
             if (error != null) return false;
             settings.hitKeyPrimary = primary; settings.hitKeySecondary = secondary;
+            return Write(settings, out error);
+        }
+
+        public bool TrySaveLeaderboardName(string name, out string error)
+        {
+            var settings = Load(out error);
+            if (error != null) return false;
+            settings.lastLeaderboardName = name;
             return Write(settings, out error);
         }
 

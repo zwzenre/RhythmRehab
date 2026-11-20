@@ -24,8 +24,10 @@ namespace RhythmRehab
         [SerializeField] private NoteHitEffects hitEffects;
         [SerializeField] private PlayerMarkerTrail playerMarkerTrail;
         [SerializeField] private GameplayVisualLevels visualLevels;
+        [SerializeField] private GameplayAtmosphere atmosphere;
 
         private GameplayChartRunner runner;
+        private SessionSummary sessionSummary;
         private GameplaySessionClock clock;
         private bool finished, continuousHeights;
         private bool starting = true;
@@ -37,6 +39,8 @@ namespace RhythmRehab
         private LocalSettings hitControls;
         private bool resuming;
         private Coroutine resumeRoutine;
+        private RehabilitationPlan plan;
+        private LegRaiseTracker legRaises;
 
         public float Elapsed => starting ? 0 : clock?.Elapsed ?? 0;
         public bool IsStarting => starting;
@@ -46,13 +50,15 @@ namespace RhythmRehab
         public int ActiveHoldIndex => runner?.ActiveHoldIndex ?? -1;
         public bool WaitingForHoldResume => clock != null && clock.WaitingForHoldResume;
         public int JudgedNotes => Summary?.Judged ?? 0;
-        public SessionSummary Summary => runner?.Summary;
+        public SessionSummary Summary => sessionSummary;
         public GameplayChartRunner Notes => runner;
         public GameplayPlayfield Playfield => playfieldView;
         public GameplayHud Hud => hud;
         public GameplayAudio Audio => audioService;
         public GameplaySessionClock Clock => clock;
         public bool UsingSensor => UsbSensorConnection.Instance && UsbSensorConnection.Instance.InputEnabled;
+        private bool SensorParticipating => UsingSensor || (plan == null &&
+            UsbSensorConnection.Instance && UsbSensorConnection.Instance.SensorControlSelected);
 
         private void Awake() => clock = new GameplaySessionClock(() => AudioSettings.dspTime);
         private void LateUpdate()
@@ -78,16 +84,33 @@ namespace RhythmRehab
             { Debug.LogError("Gameplay chart needs one authored note view per note.", this); enabled = false; yield break; }
 
             var sensor = UsbSensorConnection.Instance;
-            if (sensor) sensor.PrepareGameplayInput();
+            float targetDegrees = plan?.TargetDegrees(SessionSelection.Height) ?? 0;
+            if (sensor) sensor.PrepareGameplayInput(Mathf.Max(0, targetDegrees - .5f));
             var summary = new SessionSummary { songTitle = selectedSong, modeLabel = selectedMode, bpm = bpm, wellbeing = SessionWellbeing.Snapshot };
+            if (SessionSelection.Configured && SessionSelection.Mode == SessionMode.Free)
+            {
+                summary.freeMode = true;
+                summary.songId = SessionSelection.Song.id;
+                summary.freeDifficulty = SessionSelection.Difficulty;
+            }
+            sessionSummary = summary;
+            if (hitEffects && summary.wellbeing != null && !summary.wellbeing.skipped)
+                hitEffects.SetReducedFeedback(summary.wellbeing.highPain || summary.wellbeing.highStress);
             summary.patientId = PatientContext.PatientId;
             summary.patientName = PatientContext.DisplayName;
-            summary.sensorHeightControl = UsingSensor || (sensor && sensor.SensorControlSelected);
-            runner = new GameplayChartRunner(chart, bpm, travel,
-                heightTolerance, timingScale, settings.judgementOffsetMs / 1000f, holdHeightGraceSeconds, summary, sessionDuration);
+            summary.plan = plan;
+            if (plan != null)
+            {
+                summary.targetShinTiltDegrees = targetDegrees;
+                legRaises = new LegRaiseTracker(plan, targetDegrees);
+            }
+            summary.sensorHeightControl = SensorParticipating;
+            summary.mousePractice = plan != null && !UsingSensor;
+            runner = new GameplayChartRunner(chart, bpm, travel, heightTolerance, timingScale,
+                settings.judgementOffsetMs / 1000f, holdHeightGraceSeconds, summary, sessionDuration);
             runner.NoteResolved += HandleNoteResult;
             runner.HoldStarted += HandleHoldStart;
-            playfieldView.Initialize(runner.Chart);
+            playfieldView.Initialize(chart);
             hud.Initialize(summary, selectedSong, selectedMode, bpm);
             hud.UpdateTimeline(runner, 0);
             yield return hud.ShowReady();
@@ -100,6 +123,8 @@ namespace RhythmRehab
         private void ApplySessionSelection()
         {
             if (!SessionSelection.Configured) return;
+            if (SessionSelection.Mode == SessionMode.Therapy && SessionSelection.Plan?.patientId == PatientContext.PatientId)
+                plan = SessionSelection.Plan;
             var profile = SessionSelection.BuildProfile(SessionSelection.Song, SessionSelection.Mode, SessionSelection.Height, SessionSelection.Difficulty);
             chart = profile.chart; bpm = profile.bpm; approachSeconds = profile.approachSeconds;
             heightTolerance = profile.heightTolerance; timingScale = profile.timingScale;
@@ -110,22 +135,50 @@ namespace RhythmRehab
         }
         private void Update()
         {
-            if (starting || finished || runner == null || IrisSceneTransition.IsBusy) return;
+            if (starting || finished || Summary == null || IrisSceneTransition.IsBusy) return;
             if (Keyboard.current != null && Keyboard.current.escapeKey.wasPressedThisFrame) TogglePause();
             var sensor = UsbSensorConnection.Instance;
-            if (UsingSensor || (sensor && sensor.SensorControlSelected)) Summary.sensorHeightControl = true;
-            if (sensor && sensor.InputEnabled && !sensor.TryGetHeight(out _))
+            bool sensorControl = UsingSensor;
+            Summary.sensorHeightControl |= SensorParticipating;
+            float sensorHeight = 0;
+            if (sensorControl && !sensor.TryGetHeight(out sensorHeight))
             {
+                ResetMovementAttempt();
                 if (resuming) CancelResume();
                 if (!clock.PauseMenuOpen) TogglePause();
                 hud.ShowSensorUnavailable();
                 return;
             }
-            if (clock.PauseMenuOpen) return;
-            if (sensor && sensor.InputEnabled) { if (sensor.TryGetHeight(out var sensorHeight)) currentHeight = sensorHeight; }
+            if (clock.PauseMenuOpen) { ResetMovementAttempt(); return; }
+            if (Elapsed >= 0 && Summary.freeMode)
+            {
+                Summary.playedWithSensor |= sensorControl;
+                Summary.playedWithKeyboard |= !sensorControl;
+            }
+            float degrees = 0;
+            if (sensorControl)
+            {
+                currentHeight = sensorHeight;
+                if (plan != null)
+                {
+                    degrees = Mathf.Round(sensor.MovementDegrees * 10f) / 10f;
+                    currentHeight = plan.GameplayHeight(degrees);
+                }
+            }
             else if (playfieldView.ReadMouseHeight(out var height)) currentHeight = height;
+
+            if (plan != null)
+            {
+                if (!sensorControl)
+                {
+                    Summary.mousePractice = true;
+                    degrees = plan.PracticeDegrees(currentHeight);
+                }
+                if (Elapsed >= 0) legRaises.Record(degrees, Summary);
+            }
             playfieldView.MoveMarker(currentHeight);
-            hud.ShowHeight(currentHeight, continuousHeights, heightTolerance);
+            if (plan != null) hud.ShowPlanHeight(degrees, Summary, !sensorControl);
+            else hud.ShowHeight(currentHeight, continuousHeights, heightTolerance);
             bool held = UsingSensor || HitControls.Held(hitControls);
             if (WaitingForHoldResume)
             {
@@ -133,13 +186,17 @@ namespace RhythmRehab
                 if (!ResumeHeldNote(currentHeight, held)) return;
             }
             float time = Elapsed;
-            runner.Advance(time, currentHeight, held);
+            float judgedHeight = currentHeight;
+            if (plan != null && sensorControl && (currentHeight < ChartNote.LowTargetHeight - .0001f || currentHeight > 1.0001f))
+                judgedHeight = -1;
+            runner.Advance(time, judgedHeight, held);
             playfieldView.Render(runner, time);
-            if (UsingSensor) runner.TryHit(time, currentHeight, automatic: true);
+            if (UsingSensor) runner.TryHit(time, judgedHeight, automatic: true);
             else if (HitControls.Pressed(hitControls)) TryHit(time, currentHeight);
             hud.UpdateTimeline(runner, time);
             if (time >= runner.EndTime) CompleteSession();
         }
+        private void ResetMovementAttempt() => legRaises?.Reset();
         public bool TryHit(double songTime, float height) => !finished && !IsPaused && runner != null && runner.TryHit(songTime, height);
         public HoldOutcome UpdateActiveHold(double songTime, float height, bool held)
         {
@@ -158,6 +215,7 @@ namespace RhythmRehab
             audioService.PlayHit();
             if (playerMarkerTrail) playerMarkerTrail.PulseOutline();
             if (hitEffects) hitEffects.Play(playfieldView.PositionAt(height), judgement);
+            if (atmosphere) atmosphere.PulseLane(playfieldView.PositionAt(height), playfieldView.HeightColor(height));
         }
         private void HandleNoteResult(GameplayNoteResult result)
         {
@@ -173,6 +231,7 @@ namespace RhythmRehab
                     if (playerMarkerTrail) playerMarkerTrail.PulseOutline();
                 }
                 if (hitEffects) hitEffects.Play(position, result.judgement);
+                if (atmosphere) atmosphere.PulseLane(position, playfieldView.HeightColor(runner.Chart[result.index].TargetHeight));
                 hud.PunchScore();
                 if (visualLevels) visualLevels.OnSuccessfulHit(position, result.judgement, colour);
             }
@@ -180,12 +239,12 @@ namespace RhythmRehab
         }
         public void TogglePause()
         {
-            if (starting || finished || runner == null || IrisSceneTransition.IsBusy) return;
+            if (starting || finished || Summary == null || IrisSceneTransition.IsBusy) return;
             if (resuming) { CancelResume(); return; }
             if (hud.ClosePauseSettings()) return;
             if (hud.BackFromEndOptions()) return;
             var sensor = UsbSensorConnection.Instance;
-            if (clock.PauseMenuOpen && sensor && (sensor.IsCapturing || (UsingSensor && !sensor.HasFreshReading))) return;
+            if (clock.PauseMenuOpen && UsingSensor && (sensor.IsCapturing || !sensor.HasFreshReading)) return;
             if (clock.PauseMenuOpen)
             {
                 resuming = true;
@@ -204,7 +263,7 @@ namespace RhythmRehab
             resumeRoutine = null;
             if (finished) { resuming = false; yield break; }
             var sensor = UsbSensorConnection.Instance;
-            if (sensor && (sensor.IsCapturing || (UsingSensor && !sensor.HasFreshReading)))
+            if (UsingSensor && (sensor.IsCapturing || !sensor.HasFreshReading))
             { CancelResume(); hud.ShowSensorUnavailable(); yield break; }
             resuming = false;
             clock.TogglePause(ActiveHoldIndex >= 0);
@@ -229,10 +288,16 @@ namespace RhythmRehab
             if (sensorControl)
             {
                 if (!sensor || !sensor.HasFreshReading || !sensor.Calibration.IsReady) return false;
+                if (plan != null && sensor.Calibration.RangeDegrees + .5f < Summary.targetShinTiltDegrees) return false;
                 sensor.UseSensor();
                 Summary.sensorHeightControl = true;
             }
-            else if (sensor) sensor.UseMouse();
+            else
+            {
+                if (sensor) sensor.UseMouse();
+                if (plan != null) Summary.mousePractice = true;
+            }
+            ResetMovementAttempt();
             return true;
         }
         public void Restart() => LeaveScene("Gameplay");
@@ -247,19 +312,18 @@ namespace RhythmRehab
         }
         private void LeaveScene(string scene)
         {
-            bool removal = scene != "Gameplay" && (UsingSensor || Summary?.sensorHeightControl == true ||
-                (UsbSensorConnection.Instance && UsbSensorConnection.Instance.SensorControlSelected));
+            bool removal = scene != "Gameplay" && (SensorParticipating || Summary?.sensorHeightControl == true);
             if (!(removal ? SensorRemovalPresenter.ShowBefore(scene) : IrisSceneTransition.Load(scene))) return;
             finished = true; audioService.Stop();
         }
         public void CompleteSession()
         {
-            if (starting || finished || runner == null || IrisSceneTransition.IsBusy) return;
+            if (starting || finished || Summary == null || IrisSceneTransition.IsBusy) return;
             var summary = Summary;
             summary.duration = Mathf.Max(0, Mathf.Min(Elapsed, runner.EndTime));
             summary.endedUtc = DateTime.UtcNow.ToString("O");
             summary.endedEarly = Elapsed < runner.EndTime;
-            summary.sensorHeightControl |= UsingSensor || (UsbSensorConnection.Instance && UsbSensorConnection.Instance.SensorControlSelected);
+            summary.sensorHeightControl |= SensorParticipating;
             if (!SessionHistoryStore.Default.TrySave(summary, out var error))
             { summary.historySaveError = error; Debug.LogWarning("Session history could not be saved: " + error); }
             SessionSummary.Last = summary; finished = true; audioService.Stop();
@@ -269,7 +333,7 @@ namespace RhythmRehab
         private void OnApplicationFocus(bool focused)
         {
             if (!focused && resuming) { CancelResume(); return; }
-            if (!focused && !starting && runner != null && !clock.PauseMenuOpen && !finished) TogglePause();
+            if (!focused && !starting && Summary != null && !clock.PauseMenuOpen && !finished) TogglePause();
         }
         private void OnDestroy()
         {

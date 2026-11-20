@@ -11,6 +11,7 @@ namespace RhythmRehab
         [SerializeField] private TMP_Text judgements;
         [SerializeField] private TMP_Text recommendation;
         [SerializeField] private TMP_Text sessionContext;
+        [SerializeField] private TMP_Text overallTitle, judgementsTitle;
 
         private void Start()
         {
@@ -30,8 +31,23 @@ namespace RhythmRehab
             var duration = System.TimeSpan.FromSeconds(s.duration);
             performance.text = $"SESSION  ·  {(s.endedEarly ? "ENDED EARLY" : "COMPLETED")}\n\nCompletion       {s.Completion:P0} ({s.Judged}/{s.totalNotes} notes)\n\nDuration           {(int)duration.TotalMinutes:00}:{duration.Seconds:00}\n\nBest combo       {s.bestCombo}";
             judgements.text = $"<color=#FFD126>PERFECT</color>     {s.perfect}        <color=#B34DFF>GREAT</color>     {s.great}\n\n<color=#3399FF>GOOD</color>           {s.good}        <color=#A6BDE0>NOTES TO PRACTISE</color>   {s.miss}";
+            if (s.guidedReps && s.plan != null)
+            {
+                if (overallTitle) overallTitle.text = "PLAN PROGRESS";
+                if (judgementsTitle) judgementsTitle.text = "REP RESULTS";
+                overall.text = s.GuidedCompletion.ToString("P0");
+                grade.gameObject.SetActive(false);
+                if (sessionContext) sessionContext.text = $"{s.songTitle}  ·  GUIDED REPS  ·  {s.targetShinTiltDegrees:0.#}°";
+                int setsCompleted = s.successfulLegRaises / s.plan.repetitions;
+                performance.text = $"SESSION  ·  {(s.endedEarly ? "ENDED EARLY" : "COMPLETED")}\n\n" +
+                    $"Sets completed    {setsCompleted}/{s.plan.sets}\n\nDuration           {(int)duration.TotalMinutes:00}:{duration.Seconds:00}\n\n" +
+                    $"Shin tilt target    {s.targetShinTiltDegrees:0.#}°";
+                judgements.text = $"SUCCESSFUL RAISES   {s.successfulLegRaises}/{s.PrescribedRepetitions}\n\nTOTAL RAISES   {s.legRaises}";
+            }
             string scenario = "Scenario: " + SessionWellbeing.ScenarioLabel(s.wellbeing);
-            recommendation.text = (s.sensorHeightControl ? "SENSOR DATA  ·  SHIN SENSOR" : "MOUSE + KEYBOARD") + "\n" + scenario + "\n\nSaved locally for review.";
+            string inputLabel = s.mousePractice ? "MOUSE PRACTICE  ·  LOCAL ONLY"
+                : s.sensorHeightControl ? "SENSOR DATA  ·  SHIN SENSOR" : "MOUSE + KEYBOARD";
+            recommendation.text = inputLabel + "\n" + scenario + "\n\nSaved locally for review.";
             if (!string.IsNullOrEmpty(s.historySaveError))
                 recommendation.text = scenario + "\nHISTORY NOT SAVED\nCheck disk access before your next session.";
         }

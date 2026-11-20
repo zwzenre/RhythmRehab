@@ -14,6 +14,7 @@ namespace RhythmRehab
         [SerializeField] private float spawnX = 900;
         [SerializeField] private float laneSpacing = 280;
         private bool[] usedSlots;
+        private bool reducedHoldShimmer;
         private static readonly Color Low = new Color(.3f, 1, .45f), Mid = new Color(1, .75f, .15f), High = new Color(1, .3f, .5f);
         public float JudgementX => judgementX;
         public float SpawnX => spawnX;
@@ -35,6 +36,8 @@ namespace RhythmRehab
         public void Initialize(ChartNote[] chart)
         {
             HideAllNotes();
+            var wellbeing = SessionWellbeing.Snapshot;
+            reducedHoldShimmer = wellbeing != null && !wellbeing.skipped && (wellbeing.highPain || wellbeing.highStress);
             usedSlots = new bool[Capacity];
             for (int i = 0; i < Capacity; i++) if (holdViews != null && i < holdViews.Length && holdViews[i]) holdViews[i].Hide();
         }
@@ -67,7 +70,7 @@ namespace RhythmRehab
                 if (holdViews == null || slot >= holdViews.Length || !holdViews[slot]) continue;
                 if (!note.IsHold) { holdViews[slot].Hide(); continue; }
                 float seconds = holding ? Mathf.Max(0, (float)(runner.ActiveHold.EndTime - time)) : note.holdBeats * runner.SecondsPerBeat;
-                holdViews[slot].Render(seconds * (spawnX - judgementX) / runner.ApproachSeconds, HeightColor(note.TargetHeight), holding, holding ? runner.ActiveHold.Progress(time) : 0);
+                holdViews[slot].Render(seconds * (spawnX - judgementX) / runner.ApproachSeconds, HeightColor(note.TargetHeight), holding, holding ? runner.ActiveHold.Progress(time) : 0, time, reducedHoldShimmer);
             }
             for (int slot = 0; slot < Capacity; slot++) if (!usedSlots[slot] && noteViews[slot].gameObject.activeSelf) noteViews[slot].gameObject.SetActive(false);
         }

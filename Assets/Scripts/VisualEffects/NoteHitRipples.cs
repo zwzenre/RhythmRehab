@@ -19,6 +19,7 @@ namespace RhythmRehab
         private Color[] colours;
         private int next;
         private bool paused;
+        private float feedbackGain = 1f;
         public int PlayedRipples { get; private set; }
 
         private void Awake()
@@ -60,11 +61,12 @@ namespace RhythmRehab
             float diameter = viewport ? Mathf.Max(endDiameter, viewport.rect.width * minimumRightwardReach * 2f) : endDiameter;
             rings[i].rectTransform.sizeDelta = Vector2.one * Mathf.Lerp(startDiameter, diameter, eased);
             Color colour = colours[i];
-            colour.a *= opacity * Mathf.Pow(1f - t, fadePower);
+            colour.a *= opacity * feedbackGain * Mathf.Pow(1f - t, fadePower);
             rings[i].color = colour;
         }
 
         public void SetPaused(bool value) => paused = value;
+        public void SetReducedFeedback(bool reduced) => feedbackGain = reduced ? .35f : 1f;
 
         public void Clear()
         {

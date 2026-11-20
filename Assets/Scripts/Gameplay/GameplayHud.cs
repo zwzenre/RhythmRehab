@@ -18,6 +18,8 @@ namespace RhythmRehab
         [SerializeField] private PauseGameplaySettings pauseSettings;
         [SerializeField] private ScorePulse scorePulse;
         [SerializeField] private JudgementTextFeedback judgementMotion;
+        [SerializeField] private GameObject guidedRepsPanel;
+        [SerializeField] private TMP_Text guidedCue, guidedProgress, guidedDetail;
         [Header("Before gameplay")]
         [SerializeField] private CanvasGroup readyOverlay;
         [SerializeField, Min(.1f)] private float readyDuration = 3f;
@@ -51,6 +53,8 @@ namespace RhythmRehab
             hitKeyLabel = HitControls.Label(LocalSettingsStore.Default.Load(out _));
             bool reduced = summary.wellbeing != null && summary.wellbeing.reducedPerformanceFeedback;
             foreach (var indicator in performanceIndicators) if (indicator) indicator.SetActive(!reduced);
+            if (remainingTimeLabel) remainingTimeLabel.gameObject.SetActive(true);
+            SetGuidedRepsInstructions(summary);
             string message = SessionWellbeing.GameplayMessage(summary.wellbeing);
             if (wellbeingGameplayTip)
             {
@@ -76,7 +80,7 @@ namespace RhythmRehab
                     details = SessionSelection.Mode == SessionMode.Therapy
                         ? $"THERAPY MODE  ·  {SessionSelection.Height.ToString().ToUpperInvariant()} HEIGHT"
                         : $"FREE MODE  ·  {SessionSelection.Difficulty.ToString().ToUpperInvariant()}";
-                modeLabel.text = details;
+                modeLabel.text = summary.plan != null ? $"{details}  ·  {summary.targetShinTiltDegrees:0.#}°" : details;
             }
             SetPauseMenu(false); RefreshScore(summary, 0); lastRemainingSeconds = -1;
         }
@@ -122,7 +126,26 @@ namespace RhythmRehab
         }
         public void ShowResumePrompt() => statusLabel.text = UsbSensorConnection.Instance && UsbSensorConnection.Instance.InputEnabled
             ? "RETURN TO THE TARGET HEIGHT TO RESUME" : $"HOLD {hitKeyLabel} AT THE TARGET HEIGHT TO RESUME";
-        public void ShowSensorUnavailable() => statusLabel.text = "SENSOR DATA LOST — OPEN PAUSE SETTINGS TO RECONNECT OR SWITCH CONTROLS.";
+        public void ShowSensorUnavailable() =>
+            statusLabel.text = "SENSOR DATA LOST · RECONNECT OR SWITCH TO MOUSE IN PAUSE SETTINGS";
+        public void ShowPlanHeight(float degrees, SessionSummary summary, bool mouseControl)
+        {
+            int target = summary.plan.sets * summary.plan.repetitions;
+            string inputLabel = mouseControl ? "PRACTICE" : "SHIN TILT";
+            heightLabel.text = $"{degrees:0.#}° {inputLabel}\n{Mathf.Min(summary.successfulLegRaises, target)}/{target} TARGET REPS";
+        }
+        private void SetGuidedRepsInstructions(SessionSummary summary)
+        {
+            if (!guidedRepsPanel) return;
+            bool show = SessionSelection.Configured && SessionSelection.ShowGuidedReps;
+            guidedRepsPanel.SetActive(show);
+            if (!show || !guidedCue || !guidedProgress || !guidedDetail) return;
+            guidedCue.text = "GUIDED REPS";
+            guidedProgress.text = summary.plan != null
+                ? $"{summary.targetShinTiltDegrees:0.#}° TARGET"
+                : $"{SessionSelection.Height.ToString().ToUpperInvariant()} HEIGHT";
+            guidedDetail.text = "Match the height at the line. Hold for long notes.";
+        }
         public void ShowHeight(float height, bool continuous, float tolerance)
         {
             if (continuous) { heightLabel.text = $"HEIGHT\n{height:P0}"; return; }

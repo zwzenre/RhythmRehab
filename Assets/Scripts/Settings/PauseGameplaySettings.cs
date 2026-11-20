@@ -70,9 +70,12 @@ namespace RhythmRehab
             else inputStatus.text = "Sensor unavailable. Open Sensor Setup to connect and calibrate.";
         }
 
-        private void ShowControls() => inputStatus.text = gameplay.UsingSensor
-            ? "ACTIVE: SENSOR  •  Match the height as notes reach the line."
-            : "ACTIVE: MOUSE + KEYBOARD  •  " + HitControls.Label(LocalSettingsStore.Default.Load(out _)) + " TAP / HOLD";
+        private void ShowControls()
+        {
+            inputStatus.text = gameplay.UsingSensor
+                ? "ACTIVE: SENSOR  •  Match the height as notes reach the line."
+                : "ACTIVE: MOUSE + KEYBOARD  •  " + HitControls.Label(LocalSettingsStore.Default.Load(out _)) + " TAP / HOLD";
+        }
 
         private void RefreshVolumes()
         {

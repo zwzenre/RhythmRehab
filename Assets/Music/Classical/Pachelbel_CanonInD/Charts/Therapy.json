@@ -1,303 +1,247 @@
 {
-  "description": "Canon in D — Therapy. Note timings follow the source MIDI tempo map aligned to this MP3. Height is replaced by the selected therapy level. Four-second audio lead-in.",
+  "description": "Canon in D — Therapy. Recording-aligned musical attacks, phrase breaks and sustain-based holds.",
   "durationSeconds": 124.0327,
   "notes": [
     {
-      "beat": 9.323067,
+      "beat": 9.353681,
+      "lane": 1,
+      "useCustomHeight": false,
+      "customHeight": 0.5,
+      "holdBeats": 2.041667
+    },
+    {
+      "beat": 15.33542,
       "lane": 1,
       "useCustomHeight": false,
       "customHeight": 0.5,
       "holdBeats": 0
     },
     {
-      "beat": 13.325467,
-      "lane": 1,
-      "useCustomHeight": false,
-      "customHeight": 0.5,
-      "holdBeats": 3.22
-    },
-    {
-      "beat": 19.329068,
+      "beat": 21.363054,
       "lane": 1,
       "useCustomHeight": false,
       "customHeight": 0.5,
       "holdBeats": 0
     },
     {
-      "beat": 23.339807,
+      "beat": 27.36774,
+      "lane": 1,
+      "useCustomHeight": false,
+      "customHeight": 0.5,
+      "holdBeats": 2
+    },
+    {
+      "beat": 33.364777,
       "lane": 1,
       "useCustomHeight": false,
       "customHeight": 0.5,
       "holdBeats": 0
     },
     {
-      "beat": 27.333869,
+      "beat": 39.361814,
       "lane": 1,
       "useCustomHeight": false,
       "customHeight": 0.5,
       "holdBeats": 0
     },
     {
-      "beat": 31.336269,
+      "beat": 45.351202,
+      "lane": 1,
+      "useCustomHeight": false,
+      "customHeight": 0.5,
+      "holdBeats": 2
+    },
+    {
+      "beat": 51.386485,
       "lane": 1,
       "useCustomHeight": false,
       "customHeight": 0.5,
       "holdBeats": 0
     },
     {
-      "beat": 35.33867,
+      "beat": 57.368224,
       "lane": 1,
       "useCustomHeight": false,
       "customHeight": 0.5,
       "holdBeats": 0
     },
     {
-      "beat": 39.341071,
+      "beat": 62.378503,
       "lane": 1,
       "useCustomHeight": false,
       "customHeight": 0.5,
       "holdBeats": 0
     },
     {
-      "beat": 43.343471,
+      "beat": 67.373485,
+      "lane": 1,
+      "useCustomHeight": false,
+      "customHeight": 0.5,
+      "holdBeats": 2
+    },
+    {
+      "beat": 73.362872,
       "lane": 1,
       "useCustomHeight": false,
       "customHeight": 0.5,
       "holdBeats": 0
     },
     {
-      "beat": 47.345872,
-      "lane": 1,
-      "useCustomHeight": false,
-      "customHeight": 0.5,
-      "holdBeats": 3.22
-    },
-    {
-      "beat": 53.349472,
+      "beat": 78.380801,
       "lane": 1,
       "useCustomHeight": false,
       "customHeight": 0.5,
       "holdBeats": 0
     },
     {
-      "beat": 57.351873,
+      "beat": 83.368133,
+      "lane": 1,
+      "useCustomHeight": false,
+      "customHeight": 0.5,
+      "holdBeats": 2
+    },
+    {
+      "beat": 87.45285,
       "lane": 1,
       "useCustomHeight": false,
       "customHeight": 0.5,
       "holdBeats": 0
     },
     {
-      "beat": 61.354273,
+      "beat": 92.378987,
       "lane": 1,
       "useCustomHeight": false,
       "customHeight": 0.5,
       "holdBeats": 0
     },
     {
-      "beat": 65.356674,
+      "beat": 97.366319,
+      "lane": 1,
+      "useCustomHeight": false,
+      "customHeight": 0.5,
+      "holdBeats": 2
+    },
+    {
+      "beat": 102.368949,
       "lane": 1,
       "useCustomHeight": false,
       "customHeight": 0.5,
       "holdBeats": 0
     },
     {
-      "beat": 69.359075,
+      "beat": 107.379229,
       "lane": 1,
       "useCustomHeight": false,
       "customHeight": 0.5,
       "holdBeats": 0
     },
     {
-      "beat": 73.361475,
+      "beat": 112.351262,
       "lane": 1,
       "useCustomHeight": false,
       "customHeight": 0.5,
       "holdBeats": 0
     },
     {
-      "beat": 77.363876,
+      "beat": 117.361542,
+      "lane": 1,
+      "useCustomHeight": false,
+      "customHeight": 0.5,
+      "holdBeats": 2
+    },
+    {
+      "beat": 121.866969,
       "lane": 1,
       "useCustomHeight": false,
       "customHeight": 0.5,
       "holdBeats": 0
     },
     {
-      "beat": 81.366276,
-      "lane": 1,
-      "useCustomHeight": false,
-      "customHeight": 0.5,
-      "holdBeats": 3.22
-    },
-    {
-      "beat": 86.369277,
+      "beat": 126.33415,
       "lane": 1,
       "useCustomHeight": false,
       "customHeight": 0.5,
       "holdBeats": 0
     },
     {
-      "beat": 90.371677,
+      "beat": 131.352079,
+      "lane": 1,
+      "useCustomHeight": false,
+      "customHeight": 0.5,
+      "holdBeats": 2
+    },
+    {
+      "beat": 135.865155,
       "lane": 1,
       "useCustomHeight": false,
       "customHeight": 0.5,
       "holdBeats": 0
     },
     {
-      "beat": 94.374078,
+      "beat": 140.416478,
       "lane": 1,
       "useCustomHeight": false,
       "customHeight": 0.5,
       "holdBeats": 0
     },
     {
-      "beat": 98.376478,
+      "beat": 145.365563,
+      "lane": 1,
+      "useCustomHeight": false,
+      "customHeight": 0.5,
+      "holdBeats": 3
+    },
+    {
+      "beat": 149.848042,
       "lane": 1,
       "useCustomHeight": false,
       "customHeight": 0.5,
       "holdBeats": 0
     },
     {
-      "beat": 102.378879,
+      "beat": 154.361119,
       "lane": 1,
       "useCustomHeight": false,
       "customHeight": 0.5,
       "holdBeats": 0
     },
     {
-      "beat": 106.381279,
+      "beat": 159.34845,
+      "lane": 1,
+      "useCustomHeight": false,
+      "customHeight": 0.5,
+      "holdBeats": 2
+    },
+    {
+      "beat": 164.374029,
       "lane": 1,
       "useCustomHeight": false,
       "customHeight": 0.5,
       "holdBeats": 0
     },
     {
-      "beat": 110.38368,
+      "beat": 169.300166,
       "lane": 1,
       "useCustomHeight": false,
       "customHeight": 0.5,
       "holdBeats": 0
     },
     {
-      "beat": 114.386081,
-      "lane": 1,
-      "useCustomHeight": false,
-      "customHeight": 0.5,
-      "holdBeats": 2.76
-    },
-    {
-      "beat": 118.388481,
+      "beat": 174.341043,
       "lane": 1,
       "useCustomHeight": false,
       "customHeight": 0.5,
       "holdBeats": 0
     },
     {
-      "beat": 122.390882,
+      "beat": 179.320726,
       "lane": 1,
       "useCustomHeight": false,
       "customHeight": 0.5,
-      "holdBeats": 0
+      "holdBeats": 2
     },
     {
-      "beat": 126.393282,
-      "lane": 1,
-      "useCustomHeight": false,
-      "customHeight": 0.5,
-      "holdBeats": 0
-    },
-    {
-      "beat": 130.395683,
-      "lane": 1,
-      "useCustomHeight": false,
-      "customHeight": 0.5,
-      "holdBeats": 0
-    },
-    {
-      "beat": 134.398083,
-      "lane": 1,
-      "useCustomHeight": false,
-      "customHeight": 0.5,
-      "holdBeats": 0
-    },
-    {
-      "beat": 138.400484,
-      "lane": 1,
-      "useCustomHeight": false,
-      "customHeight": 0.5,
-      "holdBeats": 0
-    },
-    {
-      "beat": 142.402884,
-      "lane": 1,
-      "useCustomHeight": false,
-      "customHeight": 0.5,
-      "holdBeats": 0
-    },
-    {
-      "beat": 146.405285,
-      "lane": 1,
-      "useCustomHeight": false,
-      "customHeight": 0.5,
-      "holdBeats": 2.76
-    },
-    {
-      "beat": 150.407685,
-      "lane": 1,
-      "useCustomHeight": false,
-      "customHeight": 0.5,
-      "holdBeats": 0
-    },
-    {
-      "beat": 154.410086,
-      "lane": 1,
-      "useCustomHeight": false,
-      "customHeight": 0.5,
-      "holdBeats": 0
-    },
-    {
-      "beat": 158.412486,
-      "lane": 1,
-      "useCustomHeight": false,
-      "customHeight": 0.5,
-      "holdBeats": 0
-    },
-    {
-      "beat": 162.414887,
-      "lane": 1,
-      "useCustomHeight": false,
-      "customHeight": 0.5,
-      "holdBeats": 0
-    },
-    {
-      "beat": 166.417287,
-      "lane": 1,
-      "useCustomHeight": false,
-      "customHeight": 0.5,
-      "holdBeats": 0
-    },
-    {
-      "beat": 170.419688,
-      "lane": 1,
-      "useCustomHeight": false,
-      "customHeight": 0.5,
-      "holdBeats": 0
-    },
-    {
-      "beat": 174.422089,
-      "lane": 1,
-      "useCustomHeight": false,
-      "customHeight": 0.5,
-      "holdBeats": 0
-    },
-    {
-      "beat": 178.424489,
-      "lane": 1,
-      "useCustomHeight": false,
-      "customHeight": 0.5,
-      "holdBeats": 2.76
-    },
-    {
-      "beat": 182.42689,
+      "beat": 183.596674,
       "lane": 1,
       "useCustomHeight": false,
       "customHeight": 0.5,

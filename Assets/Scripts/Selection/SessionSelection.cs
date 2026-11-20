@@ -26,14 +26,20 @@ namespace RhythmRehab
         public static FreeDifficulty Difficulty { get; private set; } = FreeDifficulty.Easy;
         public static bool Configured { get; private set; }
 
-        public static void BeginBrowsing() { Configured = false; SessionWellbeing.Reset(); }
+        public static RehabilitationPlan Plan { get; private set; }
+        public static bool ShowGuidedReps { get; private set; }
+        public static void BeginBrowsing() { Configured = false; AssignPlan(null); SetGuidedReps(false); SessionWellbeing.Reset(); }
         public static void SelectSong(SongEntry song)
         {
             if (song == null || song.bpm <= 0) throw new ArgumentException("A valid song is required.");
             Song = song;
             Configured = false;
+            AssignPlan(null);
+            SetGuidedReps(false);
         }
-        public static void SelectMode(SessionMode mode) { Mode = mode; Configured = false; }
+        public static void SelectMode(SessionMode mode) { Mode = mode; Configured = false; AssignPlan(null); SetGuidedReps(false); }
+        public static void AssignPlan(RehabilitationPlan plan) => Plan = plan;
+        public static void SetGuidedReps(bool show) => ShowGuidedReps = show && Mode == SessionMode.Therapy;
         public static void SelectHeight(HeightLevel height) => Height = height;
         public static void SelectDifficulty(FreeDifficulty difficulty) => Difficulty = difficulty;
         public static void Confirm()
