@@ -5,7 +5,14 @@ namespace RhythmRehab
 {
     public sealed class SceneNavigation : MonoBehaviour
     {
+        [SerializeField] private TMPro.TMP_Text versionLabel;
         private static string settingsReturnScene = "MainMenu";
+
+        private void Awake()
+        {
+            if (versionLabel) versionLabel.text = $"Ver. {Application.version}";
+        }
+
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
         private static void ResetSettingsReturn() => settingsReturnScene = "MainMenu";
         public void Play()

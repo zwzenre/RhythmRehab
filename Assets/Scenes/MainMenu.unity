@@ -1133,6 +1133,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 402eb789c3b62c748b76470789b4f540, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RhythmRehab.SceneNavigation
+  versionLabel: {fileID: 501884633}
 --- !u!1 &221273919
 GameObject:
   m_ObjectHideFlags: 0
@@ -2003,7 +2004,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Ver. 1.0.0
+  m_text: Ver. 0.2.1
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: b633915a7eab00342a258e5c2f50a75f, type: 2}
   m_sharedMaterial: {fileID: -5571592025542048100, guid: b633915a7eab00342a258e5c2f50a75f, type: 2}
