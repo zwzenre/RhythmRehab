@@ -65,7 +65,7 @@ namespace RhythmRehab
             if (!primaryKeyLabel) return;
             primaryKeyLabel.text = HitControls.Label(keySettings.hitKeyPrimary);
             secondaryKeyLabel.text = keySettings.hitKeySecondary == 0 ? "ADD KEY" : HitControls.Label(keySettings.hitKeySecondary);
-            keyCaptureStatus.text = "Select a key to change it · Up to 2 keys";
+            keyCaptureStatus.text = "Left / right click always hits · Select a key to rebind it";
         }
 
         public void SaveVolumes(float value)

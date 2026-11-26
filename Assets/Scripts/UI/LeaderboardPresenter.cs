@@ -16,7 +16,7 @@ namespace RhythmRehab
         [SerializeField] private SongCatalog catalog;
         [SerializeField] private GameObject overlay;
         [SerializeField] private CanvasGroup panel;
-        [SerializeField] private TMP_Text title, status;
+        [SerializeField] private TMP_Text title, status, personalStatus;
         [SerializeField] private Button[] difficultyTabs, inputTabs;
         [SerializeField] private TMP_Text[] names, scores;
         private bool transitioning;
@@ -96,6 +96,9 @@ namespace RhythmRehab
         {
             var song = catalog.songs[songIndex];
             title.text = song.title;
+            var personalBest = LocalSettingsStore.Default.GetPublishedBest(song.id, difficulty, sensor);
+            personalStatus.text = personalBest == null ? "No score published from this device for this board." :
+                $"Your published best   •   {personalBest.name}   •   {(personalBest.score / 10000f):P2}";
             MarkSelected(difficultyTabs, (int)difficulty);
             MarkSelected(inputTabs, sensor ? 1 : 0);
             for (int i = 0; i < names.Length; i++) names[i].transform.parent.gameObject.SetActive(false);

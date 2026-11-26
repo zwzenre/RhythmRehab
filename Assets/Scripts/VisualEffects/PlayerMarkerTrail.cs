@@ -19,6 +19,9 @@ namespace RhythmRehab
 
         private const float Lifetime = .55f;
         private const float PulseDuration = .5f;
+        private const float IdleSparksPerSecond = 20;
+        private const float ExtraSparksPerSecond = 24;
+        private const float FullEmissionSpeed = 900;
         private readonly Spark[] sparks = new Spark[24];
         private Vector2 previous;
         private float emission;
@@ -74,7 +77,9 @@ namespace RhythmRehab
             }
 
             float movement = Mathf.Abs(center.y - previous.y);
-            emission += 20 * delta + Mathf.Min(movement / 22, 2);
+            // Bound the work per second even when the mouse crosses the whole lane every frame.
+            float movementBoost = Mathf.InverseLerp(0, FullEmissionSpeed * delta, movement);
+            emission += (IdleSparksPerSecond + ExtraSparksPerSecond * movementBoost) * delta;
             int count = Mathf.FloorToInt(emission);
             emission -= count;
             for (int i = 0; i < count; i++)

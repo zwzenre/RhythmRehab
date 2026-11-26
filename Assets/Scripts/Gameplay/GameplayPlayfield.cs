@@ -14,7 +14,9 @@ namespace RhythmRehab
         [SerializeField] private float spawnX = 900;
         [SerializeField] private float laneSpacing = 280;
         private bool[] usedSlots;
-        private bool reducedHoldShimmer;
+        private bool reducedHoldEffects;
+        private int completedHoldIndex = -1;
+        private float completedHoldUntil;
         private static readonly Color Low = new Color(.3f, 1, .45f), Mid = new Color(1, .75f, .15f), High = new Color(1, .3f, .5f);
         public float JudgementX => judgementX;
         public float SpawnX => spawnX;
@@ -32,12 +34,17 @@ namespace RhythmRehab
                 if (chart[i].beat * seconds - travel <= chart[i-Capacity].EndBeat * seconds + hitWindow + Mathf.Max(0,offset)) return false;
             return true;
         }
-        public void HideAllNotes() { foreach (var view in noteViews) view.gameObject.SetActive(false); }
+        public void HideAllNotes()
+        {
+            completedHoldIndex = -1;
+            foreach (var view in noteViews) view.gameObject.SetActive(false);
+        }
         public void Initialize(ChartNote[] chart)
         {
             HideAllNotes();
+            playerMarker.GetComponent<UnityEngine.UI.Image>().color = Color.white;
             var wellbeing = SessionWellbeing.Snapshot;
-            reducedHoldShimmer = wellbeing != null && !wellbeing.skipped && (wellbeing.highPain || wellbeing.highStress);
+            reducedHoldEffects = wellbeing != null && !wellbeing.skipped && (wellbeing.highPain || wellbeing.highStress);
             usedSlots = new bool[Capacity];
             for (int i = 0; i < Capacity; i++) if (holdViews != null && i < holdViews.Length && holdViews[i]) holdViews[i].Hide();
         }
@@ -47,12 +54,22 @@ namespace RhythmRehab
             if (Mouse.current == null || !RectTransformUtility.ScreenPointToLocalPointInRectangle(playfield, Mouse.current.position.ReadValue(), null, out var local)) return false;
             height = Mathf.InverseLerp(-laneSpacing, laneSpacing, local.y); return true;
         }
-        public void MoveMarker(float height) { playerMarker.anchoredPosition = PositionAt(height); playerMarker.GetComponent<UnityEngine.UI.Image>().color = Color.white; }
+        public void MoveMarker(float height)
+        {
+            Vector2 position = PositionAt(height);
+            if (playerMarker.anchoredPosition != position) playerMarker.anchoredPosition = position;
+        }
         public Vector2 PositionAt(float height) => new Vector2(judgementX, Mathf.Lerp(-laneSpacing, laneSpacing, height));
         public Color HeightColor(float height) => height <= ChartNote.MidTargetHeight
             ? Color.Lerp(Low, Mid, Mathf.InverseLerp(ChartNote.LowTargetHeight, ChartNote.MidTargetHeight, height))
             : Color.Lerp(Mid, High, Mathf.InverseLerp(ChartNote.MidTargetHeight, 1f, height));
         public void HideNote(int index) => noteViews[index % Capacity].gameObject.SetActive(false);
+        public void ShowHoldCompletion(int index, float time)
+        {
+            completedHoldIndex = index;
+            completedHoldUntil = time + .16f;
+        }
+
         public void Render(GameplayChartRunner runner, float time)
         {
             System.Array.Clear(usedSlots,0,usedSlots.Length);
@@ -65,12 +82,28 @@ namespace RhythmRehab
                 if (!visible) continue;
                 int slot = i % Capacity; usedSlots[slot] = true;
                 if (!noteViews[slot].gameObject.activeSelf) noteViews[slot].gameObject.SetActive(true);
-                noteImages[slot].color = HeightColor(note.TargetHeight);
+                Color colour = HeightColor(note.TargetHeight);
+                float progress = holding ? runner.ActiveHold.Progress(time) : 0;
+                noteImages[slot].color = Color.Lerp(colour, Color.white, progress);
                 noteViews[slot].anchoredPosition = new Vector2(holding ? judgementX : Mathf.LerpUnclamped(judgementX, spawnX, remaining / runner.ApproachSeconds), PositionAt(note.TargetHeight).y);
                 if (holdViews == null || slot >= holdViews.Length || !holdViews[slot]) continue;
                 if (!note.IsHold) { holdViews[slot].Hide(); continue; }
                 float seconds = holding ? Mathf.Max(0, (float)(runner.ActiveHold.EndTime - time)) : note.holdBeats * runner.SecondsPerBeat;
-                holdViews[slot].Render(seconds * (spawnX - judgementX) / runner.ApproachSeconds, HeightColor(note.TargetHeight), holding, holding ? runner.ActiveHold.Progress(time) : 0, time, reducedHoldShimmer);
+                holdViews[slot].Render(seconds * (spawnX - judgementX) / runner.ApproachSeconds,
+                    colour, holding, progress, reducedHoldEffects);
+            }
+            if (completedHoldIndex >= 0 && time < completedHoldUntil)
+            {
+                int slot = completedHoldIndex % Capacity;
+                if (!usedSlots[slot])
+                {
+                    float height = runner.Chart[completedHoldIndex].TargetHeight;
+                    usedSlots[slot] = true;
+                    noteViews[slot].anchoredPosition = PositionAt(height);
+                    noteImages[slot].color = Color.white;
+                    if (holdViews != null && slot < holdViews.Length && holdViews[slot]) holdViews[slot].ShowCompletion(reducedHoldEffects);
+                    if (!noteViews[slot].gameObject.activeSelf) noteViews[slot].gameObject.SetActive(true);
+                }
             }
             for (int slot = 0; slot < Capacity; slot++) if (!usedSlots[slot] && noteViews[slot].gameObject.activeSelf) noteViews[slot].gameObject.SetActive(false);
         }

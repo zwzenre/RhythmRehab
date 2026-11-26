@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
@@ -17,6 +18,17 @@ namespace RhythmRehab
         public int hitKeyPrimary = (int)UnityEngine.InputSystem.Key.Space;
         public int hitKeySecondary;
         public string lastLeaderboardName;
+        public List<PublishedLeaderboardScore> publishedLeaderboardScores = new();
+    }
+
+    [Serializable]
+    public sealed class PublishedLeaderboardScore
+    {
+        public string songId;
+        public FreeDifficulty difficulty;
+        public bool sensor;
+        public string name;
+        public int score;
     }
 
     // No cached document: every update merges with the latest file on disk.
@@ -113,6 +125,40 @@ namespace RhythmRehab
             return Write(settings, out error);
         }
 
+        public PublishedLeaderboardScore GetPublishedBest(string songId, FreeDifficulty difficulty, bool sensor)
+        {
+            var settings = Load(out _);
+            return FindPublishedBest(settings, songId, difficulty, sensor);
+        }
+
+        public bool TrySavePublishedBest(SessionSummary session, string name, int score, out string error)
+        {
+            var settings = Load(out error);
+            if (error != null) return false;
+            settings.lastLeaderboardName = name;
+            var best = FindPublishedBest(settings, session.songId, session.freeDifficulty, session.playedWithSensor);
+            if (best == null)
+            {
+                best = new PublishedLeaderboardScore
+                {
+                    songId = session.songId,
+                    difficulty = session.freeDifficulty,
+                    sensor = session.playedWithSensor
+                };
+                settings.publishedLeaderboardScores.Add(best);
+            }
+            if (best.name == null || score >= best.score)
+            {
+                best.name = name;
+                best.score = score;
+            }
+            return Write(settings, out error);
+        }
+
+        private static PublishedLeaderboardScore FindPublishedBest(LocalSettings settings, string songId,
+            FreeDifficulty difficulty, bool sensor) => settings.publishedLeaderboardScores.Find(best =>
+                best != null && best.songId == songId && best.difficulty == difficulty && best.sensor == sensor);
+
         private static bool Finite(float value) => !float.IsNaN(value) && !float.IsInfinity(value);
         public bool TrySaveCalibration(float offsetMs, float speed, float soundOffsetMs, out string error)
         {
@@ -132,6 +178,7 @@ namespace RhythmRehab
         }
         private static void Clamp(LocalSettings settings)
         {
+            settings.publishedLeaderboardScores ??= new List<PublishedLeaderboardScore>();
             settings.musicVolume = Mathf.Clamp01(settings.musicVolume);
             settings.beatVolume = Mathf.Clamp01(settings.beatVolume);
             settings.sfxVolume = Mathf.Clamp01(settings.sfxVolume);

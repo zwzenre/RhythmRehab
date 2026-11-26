@@ -10,6 +10,18 @@
 /[Rr]ecordings/
 /Assets/Temp/
 /Assets/Temp.meta
+/Assets/_Recovery/
+/Assets/_Recovery.meta
+
+# Locally imported award media and unused cursor packs
+/Assets/Assets/JMO Assets/
+/Assets/Assets/JMO Assets.meta
+/Assets/Assets/Cosmica 1.0 Cursor Pack/
+/Assets/Assets/Cosmica 1.0 Cursor Pack.meta
+/Assets/Assets/ergonomic-cursors/
+/Assets/Assets/ergonomic-cursors.meta
+/Assets/Assets/mixkit-bonus-earned-in-video-game-2058.wav
+/Assets/Assets/mixkit-fairy-sparkle-whoosh-869.wav
 
 # IDE and generated solution files
 /.vs/

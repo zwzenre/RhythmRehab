@@ -12,6 +12,8 @@ namespace RhythmRehab
         [SerializeField] private TMP_Text recommendation;
         [SerializeField] private TMP_Text sessionContext;
         [SerializeField] private TMP_Text overallTitle, judgementsTitle;
+        [SerializeField] private CanvasGroup chartCelebration;
+        [SerializeField] private GameObject fullComboBadge, allPerfectBadge;
 
         private void Start()
         {
@@ -50,6 +52,14 @@ namespace RhythmRehab
             recommendation.text = inputLabel + "\n" + scenario + "\n\nSaved locally for review.";
             if (!string.IsNullOrEmpty(s.historySaveError))
                 recommendation.text = scenario + "\nHISTORY NOT SAVED\nCheck disk access before your next session.";
+
+            var award = ChartFinishCelebration.AwardFor(s);
+            if (chartCelebration && award != ChartAward.None)
+            {
+                fullComboBadge.SetActive(award == ChartAward.FullCombo);
+                allPerfectBadge.SetActive(award == ChartAward.AllPerfect);
+                chartCelebration.gameObject.SetActive(true);
+            }
         }
     }
 }

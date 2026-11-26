@@ -9,31 +9,42 @@ namespace RhythmRehab
         [SerializeField] private UnityEngine.UI.Image shine;
         [SerializeField] private UnityEngine.UI.Image tail;
         [SerializeField] private TMP_Text caption;
-        public void Render(float length,Color colour,bool holding,float progress,float songTime,bool reduced)
+        private IncomingNoteSparks sparks;
+
+        private void Awake() => sparks = GetComponentInChildren<IncomingNoteSparks>(true);
+
+        public void Render(float length, Color colour, bool holding, float progress, bool reducedEffects)
         {
-            body.gameObject.SetActive(true);caption.gameObject.SetActive(true);
-            body.rectTransform.sizeDelta=new Vector2(Mathf.Max(1,length-18),18);
-            var tint=colour;tint.a=holding?.48f:.3f;body.color=tint;
-            tint=holding?Color.Lerp(colour,Color.white,reduced?.24f:.55f):colour;
-            if (holding)
+            body.gameObject.SetActive(true);
+            caption.gameObject.SetActive(true);
+            body.rectTransform.sizeDelta = new Vector2(Mathf.Max(1, length - 18), 18);
+            float glow = holding ? Mathf.Clamp01(progress) : 0;
+            Color tint = Color.Lerp(colour, Color.white, glow);
+            tail.color = tint;
+            tint.a = holding ? Mathf.Lerp(.48f, 1f, glow) : .3f;
+            body.color = tint;
+            if (shine)
             {
-                float sweep = Mathf.Repeat(songTime * (reduced ? .4f : .75f), 1f);
-                shine.rectTransform.anchorMin = new Vector2(Mathf.Clamp01(sweep - .12f), .5f);
-                shine.rectTransform.anchorMax = new Vector2(Mathf.Clamp01(sweep + .12f), .5f);
-                shine.rectTransform.sizeDelta = new Vector2(0, reduced ? 3 : 5);
-                tint.a = (reduced ? .55f : .94f) * Mathf.SmoothStep(0, 1, Mathf.Min(sweep, 1 - sweep) * 10);
+                shine.enabled = !holding;
+                if (!holding) shine.color = colour;
             }
-            else
-            {
-                shine.rectTransform.anchorMin = new Vector2(0, .5f);
-                shine.rectTransform.anchorMax = new Vector2(1, .5f);
-                shine.rectTransform.sizeDelta = new Vector2(-4, 3);
-                tint.a = .85f;
-            }
-            shine.rectTransform.anchoredPosition = Vector2.zero;
-            shine.color = tint;
-            tail.color=colour;caption.text=holding?$"HOLD {Mathf.RoundToInt(progress*100)}%":"HOLD";
+            caption.text = holding ? $"HOLD {Mathf.Min(99, Mathf.RoundToInt(progress * 100))}%" : "HOLD";
+            if (sparks) sparks.SetHoldProgress(holding ? progress : -1, reducedEffects);
         }
-        public void Hide(){body.gameObject.SetActive(false);caption.gameObject.SetActive(false);}
+
+        public void ShowCompletion(bool reducedEffects)
+        {
+            body.gameObject.SetActive(false);
+            caption.gameObject.SetActive(true);
+            caption.text = "HOLD 100%";
+            if (sparks) sparks.SetHoldProgress(1, reducedEffects);
+        }
+
+        public void Hide()
+        {
+            body.gameObject.SetActive(false);
+            caption.gameObject.SetActive(false);
+            if (sparks) sparks.SetHoldProgress(-1, false);
+        }
     }
 }

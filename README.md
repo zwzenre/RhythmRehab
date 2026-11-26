@@ -6,14 +6,14 @@ A Unity rehabilitation rhythm-game prototype with a space theme. Players match i
 
 1. Clone this repository and add its folder to Unity Hub.
 2. Open it with the Unity Editor version listed in `ProjectSettings/ProjectVersion.txt`.
-3. Allow Unity to import the assets and resolve packages.
+3. To include the FC/AP celebration media, install the assets listed under [Award effects and audio](#award-effects-and-audio). Allow Unity to import the assets and resolve packages.
 4. Open `Assets/Scenes/MainMenu.unity` and enter Play mode.
 
 ## Prototype controls
 
 - Move the mouse up/down to control the height marker.
-- Press Space, or a configured hit key, when a note reaches the judgement line at the matching height. Settings supports up to two hit keys.
-- For hold notes, keep a hit key held and maintain the height until the tail ends.
+- Left-click, right-click, or press a configured hit key when a note reaches the judgement line at the matching height. Settings supports up to two keyboard bindings.
+- For hold notes, keep a mouse button or hit key held and maintain the height until the tail ends.
 - Use Escape or the Pause button to pause gameplay.
 - For sensor play, connect GAIT-SHANK and capture resting and raised references in Sensor Calibration. Notes are hit automatically at the matching height.
 
@@ -36,6 +36,14 @@ For Therapy with an active `GAME003` leg-raise plan, Unity uses the plan's minim
 Open Leaderboard from Song Selection to browse the top ten for each song, with separate Easy, Medium and Hard rankings for mouse and keyboard or sensor. Completed Free Mode runs using one control type can be published from Session Summary. Guests and signed-in players enter a public display name. Each ranking keeps the highest Overall percentage for that name, ignoring case and extra spaces.
 
 The game uses the existing Firestore project and writes only the chosen display name and score to `rhythmRehabLeaderboards/{ranking}/entries/{nameKey}`. The project’s Firestore rules determine whether guests can read and write there.
+
+## Award effects and audio
+
+The Windows release includes the award effects and sounds. For an Editor checkout, import [Cartoon FX Remaster Free](https://assetstore.unity.com/packages/vfx/particles/cartoon-fx-remaster-free-109565) with its original Unity metadata. RhythmRehab uses the pack's flare and electric spark textures.
+
+Download **Bonus Earned in Video Game** from [Mixkit Game Sounds](https://mixkit.co/free-sound-effects/game/) and **Fairy Sparkle Whoosh** from [Mixkit Sparkle Sounds](https://mixkit.co/free-sound-effects/sparkle/). Place the WAV files in `Assets/Assets` as `mixkit-bonus-earned-in-video-game-2058.wav` and `mixkit-fairy-sparkle-whoosh-869.wav` before the first Unity import. Keep the corresponding checked-in `.meta` files so the scene's audio references resolve.
+
+The white arrow cursor is adapted from [Ergonomic Cursors by Sky](https://skyops.itch.io/ergonomic-cursors), licensed under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). The arrow artwork was scaled down within its original texture dimensions.
 
 ## Project folders
 

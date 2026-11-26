@@ -25,6 +25,8 @@ namespace RhythmRehab
         [SerializeField, Min(.1f)] private float readyDuration = 3f;
         private float feedbackUntil;
         private int lastRemainingSeconds = -1;
+        private const float HeightReadoutInterval = .05f;
+        private float nextHeightReadoutTime;
         private string hitKeyLabel = "SPACE";
 
         public IEnumerator ShowReady(float totalSeconds = -1)
@@ -83,6 +85,7 @@ namespace RhythmRehab
                 modeLabel.text = summary.plan != null ? $"{details}  ·  {summary.targetShinTiltDegrees:0.#}°" : details;
             }
             SetPauseMenu(false); RefreshScore(summary, 0); lastRemainingSeconds = -1;
+            nextHeightReadoutTime = 0;
         }
         public void SetPauseMenu(bool show)
         {
@@ -130,6 +133,7 @@ namespace RhythmRehab
             statusLabel.text = "SENSOR DATA LOST · RECONNECT OR SWITCH TO MOUSE IN PAUSE SETTINGS";
         public void ShowPlanHeight(float degrees, SessionSummary summary, bool mouseControl)
         {
+            if (!HeightReadoutDue()) return;
             int target = summary.plan.sets * summary.plan.repetitions;
             string inputLabel = mouseControl ? "PRACTICE" : "SHIN TILT";
             heightLabel.text = $"{degrees:0.#}° {inputLabel}\n{Mathf.Min(summary.successfulLegRaises, target)}/{target} TARGET REPS";
@@ -148,6 +152,7 @@ namespace RhythmRehab
         }
         public void ShowHeight(float height, bool continuous, float tolerance)
         {
+            if (!HeightReadoutDue()) return;
             if (continuous) { heightLabel.text = $"HEIGHT\n{height:P0}"; return; }
             float lanePosition = Mathf.InverseLerp(ChartNote.LowTargetHeight, 1f, height) * 2;
             int lane = Mathf.RoundToInt(lanePosition);
@@ -155,6 +160,13 @@ namespace RhythmRehab
             float target = new ChartNote { lane = lane }.TargetHeight;
             string status = height < ChartNote.LowTargetHeight - tolerance ? "BELOW LOW" : "BETWEEN HEIGHTS";
             heightLabel.text = (Mathf.Abs(height - target) <= tolerance ? level : status) + $"\n{height:P0}";
+        }
+        private bool HeightReadoutDue()
+        {
+            float now = Time.unscaledTime;
+            if (now < nextHeightReadoutTime) return false;
+            nextHeightReadoutTime = now + HeightReadoutInterval;
+            return true;
         }
         public void RefreshScore(SessionSummary summary, int combo)
         { scoreLabel.text = summary.score.ToString("N0"); accuracyLabel.text = summary.Judged == 0 ? "—" : summary.Accuracy.ToString("P0"); comboLabel.text = $"{combo} COMBO"; }

@@ -19,9 +19,19 @@ namespace RhythmRehab
         [SerializeField] private float phase;
         private float animationTime;
         private bool emitting;
+        private float holdProgress = -1;
+        private bool reducedHoldEffects;
         public override Texture mainTexture => sparkle ? sparkle.texture : Texture2D.whiteTexture;
 
         protected override void OnEnable() { base.OnEnable(); emitting = false; }
+
+        internal void SetHoldProgress(float progress, bool reducedEffects)
+        {
+            if (progress == holdProgress && reducedEffects == reducedHoldEffects) return;
+            holdProgress = progress;
+            reducedHoldEffects = reducedEffects;
+            SetVerticesDirty();
+        }
         private void LateUpdate()
         {
             if (!gameplay || gameplay.Notes == null || !playfield || !noteImage) return;
@@ -38,7 +48,13 @@ namespace RhythmRehab
             Color tint = Color.Lerp(noteImage.color, Color.white, .35f);
             var head = noteImage.rectTransform;
             Vector2 centerPoint = rectTransform.InverseTransformPoint(head.TransformPoint(head.rect.center));
-            AddOutline(vh, uv, centerPoint, head.rect.width * .5f + 8, animationTime * 3 + phase * 6.28f, tint);
+            float radius = head.rect.width * .5f + 8;
+            if (holdProgress >= 0)
+            {
+                DrawHoldGlow(vh, uv, centerPoint, radius);
+                return;
+            }
+            AddOutline(vh, uv, centerPoint, radius, animationTime * 3 + phase * 6.28f, tint);
             if (!emitting) return;
             for (int i = 0; i < sparkCount; i++)
             {
@@ -50,16 +66,55 @@ namespace RhythmRehab
                 Vector2 right = new Vector2(Mathf.Cos(angle), Mathf.Sin(angle)) * size * .5f;
                 Vector2 up = new Vector2(-Mathf.Sin(angle), Mathf.Cos(angle)) * size * .5f;
                 tint.a = opacity * Mathf.Pow(1 - age, 1.1f) * Mathf.Clamp01(age * 12);
-                int first = vh.currentVertCount;
-                vh.AddVert(center - right - up, tint, new Vector2(uv.x, uv.y));
-                vh.AddVert(center - right + up, tint, new Vector2(uv.x, uv.w));
-                vh.AddVert(center + right + up, tint, new Vector2(uv.z, uv.w));
-                vh.AddVert(center + right - up, tint, new Vector2(uv.z, uv.y));
-                vh.AddTriangle(first, first + 1, first + 2); vh.AddTriangle(first + 2, first + 3, first);
+                AddSparkle(vh, uv, center, right, up, tint);
             }
         }
 
-        internal static void AddOutline(UnityEngine.UI.VertexHelper mesh, Vector4 textureUv, Vector2 center, float radius, float angle, Color tint)
+        private void DrawHoldGlow(UnityEngine.UI.VertexHelper mesh, Vector4 uv, Vector2 center, float radius)
+        {
+            if (holdProgress <= 0) return;
+            // The marker draws over the note head at the judgement line. Put the glow
+            // beyond the marker and its trail so it's visible even at an exact height match.
+            float markerRadius = playfield && playfield.Marker ? playfield.Marker.rect.width * .5f : radius;
+            float glowRadius = Mathf.Max(radius, markerRadius) + 15;
+            var white = Color.white;
+            float orbit = animationTime * (reducedHoldEffects ? .55f : 1.25f) + phase * 6.28f;
+            white.a = holdProgress * .18f;
+            AddOutline(mesh, uv, center, glowRadius + 10, orbit, white, 18);
+            white.a = holdProgress * .42f;
+            AddOutline(mesh, uv, center, glowRadius + 5, orbit, white, 10);
+            white.a = holdProgress;
+            AddOutline(mesh, uv, center, glowRadius, orbit, white, 5);
+
+            int count = reducedHoldEffects ? 6 : 14;
+            float travel = reducedHoldEffects ? 39 : 72;
+            float particleOpacity = Mathf.Sqrt(holdProgress);
+            for (int i = 0; i < count; i++)
+            {
+                float age = Mathf.Repeat(animationTime / (reducedHoldEffects ? 1.1f : .63f) + phase + i / (float)count, 1);
+                float angle = orbit + i * 2.39996f;
+                float distance = glowRadius + 8 + age * travel;
+                var point = center + new Vector2(Mathf.Cos(angle), Mathf.Sin(angle)) * distance;
+                float size = Mathf.Lerp(reducedHoldEffects ? 20 : 31, 9, age) * (i % 3 == 0 ? 1 : .72f);
+                white.a = particleOpacity * Mathf.Min(age * 9, 1) * (1 - age);
+                AddSparkle(mesh, uv, point, Vector2.right * (size * .5f), Vector2.up * (size * .5f), white);
+            }
+        }
+
+        private static void AddSparkle(UnityEngine.UI.VertexHelper mesh, Vector4 uv, Vector2 center,
+            Vector2 right, Vector2 up, Color tint)
+        {
+            int first = mesh.currentVertCount;
+            mesh.AddVert(center - right - up, tint, new Vector2(uv.x, uv.y));
+            mesh.AddVert(center - right + up, tint, new Vector2(uv.x, uv.w));
+            mesh.AddVert(center + right + up, tint, new Vector2(uv.z, uv.w));
+            mesh.AddVert(center + right - up, tint, new Vector2(uv.z, uv.y));
+            mesh.AddTriangle(first, first + 1, first + 2);
+            mesh.AddTriangle(first + 2, first + 3, first);
+        }
+
+        internal static void AddOutline(UnityEngine.UI.VertexHelper mesh, Vector4 textureUv, Vector2 center,
+            float radius, float angle, Color tint, float thickness = 3)
         {
             const int segments = 28;
             const float sweep = Mathf.PI * 1.72f;
@@ -70,7 +125,7 @@ namespace RhythmRehab
                 float theta = angle + sweep * i / segments;
                 var direction = new Vector2(Mathf.Cos(theta), Mathf.Sin(theta));
                 mesh.AddVert(center + direction * radius, tint, uv);
-                mesh.AddVert(center + direction * (radius - 3), tint, uv);
+                mesh.AddVert(center + direction * (radius - thickness), tint, uv);
             }
             for (int i = 0; i < segments; i++)
             {

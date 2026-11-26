@@ -92,9 +92,12 @@ namespace RhythmRehab
             string entries = EntriesUrl(session.songId, session.freeDifficulty, session.playedWithSensor);
             if (entries == null) { completed(PublishResult.Unavailable); yield break; }
             string url = entries + "/" + NameKey(name);
-            int score = Mathf.Clamp(Mathf.RoundToInt(session.Accuracy * 10000), 0, 10000);
+            int score = ScoreFor(session);
             yield return SaveBestScore(url, name, score, completed);
         }
+
+        internal static int ScoreFor(SessionSummary session) =>
+            Mathf.Clamp(Mathf.RoundToInt(session.Accuracy * 10000), 0, 10000);
 
         private static IEnumerator SaveBestScore(string url, string name, int score, Action<PublishResult> completed)
         {

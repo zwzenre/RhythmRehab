@@ -104,13 +104,18 @@ namespace RhythmRehab
                     status.text = "Couldn’t publish. Please try again.";
                 else
                 {
-                    if (!LocalSettingsStore.Default.TrySaveLeaderboardName(alias, out var error))
-                        Debug.LogWarning("Could not remember the leaderboard display name: " + error);
+                    var settings = LocalSettingsStore.Default;
+                    bool savedLocally = result == FreeLeaderboard.PublishResult.Saved
+                        ? settings.TrySavePublishedBest(session, alias, FreeLeaderboard.ScoreFor(session), out var error)
+                        : settings.TrySaveLeaderboardName(alias, out error);
+                    if (!savedLocally)
+                        Debug.LogWarning("Could not save local leaderboard details: " + error);
                     prompt.SetActive(false);
                     publish.interactable = false;
                     if (EventSystem.current) EventSystem.current.SetSelectedGameObject(browse.gameObject);
-                    footerStatus.text = result == FreeLeaderboard.PublishResult.Saved
-                        ? "Score published." : "Your best score is already on the board.";
+                    footerStatus.text = result == FreeLeaderboard.PublishResult.KeptBest
+                        ? "An equal or higher score is already under that name."
+                        : savedLocally ? "Score published." : "Score published. Local tracking unavailable.";
                 }
             });
             publishing = false;

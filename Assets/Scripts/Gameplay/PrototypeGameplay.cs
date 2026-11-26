@@ -25,6 +25,7 @@ namespace RhythmRehab
         [SerializeField] private PlayerMarkerTrail playerMarkerTrail;
         [SerializeField] private GameplayVisualLevels visualLevels;
         [SerializeField] private GameplayAtmosphere atmosphere;
+        [SerializeField] private ChartFinishCelebration finishCelebration;
 
         private GameplayChartRunner runner;
         private SessionSummary sessionSummary;
@@ -219,7 +220,10 @@ namespace RhythmRehab
         }
         private void HandleNoteResult(GameplayNoteResult result)
         {
-            playfieldView.HideNote(result.index);
+            if (runner.Chart[result.index].IsHold && result.judgement != HitJudgement.Miss)
+                playfieldView.ShowHoldCompletion(result.index, Elapsed);
+            else
+                playfieldView.HideNote(result.index);
             var colour = result.judgement == HitJudgement.Miss ? playfieldView.MissColour : hitEffects ? hitEffects.ColorFor(result.judgement) : new Color(.5f, 1, .8f);
             hud.ShowFeedback(result.feedback, colour, result.judgement);
             if (result.judgement != HitJudgement.Miss)
@@ -327,7 +331,22 @@ namespace RhythmRehab
             if (!SessionHistoryStore.Default.TrySave(summary, out var error))
             { summary.historySaveError = error; Debug.LogWarning("Session history could not be saved: " + error); }
             SessionSummary.Last = summary; finished = true; audioService.Stop();
-            if (summary.sensorHeightControl) SensorRemovalPresenter.ShowBefore("Results");
+            var award = ChartFinishCelebration.AwardFor(summary);
+            if (finishCelebration && award != ChartAward.None)
+                StartCoroutine(CelebrateAndOpenResults(award, summary.sensorHeightControl));
+            else
+                OpenResults(summary.sensorHeightControl);
+        }
+
+        private IEnumerator CelebrateAndOpenResults(ChartAward award, bool sensorUsed)
+        {
+            yield return finishCelebration.Play(award);
+            OpenResults(sensorUsed);
+        }
+
+        private static void OpenResults(bool sensorUsed)
+        {
+            if (sensorUsed) SensorRemovalPresenter.ShowBefore("Results");
             else IrisSceneTransition.Load("Results");
         }
         private void OnApplicationFocus(bool focused)
